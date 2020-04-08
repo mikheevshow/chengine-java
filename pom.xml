@@ -6,28 +6,39 @@
 
 	<groupId>io.chengine</groupId>
 	<artifactId>chengine</artifactId>
+	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
+	<modules>
+		<module>chengine-core</module>
+		<module>chengine-spring-boot-starter</module>
+	</modules>
 
 	<properties>
-		<springBootVersion>2.2.6.RELEASE</springBootVersion>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${springBootVersion}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
