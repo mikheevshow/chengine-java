@@ -8,7 +8,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
-@SupportedAnnotationTypes("io.chengine.annotations.Handler")
+@SupportedAnnotationTypes("io.chengine.stereotype.Handler")
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class HandlerAnnotationProcessor extends AbstractProcessor {
 

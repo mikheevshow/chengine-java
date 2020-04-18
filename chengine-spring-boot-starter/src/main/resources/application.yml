@@ -1,0 +1,5 @@
+chengine:
+    kafka:
+        enable: true
+    rabbitmq:
+        enable: true

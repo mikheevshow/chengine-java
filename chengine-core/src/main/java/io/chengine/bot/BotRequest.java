@@ -2,6 +2,8 @@ package io.chengine.bot;
 
 public interface BotRequest {
 
-	Command command();
+	boolean isCommand();
+
+	boolean isMedia();
 
 }

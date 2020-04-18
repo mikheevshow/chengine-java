@@ -1,4 +1,4 @@
-package io.chengine.springframework.configuration;
+package io.chengine.springframework.boot.autoconfigure;
 
 import org.springframework.context.annotation.Configuration;
 

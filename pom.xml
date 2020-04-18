@@ -11,6 +11,7 @@
 	<modules>
 		<module>chengine-core</module>
 		<module>chengine-spring-boot-starter</module>
+		<module>chengine-session-managment</module>
 	</modules>
 
 	<properties>

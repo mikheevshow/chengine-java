@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "chengine",
+      "type": "io.chengine.springframework.boot.autoconfigure.ChengineAutoConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "chengine.rabbitmq.enable",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "chengine.kafka.enable",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

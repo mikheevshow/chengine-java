@@ -1,4 +1,6 @@
-package io.chengine.annotations;
+package io.chengine.stereotype;
+
+import io.chengine.annotations.HandlerType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Handler {
 
-	String name();
+	String value();
 
 	HandlerType type() default HandlerType.MESSAGE;
 
