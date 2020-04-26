@@ -1,7 +1,7 @@
 package io.chengine.filter;
 
-import io.chengine.bot.BotRequest;
-import io.chengine.bot.BotResponse;
+import io.chengine.BotRequest;
+import io.chengine.BotResponse;
 
 public interface Filter {
 

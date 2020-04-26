@@ -1,6 +1,6 @@
 package io.chengine.springframework.stereotype;
 
-import io.chengine.stereotype.Handler;
+import io.chengine.annotation.Handler;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -19,10 +19,13 @@ import java.lang.annotation.Target;
  * @see Component
  *
  */
-@Handler
 @Component
+@Handler
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ComponentHandler {
 
+	String command() default "";
+
 }
+
