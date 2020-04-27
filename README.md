@@ -11,6 +11,35 @@ Chengine is a framework for creating chat bots.
 
 The central part of chengine is a ChengineHandlerContext class
 
+### Manual handler registartion
+- Firsly create a handler class
+```java
+import io.chengine.annotation.Handler;
+import io.chengine.annotation.Command;
+
+@Handler("/hello")
+public class SomeHandler {
+
+  @Command
+  public void handleHelloCommand() {
+    System.out.println("Hello World");
+  }
+}
+```
+- Register handler while create context
+```java
+import io.chengine.Configuration;
+
+public class HelloWorld {
+  public static void main(String[] args) {
+   // Init context using manual handler registration
+   ChengineContext context2 = new ChengineContext();
+   context2.registerHandler(new SomeHandler());
+  }
+}
+
+```
+
 ### Using Chengine in Spring Boot application
 
 #### Yaml Configuration
