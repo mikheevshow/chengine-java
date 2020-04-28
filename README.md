@@ -3,7 +3,7 @@
 [0]: https://img.shields.io/badge/java-11-blue.svg?style=flat-square
 [1]: https://openjdk.java.net/projects/jdk/11/
 
-[2]: https://img.shields.io/badge/experimental-do%20not%20use%20in%20prod-orange?style=flat-square
+[2]: https://img.shields.io/badge/development%20or%20experimental-do%20not%20use%20in%20prod-orange?style=flat-square
 
 # Chengine
 
