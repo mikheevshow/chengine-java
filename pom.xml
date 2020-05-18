@@ -12,7 +12,8 @@
 		<module>chengine-core</module>
 		<module>chengine-spring-boot-starter</module>
 		<module>chengine-session-managment</module>
-	</modules>
+        <module>telegram-functions</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
