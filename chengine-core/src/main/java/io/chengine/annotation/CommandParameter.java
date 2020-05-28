@@ -7,10 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * Use this annotation for passing {@link Command} parameters into
- * method invoked method.
+ * invoked method.
  *
  * @see Command
  *
+ * If chengine could not cast string representation of a command parameter
+ * into method argument's type, then {@link ClassCastException} will be thrown.
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)

@@ -25,6 +25,9 @@ public class Command {
 		return params != null && !params.isEmpty();
 	}
 
+	/**
+	 * This method may return null in some conditions, use hasParams() before getParams() invoking.
+	 */
 	@Nullable
 	public Map<String, String> getParams() {
 		return params;

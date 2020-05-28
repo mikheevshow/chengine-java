@@ -2,7 +2,7 @@ package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.ChengineConfiguration;
 import io.chengine.ChengineHandlerContext;
-import io.chengine.springframework.SpringHandlerProvider;
+import io.chengine.springframework.provider.SpringHandlerProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
