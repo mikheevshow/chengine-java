@@ -21,6 +21,10 @@ public class Command {
 		return command;
 	}
 
+	public boolean hasParams() {
+		return params != null && !params.isEmpty();
+	}
+
 	@Nullable
 	public Map<String, String> getParams() {
 		return params;
