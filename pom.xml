@@ -13,6 +13,7 @@
 		<module>chengine-spring-boot-starter</module>
 		<module>chengine-session-managment</module>
         <module>telegram-functions</module>
+        <module>chengine-nlp</module>
     </modules>
 
 	<properties>
