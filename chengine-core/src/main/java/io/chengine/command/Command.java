@@ -1,7 +1,9 @@
-package io.chengine;
+package io.chengine.command;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 public class Command {
 
@@ -25,11 +27,17 @@ public class Command {
 		return params != null && !params.isEmpty();
 	}
 
-	/**
-	 * This method may return null in some conditions, use hasParams() before getParams() invoking.
-	 */
-	@Nullable
-	public Map<String, String> getParams() {
-		return params;
+	public Set<String> getParamSet() {
+		if (params == null) {
+			return Collections.emptySet();
+		} else {
+			return Set.copyOf(params.keySet());
+		}
 	}
+
+	@Nullable
+	public String getParam(String key) {
+		return params == null ? null : params.get(key);
+	}
+
 }

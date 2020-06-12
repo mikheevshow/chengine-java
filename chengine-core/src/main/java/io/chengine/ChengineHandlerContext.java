@@ -16,7 +16,7 @@ import java.util.function.Function;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-@Slf4j
+//@Slf4j
 public class ChengineHandlerContext implements HandlerRegistry {
 
 	private final static String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
@@ -105,17 +105,17 @@ public class ChengineHandlerContext implements HandlerRegistry {
 						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
 
 					} catch (Exception ex) {
-						log.error(ex.getMessage(), ex);
+						//log.error(ex.getMessage(), ex);
 					}
 				});
 
 
-			log.info(commandHandlerMap.toString());
+			//log.info(commandHandlerMap.toString());
 			// Process registration
 
-			log.info(String.format(HANDLER_CLASS_REGISTERED_MESSAGE, handlerClass.getCanonicalName(), this));
+			//log.info(String.format(HANDLER_CLASS_REGISTERED_MESSAGE, handlerClass.getCanonicalName(), this));
 		} catch (Exception ex) {
-			log.error(ex.getMessage(), ex);
+			//log.error(ex.getMessage(), ex);
 		}
 	}
 

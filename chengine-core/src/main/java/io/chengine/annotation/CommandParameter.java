@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Use this annotation for passing {@link Command} parameters into
+ * Use this annotation for passing {@link Command} ({@link io.chengine.command.Command}) parameters into
  * invoked method.
  *
  * @see Command

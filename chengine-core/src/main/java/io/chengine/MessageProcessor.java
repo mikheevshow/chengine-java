@@ -1,5 +1,6 @@
 package io.chengine;
 
+import io.chengine.command.CommandParser;
 import io.chengine.connector.BotMessagingConnector;
 import io.chengine.validation.CommandValidator;
 
