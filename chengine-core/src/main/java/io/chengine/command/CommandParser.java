@@ -1,63 +1,19 @@
 package io.chengine.command;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import io.chengine.command.validation.CommandValidationException;
+import io.chengine.command.validation.DefaultCommandValidator;
+import io.chengine.command.validation.EmptyCommandException;
 
-public class CommandParser {
+public interface CommandParser {
 
 	/**
 	 * Parse a string representation of a command into {@link Command} object.
-	 * It's important to call validate method before parse the command {@link io.chengine.validation.CommandValidator}
+	 * It's important to call validate method before parse the command {@link DefaultCommandValidator}
 	 *
-	 * @param command string representation of a command
+	 * @param command a string representation of a command
 	 * @return a command wrap
 	 * @see Command
 	 */
-	public Command parseCommand(String command) throws CommandParsingException {
+	Command parse(String command) throws EmptyCommandException, CommandParsingException, CommandValidationException;
 
-		StringBuilder commandSB = new StringBuilder();
-		StringBuilder parameterSB = new StringBuilder();
-
-		boolean fillCommand = false;
-		boolean fillParameter = false;
-
-		Map<String, String> mapParameterValue = new LinkedHashMap<>();
-
-		var chars = command.toCharArray();
-		for (int i = 0; i < chars.length; i++) {
-
-			if (chars[i] == '#') {
-				fillCommand = false;
-			}
-
-			if (fillCommand) {
-				commandSB.append(chars[i]);
-			}
-
-			if (chars[i] == '/') {
-				fillParameter = false;
-			}
-
-			if (fillParameter) {
-				parameterSB.append(chars[i]);
-			}
-
-			if ((i > 0 && chars[i] == '/') || (i + 1 == chars.length)) {
-				fillParameter = false;
-				mapParameterValue.put(commandSB.toString(), parameterSB.toString());
-			}
-
-			if (chars[i] == '/') {
-				fillCommand = true;
-				commandSB = new StringBuilder();
-			}
-
-			if (chars[i] == '#') {
-				fillParameter = true;
-				parameterSB = new StringBuilder();
-			}
-		}
-
-		return new Command("/" + String.join("/", mapParameterValue.keySet()), mapParameterValue);
-	}
 }

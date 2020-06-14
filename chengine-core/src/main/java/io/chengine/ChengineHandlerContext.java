@@ -3,8 +3,7 @@ package io.chengine;
 import io.chengine.annotation.Command;
 import io.chengine.annotation.Handler;
 import io.chengine.provider.HandlerProvider;
-import io.chengine.validation.CommandValidator;
-import lombok.extern.slf4j.Slf4j;
+import io.chengine.command.validation.DefaultCommandValidator;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -33,7 +32,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	private final HashMap<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
 
-	private final CommandValidator commandValidator = new CommandValidator();
+	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
 	private ChengineHandlerContext() {
 
@@ -100,7 +99,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 							throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
 						}
 
-						commandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
+						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
 
 						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
 
