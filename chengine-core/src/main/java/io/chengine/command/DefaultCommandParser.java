@@ -6,7 +6,6 @@ import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.command.validation.EmptyCommandException;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class DefaultCommandParser implements CommandParser {
 
@@ -19,10 +18,15 @@ public class DefaultCommandParser implements CommandParser {
 	public Command parse(String command) throws CommandValidationException, EmptyCommandException, CommandParsingException  {
 
 		commandValidator.validate(command);
-		var matcher = commandValidator.commandMatcherFor(command);
 
-		System.out.println(matcher.group(1));
+		var commandPartHashMap = new LinkedHashMap<String, String>();
 
-		return null;
+		CommandIterator
+			.get(command)
+			.forEachRemaining(part -> {
+
+			});
+
+		return new Command("/" + String.join("/", commandPartHashMap.keySet()), commandPartHashMap);
 	}
 }
