@@ -20,13 +20,26 @@ public class DefaultCommandParser implements CommandParser {
 		commandValidator.validate(command);
 
 		var commandPartHashMap = new LinkedHashMap<String, String>();
+		var cmd = new StringBuilder();
 
-		CommandIterator
-			.get(command)
-			.forEachRemaining(part -> {
+		var iterator = CommandIterator.getInstance(command);
 
-			});
+		while (iterator.hasNext()) {
+			cmd.append("/");
+			var part = iterator.next();
+			if (part.contains("#")) {
+				var param = part.substring(0, part.indexOf("#"));
+				if (commandPartHashMap.containsKey(param)) {
+					throw new CommandParsingException("Duplicate parameter " + param + " in " + command);
+				}
+				var value = part.substring(part.indexOf("#") + 1);
+				commandPartHashMap.put(param, value);
+				cmd.append(param).append("#");
+			} else {
+				cmd.append(part);
+			}
+		}
 
-		return new Command("/" + String.join("/", commandPartHashMap.keySet()), commandPartHashMap);
+		return new Command(cmd.toString(), commandPartHashMap);
 	}
 }

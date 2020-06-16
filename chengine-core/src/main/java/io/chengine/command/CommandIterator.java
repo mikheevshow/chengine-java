@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * An object which iterates through a command and claw parts of itself into
+ * array. You can use {@link Iterator} methods for command passing.
+ */
 @NotThreadSafe
 class CommandIterator implements Iterator<String> {
 
@@ -15,7 +19,7 @@ class CommandIterator implements Iterator<String> {
 	private CommandIterator() {
 	}
 
-	public static CommandIterator get(String command) {
+	public static CommandIterator getInstance(String command) {
 		var commandIterator = new CommandIterator();
 		var parts = commandIterator.parts;
 		command = command.substring(1);
@@ -42,6 +46,7 @@ class CommandIterator implements Iterator<String> {
 
 				if (c == '/') {
 					command = command.substring(i + 1);
+					break;
 				}
 			}
 		}
