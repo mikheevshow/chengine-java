@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 
 public class DefaultCommandParser implements CommandParser {
 
-	private CommandValidator commandValidator = new DefaultCommandValidator();
+	private final CommandValidator commandValidator = new DefaultCommandValidator();
 
 	/**
 	 * {@inheritDoc}
