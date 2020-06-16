@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * array. You can use {@link Iterator} methods for command passing.
  */
 @NotThreadSafe
-class CommandIterator implements Iterator<String> {
+final class CommandIterator implements Iterator<String> {
 
 	private final List<String> parts = new ArrayList<>();
 	private Iterator<String> iterator;

@@ -93,18 +93,15 @@ public class DefaultCommandParserTest {
 		);
 	}
 
-//	@Test
-//	@SneakyThrows
-//	public void parseCorrectTest3() {
-//		var command = commandParser.parseCommand("/news/news#pews");
-//		assertAll(
-//			() -> assertEquals("/news/pews", command.getCommand()),
-//			() -> assertEquals(0, command.getParamSet().size()),
-//			() -> assertNull(command.getParam("someParam")),
-//			() -> assertFalse(command.hasParams())
-//		);
-//	}
-
-
-
+	@Test
+	@SneakyThrows
+	public void parseCorrectTest4() {
+		var command = defaultCommandParser.parse("/news/news#pews");
+		assertAll(
+			() -> assertEquals("/news/news#", command.getCommand()),
+			() -> assertEquals(1, command.getParamSet().size()),
+			() -> assertNull(command.getParam("someParam")),
+			() -> assertTrue(command.hasParams())
+		);
+	}
 }
