@@ -19,3 +19,5 @@ jobs:
         java-version: 14
     - name: maven build
       run: mvn -B package --file pom.xml
+    - name: maven test
+      run: mvn test --file pom.xml
