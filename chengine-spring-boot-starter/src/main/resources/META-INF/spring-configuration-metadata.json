@@ -13,6 +13,14 @@
     {
       "name": "chengine.kafka.enable",
       "type": "java.lang.Boolean"
+    },
+    {
+      "name": "chengine.telegram.tokens",
+      "type": "java.util.ArrayList"
+    },
+    {
+      "name": "chengine.telegram.usernames",
+      "type": "java.util.ArrayList"
     }
   ]
 }

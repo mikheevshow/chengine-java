@@ -13,6 +13,7 @@ public class ChengineAutoConfiguration {
 	public SpringHandlerProvider springHandlerProvider() {
 		return new SpringHandlerProvider();
 	}
+
 	@Bean
 	public ChengineHandlerContext chengineHandlerContext(SpringHandlerProvider springHandlerProvider) {
 		var configuration = new ChengineConfiguration.Builder()

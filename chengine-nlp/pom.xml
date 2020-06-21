@@ -11,5 +11,9 @@
 
 	<artifactId>chengine-nlp</artifactId>
 
+	<dependencies>
+
+	</dependencies>
+
 
 </project>

@@ -1,7 +1,6 @@
 package io.chengine.command;
 
 import io.chengine.command.validation.CommandValidationException;
-import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.command.validation.EmptyCommandException;
 
 public interface CommandParser {
