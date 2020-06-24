@@ -9,11 +9,6 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>chengine-nlp</artifactId>
-
-	<dependencies>
-
-	</dependencies>
-
+	<artifactId>api</artifactId>
 
 </project>

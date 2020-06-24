@@ -9,7 +9,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>chengine-spring-boot-starter</artifactId>
+	<artifactId>spring-boot-starter</artifactId>
 
 	<properties>
 		<spring.boot.version>2.2.8.RELEASE</spring.boot.version>

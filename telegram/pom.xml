@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>chengine-telegram</artifactId>
+    <artifactId>telegram</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>io.chengine</groupId>
-			<artifactId>chengine-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 

@@ -9,13 +9,17 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>chengine-session-managment</artifactId>
+	<artifactId>core</artifactId>
 
 	<dependencies>
+
 		<dependency>
-			<groupId>io.chengine</groupId>
-			<artifactId>chengine-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.10</version>
 		</dependency>
+
 	</dependencies>
+
+
 </project>

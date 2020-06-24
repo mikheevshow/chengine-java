@@ -9,12 +9,13 @@
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<modules>
-		<module>chengine-core</module>
-		<module>chengine-spring-boot-starter</module>
-		<module>chengine-session-managment</module>
-        <module>chengine-telegram</module>
-        <module>chengine-nlp</module>
-    </modules>
+		<module>api</module>
+		<module>core</module>
+		<module>spring-boot-starter</module>
+		<module>session-management</module>
+        <module>telegram</module>
+        <module>nlp</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
