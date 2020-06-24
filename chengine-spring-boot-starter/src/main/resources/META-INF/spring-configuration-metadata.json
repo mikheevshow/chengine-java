@@ -16,11 +16,14 @@
     },
     {
       "name": "chengine.telegram.tokens",
-      "type": "java.util.ArrayList"
+      "type": "java.util.ArrayList<String>"
     },
     {
       "name": "chengine.telegram.usernames",
-      "type": "java.util.ArrayList"
+      "type": "java.util.ArrayList<String>"
     }
+  ],
+  "hints": [
+
   ]
 }

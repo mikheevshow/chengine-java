@@ -3,3 +3,8 @@ chengine:
         enable: true
     rabbitmq:
         enable: true
+    telegram:
+        usernames:
+            - 'just_the_best_bot'
+        tokens:
+            - '1173254904:AAFGiJcEyUw8bRtZ-yOdwF4gby0cGNFLjQE'

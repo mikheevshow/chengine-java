@@ -12,7 +12,7 @@
 	<artifactId>chengine-spring-boot-starter</artifactId>
 
 	<properties>
-		<spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+		<spring.boot.version>2.2.8.RELEASE</spring.boot.version>
 	</properties>
 
 	<dependencyManagement>
@@ -38,6 +38,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-spring-boot-starter</artifactId>
+			<version>4.9</version>
 		</dependency>
 	</dependencies>
 

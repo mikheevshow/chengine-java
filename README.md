@@ -49,7 +49,7 @@ public class HelloWorld {
 #### Creation of command handlers
 
 ```java
-import io.chengine.BotRequest;
+import io.chengine.connector.BotRequest;
 import io.chengine.annotation.CommandParameter;
 import io.chengine.springframework.stereotype.ComponentHandler;
 import org.springframework.beans.factory.annotation.Autowired;

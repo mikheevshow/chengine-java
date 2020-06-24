@@ -1,7 +1,7 @@
 package io.chengine.method;
 
-import io.chengine.BotRequest;
-import io.chengine.BotResponse;
+import io.chengine.connector.BotRequest;
+import io.chengine.connector.BotResponse;
 import io.chengine.command.Command;
 
 public enum InjectableType {

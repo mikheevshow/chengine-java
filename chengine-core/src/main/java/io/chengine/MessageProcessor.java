@@ -1,18 +1,10 @@
 package io.chengine;
 
-import io.chengine.command.DefaultCommandParser;
-import io.chengine.connector.BotMessagingConnector;
-import io.chengine.command.validation.DefaultCommandValidator;
+public interface MessageProcessor<T> {
 
-import java.util.Collection;
+	void onMessageReceived(T message);
 
-public class MessageProcessor {
-
-	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
-	private final DefaultCommandParser defaultCommandParser = new DefaultCommandParser();
-
-	public MessageProcessor(ChengineHandlerContext chengineHandlerContext, Collection<BotMessagingConnector> botMessagingConnectors) {
-
+	default boolean isCommand(T message) {
+		throw new UnsupportedOperationException();
 	}
-
 }
