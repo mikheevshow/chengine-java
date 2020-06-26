@@ -1,9 +1,7 @@
 package io.chengine.command;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Command {
 
@@ -17,6 +15,38 @@ public class Command {
 		} else {
 			this.params = null;
 		}
+	}
+
+	static class CommandBuilder {
+
+		private final Map<String, String> parameterMap = new LinkedHashMap<>();
+
+		public CommandBuilder put(String param) {
+			this.put(param, null);
+			return this;
+		}
+
+		public CommandBuilder put(String param, String value) {
+			parameterMap.put(param, value);
+			return this;
+		}
+
+		public Command build() {
+			var command = new StringBuilder();
+			var paramMap = new HashMap<String, String>();
+			parameterMap.forEach((key, value) -> {
+				command.append("/").append(key);
+				if (value != null) {
+					command.append("#").append(value);
+					paramMap.put(key, value);
+				}
+			});
+			return new Command(command.toString(), paramMap);
+		}
+	}
+
+	public static CommandBuilder builder() {
+		return new CommandBuilder();
 	}
 
 	public String getCommand() {

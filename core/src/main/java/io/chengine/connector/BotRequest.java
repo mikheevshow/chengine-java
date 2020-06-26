@@ -1,14 +1,11 @@
 package io.chengine.connector;
 
-import io.chengine.command.Command;
-import io.chengine.user.User;
-
 public interface BotRequest {
 
-	boolean isCommand();
+	BotClientIdentifier identifier();
 
-	Command getCommand();
+	Message message();
 
-	User getUser();
+	User<?> user();
 
 }
