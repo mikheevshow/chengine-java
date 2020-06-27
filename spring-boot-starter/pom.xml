@@ -31,7 +31,7 @@
 
 		<dependency>
 			<groupId>io.chengine</groupId>
-			<artifactId>chengine-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
