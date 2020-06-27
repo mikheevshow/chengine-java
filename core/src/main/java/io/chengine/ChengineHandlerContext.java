@@ -30,7 +30,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 * /{path1}/{param1}#/{path2}/...
 	 *
 	 */
-	private final HashMap<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
+	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
