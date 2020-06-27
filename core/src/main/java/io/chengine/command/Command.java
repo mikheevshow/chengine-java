@@ -49,7 +49,7 @@ public class Command {
 		return new CommandBuilder();
 	}
 
-	public String getCommand() {
+	public String path() {
 		return command;
 	}
 

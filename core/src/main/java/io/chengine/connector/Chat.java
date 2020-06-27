@@ -1,6 +1,7 @@
 package io.chengine.connector;
 
 public interface Chat<Identifier> {
+
     Identifier id();
 
     String type();
@@ -14,20 +15,19 @@ public interface Chat<Identifier> {
     String userName();
 
     Boolean allMembersAreAdministrators();
-
-//    ChatPhoto photo();
     
     String description();
 
     String inviteLink();
 
-    Message pinnedMessage();
+    Message<?> pinnedMessage();
 
     String stickerSetName();
 
     Boolean canSetStickerSet();
 
-//    ChatPermissions permissions();
+	ChatPermissions permissions();
 
     Integer slowModeDelay();
+
 }

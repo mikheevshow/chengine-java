@@ -1,6 +1,7 @@
 package io.chengine.connector;
 
 public class TelegramChat implements Chat<Long> {
+
     @Override
     public Long id() {
         return null;
@@ -47,7 +48,7 @@ public class TelegramChat implements Chat<Long> {
     }
 
     @Override
-    public Message pinnedMessage() {
+    public Message<?> pinnedMessage() {
         return null;
     }
 
@@ -65,4 +66,9 @@ public class TelegramChat implements Chat<Long> {
     public Integer slowModeDelay() {
         return null;
     }
+
+	@Override
+	public ChatPermissions permissions() {
+		return null;
+	}
 }

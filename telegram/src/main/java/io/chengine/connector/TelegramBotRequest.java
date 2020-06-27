@@ -5,20 +5,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class TelegramBotRequest implements BotRequest{
 
     private User<Integer> user;
-    private Message message;
+    private Message<?> message;
     private Chat<Long> chat;
 
     public TelegramBotRequest(Update update) {
 
     }
 
-    @Override
+	@Override
     public BotClientIdentifier identifier() {
         return () -> "telegram";
     }
 
     @Override
-    public Message message() {
+    public Message<?> message() {
         return message;
     }
 

@@ -1,6 +1,5 @@
 package io.chengine.connector;
 
-public class TelegramMessage {
-
+public interface ChatPermissions {
 
 }

@@ -1,5 +1,6 @@
 package io.chengine;
 
+import io.chengine.processor.MessageProcessor;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -7,14 +8,15 @@ import java.util.List;
 
 public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
-	private final TelegramMessageProcessor messageProcessor;
+	private final MessageProcessor<Update> messageProcessor;
 	private final String token;
 	private final String username;
 
 	public TelegramLongPoolingBot(
 		TelegramMessageProcessor messageProcessor,
 		String telegramToken,
-		String telegramUsername) {
+		String telegramUsername
+	) {
 
 		this.messageProcessor = messageProcessor;
 		this.token = telegramToken;
@@ -28,7 +30,7 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-		messageProcessor.onMessageReceived(update);
+		messageProcessor.process(update);
 	}
 
 	@Override

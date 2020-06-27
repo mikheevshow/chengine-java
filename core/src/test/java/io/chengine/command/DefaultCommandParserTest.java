@@ -59,7 +59,7 @@ public class DefaultCommandParserTest {
 	public void parseCorrectTest1() {
 		var command = defaultCommandParser.parse("/news#meduza/podcasts/id#1");
 		assertAll(
-			() -> assertEquals("/news#/podcasts/id#", command.getCommand()),
+			() -> assertEquals("/news#/podcasts/id#", command.path()),
 			() -> assertEquals(2, command.getParamSet().size()),
 			() -> assertEquals("meduza", command.getParam("news")),
 			() -> assertEquals("1", command.getParam("id")),
@@ -74,7 +74,7 @@ public class DefaultCommandParserTest {
 	public void parseCorrectTest2() {
 		var command = defaultCommandParser.parse("/news");
 		assertAll(
-			() -> assertEquals("/news", command.getCommand()),
+			() -> assertEquals("/news", command.path()),
 			() -> assertEquals(0, command.getParamSet().size()),
 			() -> assertNull(command.getParam("someParam")),
 			() -> assertFalse(command.hasParams())
@@ -86,7 +86,7 @@ public class DefaultCommandParserTest {
 	public void parseCorrectTest3() {
 		var command = defaultCommandParser.parse("/news/pews");
 		assertAll(
-			() -> assertEquals("/news/pews", command.getCommand()),
+			() -> assertEquals("/news/pews", command.path()),
 			() -> assertEquals(0, command.getParamSet().size()),
 			() -> assertNull(command.getParam("someParam")),
 			() -> assertFalse(command.hasParams())
@@ -98,7 +98,7 @@ public class DefaultCommandParserTest {
 	public void parseCorrectTest4() {
 		var command = defaultCommandParser.parse("/news/news#pews");
 		assertAll(
-			() -> assertEquals("/news/news#", command.getCommand()),
+			() -> assertEquals("/news/news#", command.path()),
 			() -> assertEquals(1, command.getParamSet().size()),
 			() -> assertNull(command.getParam("someParam")),
 			() -> assertTrue(command.hasParams())

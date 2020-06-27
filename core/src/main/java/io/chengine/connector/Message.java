@@ -1,4 +1,13 @@
 package io.chengine.connector;
 
-public interface Message {
+import io.chengine.command.Command;
+
+public interface Message<Identifier> {
+
+	Identifier id();
+
+	boolean isCommand();
+
+	Command command();
+
 }
