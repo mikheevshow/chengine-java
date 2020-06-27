@@ -8,4 +8,6 @@ public interface BotRequest {
 
 	User<?> user();
 
+	Chat<?> chat();
+
 }

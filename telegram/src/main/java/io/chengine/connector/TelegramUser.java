@@ -2,60 +2,106 @@ package io.chengine.connector;
 
 import org.telegram.telegrambots.meta.api.objects.User;
 
-public class TelegramUser extends User implements io.chengine.connector.User<Integer> {
+public class TelegramUser implements io.chengine.connector.User<Integer> {
 
-	@Override
-	public Integer id() {
-		return this.getId();
-	}
+    private final Integer id;
+    private final String username;
+    private final String firstName;
+    private final String lastName;
+    private final Boolean isBot;
+    private final String languageCode;
+    private final Boolean canJoinGroups;
+    private final Boolean canReadAllGroupMessages;
+    private final Boolean supportInlineQueries;
 
-	@Override
-	public String username() {
-		return this.getUserName();
-	}
+    public TelegramUser(User user) {
+        this(
+                user.getId(),
+                user.getUserName(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getBot(),
+                user.getLanguageCode(),
+                user.getCanJoinGroups(),
+                user.getCanReadAllGroupMessages(),
+                user.getSupportInlineQueries()
+        );
+    }
 
-	@Override
-	public String firstName() {
-		return this.getFirstName();
-	}
+    private TelegramUser(
+            Integer id,
+            String username,
+            String firstName,
+            String lastName,
+            Boolean isBot,
+            String languageCode,
+            Boolean canJoinGroups,
+            Boolean canReadAllGroupMessages,
+            Boolean supportInlineQueries
+    ) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isBot = isBot;
+        this.languageCode = languageCode;
+        this.canJoinGroups = canJoinGroups;
+        this.canReadAllGroupMessages = canReadAllGroupMessages;
+        this.supportInlineQueries = supportInlineQueries;
+    }
 
-	@Override
-	public String lastName() {
-		return this.getLastName();
-	}
+    @Override
+    public Integer id() {
+        return id;
+    }
 
-	@Override
-	public String fatherName() {
-		return null;
-	}
+    @Override
+    public String username() {
+        return username;
+    }
 
-	@Override
-	public String phone() {
-		return null;
-	}
+    @Override
+    public String firstName() {
+        return firstName;
+    }
 
-	@Override
-	public Boolean isBot() {
-		return this.getBot();
-	}
+    @Override
+    public String lastName() {
+        return lastName;
+    }
 
-	@Override
-	public String languageCode() {
-		return this.getLanguageCode();
-	}
+    @Override
+    public String fatherName() {
+        return null;
+    }
 
-	@Override
-	public Boolean canJoinGroups() {
-		return this.getCanJoinGroups();
-	}
+    @Override
+    public String phone() {
+        return null;
+    }
 
-	@Override
-	public Boolean canReadAllGroupMessages() {
-		return this.getCanReadAllGroupMessages();
-	}
+    @Override
+    public Boolean isBot() {
+        return isBot;
+    }
 
-	@Override
-	public Boolean supportInlineQueries() {
-		return this.getSupportInlineQueries();
-	}
+    @Override
+    public String languageCode() {
+        return languageCode;
+    }
+
+    @Override
+    public Boolean canJoinGroups() {
+        return canJoinGroups;
+    }
+
+    @Override
+    public Boolean canReadAllGroupMessages() {
+        return canReadAllGroupMessages;
+    }
+
+    @Override
+    public Boolean supportInlineQueries() {
+        return supportInlineQueries;
+    }
 }
