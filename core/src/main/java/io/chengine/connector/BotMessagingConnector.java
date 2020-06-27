@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 
 public interface BotMessagingConnector<IncomingMessage> {
 
+
+
 	default boolean doesPlainTextSupport() {
 		return true;
 	}

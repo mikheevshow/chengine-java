@@ -1,7 +1,8 @@
 package io.chengine.processor;
 
-public interface MessageProcessor<T> {
+@FunctionalInterface
+public interface MessageProcessor<T, G> {
 
-	void process(T request);
+	void process(T request, G response);
 
 }

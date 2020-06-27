@@ -1,7 +1,6 @@
 package io.chengine.connector;
 
-public interface BotResponse {
-
+public class BotResponse {
 
 
 }
