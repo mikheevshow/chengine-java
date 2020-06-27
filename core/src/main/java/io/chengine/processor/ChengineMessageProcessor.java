@@ -9,9 +9,15 @@ import java.util.Optional;
 
 public class ChengineMessageProcessor implements MessageProcessor<BotRequest, BotResponse> {
 
-	private HandlerRegistry handlerRegistry;
-	private MethodResolver methodResolver;
-	private MethodArgumentInspector methodArgumentInspector;
+	private final HandlerRegistry handlerRegistry;
+	private final MethodResolver methodResolver;
+	private final MethodArgumentInspector methodArgumentInspector;
+
+	public ChengineMessageProcessor(HandlerRegistry handlerRegistry, MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector) {
+		this.handlerRegistry = handlerRegistry;
+		this.methodResolver = methodResolver;
+		this.methodArgumentInspector = methodArgumentInspector;
+	}
 
 	@Override
 	public void process(BotRequest request, BotResponse response) {

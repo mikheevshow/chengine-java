@@ -4,7 +4,7 @@ public interface BotRequest {
 
 	BotClientIdentifier identifier();
 
-	Message message();
+	Message<?> message();
 
 	User<?> user();
 

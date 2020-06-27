@@ -10,6 +10,11 @@ import java.util.LinkedHashMap;
 public class DefaultCommandParser implements CommandParser {
 
 	private final CommandValidator commandValidator = new DefaultCommandValidator();
+	private final static CommandParser COMMAND_PARSER = new DefaultCommandParser();
+
+	public static CommandParser getInstance() {
+		return COMMAND_PARSER;
+	}
 
 	/**
 	 * {@inheritDoc}

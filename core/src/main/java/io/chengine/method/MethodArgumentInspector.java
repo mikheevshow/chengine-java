@@ -2,8 +2,10 @@ package io.chengine.method;
 
 import io.chengine.annotation.CommandParameter;
 import io.chengine.connector.BotRequest;
+import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,10 +46,14 @@ public class MethodArgumentInspector {
 	}
 
 	private Object extractParameterWithType(BotRequest request, Class<?> clazz) {
+		if(BotRequest.class.equals(clazz)) {
+			return request;
+		}
+
 		for (var method : BotRequest.class.getDeclaredMethods()) {
-			if (method.getReturnType().equals(clazz)) {
+			if (method.getReturnType().getTypeName().equals(clazz.getTypeName())) {
 				try {
-					method.invoke(request);
+					return method.invoke(request);
 				} catch (Exception ex) {
 					throw new RuntimeException(ex);
 				}

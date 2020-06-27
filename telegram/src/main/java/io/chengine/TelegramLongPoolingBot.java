@@ -44,9 +44,4 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	public String getBotUsername() {
 		return username;
 	}
-
-	@Override
-	public void onUpdatesReceived(List<Update> updates) {
-
-	}
 }
