@@ -17,7 +17,7 @@ public class TelegramMessage implements Message<Integer> {
             throws CommandParsingException, CommandValidationException, EmptyCommandException {
         this(
                 message.getMessageId(),
-                message.isCommand() ? DefaultCommandParser.getInstance().parse(message.getText()) : null
+                DefaultCommandParser.getInstance().parse(message.getText()) // todo
         );
     }
 
