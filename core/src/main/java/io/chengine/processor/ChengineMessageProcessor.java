@@ -1,20 +1,15 @@
 package io.chengine.processor;
 
-import io.chengine.HandlerRegistry;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.MethodArgumentInspector;
 
-import java.util.Optional;
-
 public class ChengineMessageProcessor implements MessageProcessor<BotRequest, BotResponse> {
 
-	private final HandlerRegistry handlerRegistry;
 	private final MethodResolver methodResolver;
 	private final MethodArgumentInspector methodArgumentInspector;
 
-	public ChengineMessageProcessor(HandlerRegistry handlerRegistry, MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector) {
-		this.handlerRegistry = handlerRegistry;
+	public ChengineMessageProcessor(MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector) {
 		this.methodResolver = methodResolver;
 		this.methodArgumentInspector = methodArgumentInspector;
 	}

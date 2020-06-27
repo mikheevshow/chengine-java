@@ -2,10 +2,8 @@ package io.chengine.method;
 
 import io.chengine.annotation.CommandParameter;
 import io.chengine.connector.BotRequest;
-import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -2,8 +2,6 @@ package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.ChengineConfiguration;
 import io.chengine.ChengineHandlerContext;
-import io.chengine.HandlerRegistry;
-import io.chengine.command.Command;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.ChengineMessageProcessor;
 import io.chengine.processor.CommandMethodResolver;
@@ -26,10 +24,8 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public CommandMethodResolver commandMethodResolver(
-			ChengineHandlerContext chengineHandlerContext,
-			MethodArgumentInspector methodArgumentInspector) {
-		return new CommandMethodResolver(chengineHandlerContext, methodArgumentInspector);
+	public CommandMethodResolver commandMethodResolver(ChengineHandlerContext chengineHandlerContext) {
+		return new CommandMethodResolver(chengineHandlerContext);
 	}
 
 	@Bean
@@ -38,11 +34,9 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public ChengineMessageProcessor chengineMessageProcessor(
-			ChengineHandlerContext chengineHandlerContext,
-			CommandMethodResolver commandMethodResolver,
-			MethodArgumentInspector methodArgumentInspector) {
-		return new ChengineMessageProcessor(chengineHandlerContext, commandMethodResolver, methodArgumentInspector);
+	public ChengineMessageProcessor chengineMessageProcessor(CommandMethodResolver commandMethodResolver, MethodArgumentInspector methodArgumentInspector) {
+
+		return new ChengineMessageProcessor(commandMethodResolver, methodArgumentInspector);
 	}
 
 	@Bean
