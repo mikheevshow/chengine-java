@@ -1,6 +1,7 @@
 package io.chengine;
 
 import io.chengine.annotation.Command;
+import io.chengine.annotation.CommandDescription;
 import io.chengine.annotation.Handler;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.command.validation.DefaultCommandValidator;
@@ -31,6 +32,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
+	private final Map<Method, Pair<String, String>> commandDescriptions = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
@@ -55,9 +57,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	public void registerHandlerClass(final Object handler) {
-
 		try {
-
 			Objects.requireNonNull(handler, "handler object can't be null");
 			final Class<?> handlerClass = handler.getClass();
 			final Annotation[] handlerClassAnnotations = handlerClass.getDeclaredAnnotations();
@@ -90,6 +90,12 @@ public class ChengineHandlerContext implements HandlerRegistry {
 						Method valueMethod = annotation.annotationType().getMethod("value");
 						String annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
 						String fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
+
+						Annotation descriptionAnnotation = method.getAnnotation(CommandDescription.class);
+						if(Objects.nonNull(descriptionAnnotation)) {
+							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
+							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
+						}
 
 						if ("".equals(fullMethodCommandPathTemplate)) {
 							throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
