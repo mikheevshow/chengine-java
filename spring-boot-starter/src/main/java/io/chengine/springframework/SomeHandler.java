@@ -1,7 +1,6 @@
 package io.chengine.springframework;
 
 import io.chengine.annotation.Command;
-import io.chengine.annotation.CommandDescription;
 import io.chengine.annotation.CommandParameter;
 import io.chengine.connector.User;
 import io.chengine.springframework.stereotype.ComponentHandler;

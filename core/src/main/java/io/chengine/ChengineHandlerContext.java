@@ -32,7 +32,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
-	private final Map<Method, Pair<String, String>> commandDescriptions = new HashMap<>();
+	private final Map<String, Map<String, String>> commandDescriptions = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
@@ -95,6 +95,19 @@ public class ChengineHandlerContext implements HandlerRegistry {
 						if(Objects.nonNull(descriptionAnnotation)) {
 							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
 							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
+
+							Arrays
+									.stream(descriptions)
+									.forEach(str -> {
+										String delimiter = " : ";
+										int delimiterPos = str.indexOf(delimiter);
+
+										Map<String, String> localeDescription =
+												commandDescriptions.getOrDefault(fullMethodCommandPathTemplate, new HashMap<>());
+										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
+
+										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
+							});
 						}
 
 						if ("".equals(fullMethodCommandPathTemplate)) {
@@ -114,7 +127,6 @@ public class ChengineHandlerContext implements HandlerRegistry {
 					}
 				});
 
-
 			//log.info(commandHandlerMap.toString());
 			// Process registration
 
@@ -122,6 +134,8 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		} catch (Exception ex) {
 			//log.error(ex.getMessage(), ex);
 		}
+
+		System.out.println(commandDescriptions.toString());
 	}
 
 
