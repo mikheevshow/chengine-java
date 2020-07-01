@@ -35,4 +35,13 @@ public class TelegramBotRequest implements BotRequest{
     public Chat<?> chat() {
         return chat;
     }
+
+    @Override
+    public String toString() {
+        return "TelegramBotRequest{" +
+                "user=" + user +
+                ", message=" + message +
+                ", chat=" + chat +
+                '}';
+    }
 }

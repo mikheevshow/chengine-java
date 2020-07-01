@@ -104,4 +104,19 @@ public class TelegramUser implements io.chengine.connector.User<Integer> {
     public Boolean supportInlineQueries() {
         return supportInlineQueries;
     }
+
+    @Override
+    public String toString() {
+        return "TelegramUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", isBot=" + isBot +
+                ", languageCode='" + languageCode + '\'' +
+                ", canJoinGroups=" + canJoinGroups +
+                ", canReadAllGroupMessages=" + canReadAllGroupMessages +
+                ", supportInlineQueries=" + supportInlineQueries +
+                '}';
+    }
 }

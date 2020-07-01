@@ -40,4 +40,12 @@ public class TelegramMessage implements Message<Integer> {
     public Command command() {
         return command;
     }
+
+    @Override
+    public String toString() {
+        return "TelegramMessage{" +
+                "id=" + id +
+                ", command=" + command +
+                '}';
+    }
 }

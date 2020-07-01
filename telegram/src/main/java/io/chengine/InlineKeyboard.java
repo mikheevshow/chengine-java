@@ -11,4 +11,6 @@ public @interface InlineKeyboard {
 
 	String[] rows();
 
+	Locale locale() default Locale.DEFAULT;
+
 }
