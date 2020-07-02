@@ -9,7 +9,7 @@ import io.chengine.springframework.stereotype.ComponentHandler;
 public class SomeHandler {
 
     @HandleCommand("/news/from#/views#")
-    public void someMethod(@CommandParameter("from") String from, @CommandParameter("views") String views, User<?> user) {
-        System.out.println("News from " + from + " views " + views + " for " + user.username());
+    public String someMethod(@CommandParameter("from") String from, @CommandParameter("views") String views, User<?> user) {
+        return "News from " + from + " views " + views + " for " + user.username();
     }
 }

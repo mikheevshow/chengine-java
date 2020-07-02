@@ -8,10 +8,12 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 
 	private final MethodResolver methodResolver;
 	private final MethodArgumentInspector methodArgumentInspector;
+	private final ResponseResolver responseResolver;
 
-	public ChengineMessageProcessor(MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector) {
+	public ChengineMessageProcessor(MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector, ResponseResolver responseResolver) {
 		this.methodResolver = methodResolver;
 		this.methodArgumentInspector = methodArgumentInspector;
+		this.responseResolver = responseResolver;
 	}
 
 	@Override
@@ -19,8 +21,8 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 		var method = methodResolver.resolve(request);
 		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
 		try {
-			var args = method.invoke(methodArguments);
-			System.out.println(method.belongsTo(response));
+			var object = method.invoke(methodArguments);
+			responseResolver.resolve(request, response, object);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

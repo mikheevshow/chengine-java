@@ -117,13 +117,13 @@ public class ChengineHandlerContext implements HandlerRegistry {
 							throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
 						}
 
-						if (commandHandlerMap.containsKey(fullMethodCommandPathTemplate)) {
+						if (commandMethodMap.containsKey(fullMethodCommandPathTemplate)) {
 							throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
 						}
 
 						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
 
-						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
+						commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler));
 
 					} catch (Exception ex) {
 						//log.error(ex.getMessage(), ex);

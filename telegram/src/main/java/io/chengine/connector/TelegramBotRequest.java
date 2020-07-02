@@ -13,7 +13,8 @@ public class TelegramBotRequest implements BotRequest{
 
     public TelegramBotRequest(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
         this.user = new TelegramUser(update.getMessage().getFrom());
-        this.message = new TelegramMessage(update.getMessage());
+        this.message = TelegramMessage.create(update.getMessage());
+        this.chat = new TelegramChat(update.getMessage().getChatId());
     }
 
 	@Override

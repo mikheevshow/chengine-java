@@ -2,9 +2,15 @@ package io.chengine.connector;
 
 public class TelegramChat implements Chat<Long> {
 
+    private Long chatId;
+
+    public TelegramChat(Long chatId) {
+        this.chatId = chatId;
+    }
+
     @Override
     public Long id() {
-        return null;
+        return chatId;
     }
 
     @Override

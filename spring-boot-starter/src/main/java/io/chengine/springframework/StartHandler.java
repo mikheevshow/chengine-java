@@ -10,9 +10,8 @@ import io.chengine.springframework.stereotype.ComponentHandler;
 public class StartHandler {
 
     @HandleCommand("/test")
-    public void startMethodHandler(User<?> user, Message<?> message) {
-        System.out.println(user.firstName());
-        System.out.println("message: " + message);
+    public String startMethodHandler(User<?> user, Message<?> message) {
+        return "Привет, хуило-" + user.username();
     }
 
     @HandleCommand("/help")
