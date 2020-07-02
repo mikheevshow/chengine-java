@@ -4,7 +4,6 @@ import io.chengine.command.Command;
 import io.chengine.command.CommandParsingException;
 import io.chengine.command.DefaultCommandParser;
 import io.chengine.command.validation.CommandValidationException;
-import io.chengine.command.validation.CommandValidator;
 import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.command.validation.EmptyCommandException;
 

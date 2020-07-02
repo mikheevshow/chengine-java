@@ -1,5 +1,7 @@
 package io.chengine.command.validation;
 
+import io.chengine.command.Command;
+
 import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -8,14 +10,21 @@ import java.util.regex.Pattern;
 public class DefaultCommandValidator implements CommandValidator {
 
 	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#[a-z0-9]+)?)+");
-	private static CommandValidator DEFAULT_COMMAND_VALIDATOR;
+	private static volatile CommandValidator COMMAND_VALIDATOR;
 
-	public static synchronized CommandValidator getInstance() {
-		if(DEFAULT_COMMAND_VALIDATOR == null) {
-			DEFAULT_COMMAND_VALIDATOR = new DefaultCommandValidator();
+	public static CommandValidator getInstance() {
+		CommandValidator commandValidator = COMMAND_VALIDATOR;
+		if(COMMAND_VALIDATOR == null) {
+			synchronized (CommandValidator.class) {
+				commandValidator = COMMAND_VALIDATOR;
+
+				if(commandValidator == null) {
+					COMMAND_VALIDATOR = commandValidator = new DefaultCommandValidator();
+				}
+			}
 		}
 
-		return DEFAULT_COMMAND_VALIDATOR;
+		return commandValidator;
 	}
 
 	@Override
