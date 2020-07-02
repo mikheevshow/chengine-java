@@ -70,4 +70,25 @@ public class Command {
 		return params == null ? null : params.get(key);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Command command1 = (Command) o;
+		return command.equals(command1.command) &&
+				Objects.equals(params, command1.params);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(command, params);
+	}
+
+	@Override
+	public String toString() {
+		return "Command{" +
+				"command='" + command + '\'' +
+				", params=" + params +
+				'}';
+	}
 }

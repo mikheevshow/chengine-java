@@ -11,6 +11,6 @@ public class StartHandler {
     @HandleCommand("/test")
     public void startMethodHandler(User<?> user, Message<?> message) {
         System.out.println(user.firstName());
-        System.out.println("message: " + message);
+        System.out.println("message: " + message.command());
     }
 }
