@@ -1,10 +1,11 @@
 package io.chengine;
 
+import io.chengine.annotation.CommandDescription;
 import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 import io.chengine.command.i18n.CommandMetaInfo;
-import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.provider.HandlerProvider;
+import io.chengine.command.validation.DefaultCommandValidator;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -12,14 +13,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
-import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+//@Slf4j
 public class ChengineHandlerContext implements HandlerRegistry {
-
-	private static final Logger LOGGER = Logger.getLogger(ChengineHandlerContext.class.getName());
 
 	private final static String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
 	private final static String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
@@ -34,8 +33,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
-	private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
+	private final Map<String, Map<String, String>> commandDescriptions = new HashMap<>();
 	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
+	private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
@@ -60,9 +60,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	public void registerHandlerClass(final Object handler) {
-
 		try {
-
 			Objects.requireNonNull(handler, "handler object can't be null");
 			final Class<?> handlerClass = handler.getClass();
 			final Annotation[] handlerClassAnnotations = handlerClass.getDeclaredAnnotations();
@@ -96,6 +94,25 @@ public class ChengineHandlerContext implements HandlerRegistry {
 						String annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
 						String fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
 
+						Annotation descriptionAnnotation = method.getAnnotation(CommandDescription.class);
+						if(Objects.nonNull(descriptionAnnotation)) {
+							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
+							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
+
+							Arrays
+									.stream(descriptions)
+									.forEach(str -> {
+										String delimiter = " : ";
+										int delimiterPos = str.indexOf(delimiter);
+
+										Map<String, String> localeDescription =
+												commandDescriptions.getOrDefault(fullMethodCommandPathTemplate, new HashMap<>());
+										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
+
+										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
+									});
+						}
+
 						if ("".equals(fullMethodCommandPathTemplate)) {
 							throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
 						}
@@ -106,9 +123,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
 
-						var handlerMethod = io.chengine.method.Method.of(method, handler);
-						commandMethodMap.put(fullMethodCommandPathTemplate, handlerMethod);
-						LOGGER.info("Method '" + fullMethodCommandPathTemplate + "' has been registered");
+						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
 
 					} catch (Exception ex) {
 						//log.error(ex.getMessage(), ex);
@@ -142,10 +157,11 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 	/**
 	 * {@inheritDoc}
+	 * @return
 	 */
 	@Override
 	@Nullable
-	public io.chengine.method.Method get(String command) {
+	public io.chengine.method.Method get(String command) { //todo
 		return commandMethodMap.get(command);
 	}
 
@@ -167,6 +183,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		Objects.requireNonNull(value, "Value for key " + entry.getKey());
 		return value.getRight();
 	};
+
 
 	//****************************************************************************************************************
 
