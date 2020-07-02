@@ -4,6 +4,8 @@ import io.chengine.command.Command;
 import io.chengine.command.CommandParsingException;
 import io.chengine.command.DefaultCommandParser;
 import io.chengine.command.validation.CommandValidationException;
+import io.chengine.command.validation.CommandValidator;
+import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.command.validation.EmptyCommandException;
 
 import java.util.Objects;
@@ -13,11 +15,11 @@ public class TelegramMessage implements Message<Integer> {
     private final Integer id;
     private final Command command;
 
-    public TelegramMessage(org.telegram.telegrambots.meta.api.objects.Message message)
+    private TelegramMessage(org.telegram.telegrambots.meta.api.objects.Message message)
             throws CommandParsingException, CommandValidationException, EmptyCommandException {
         this(
                 message.getMessageId(),
-                DefaultCommandParser.getInstance().parse(message.getText()) // todo
+                DefaultCommandParser.getInstance().parse(message.getText())
         );
     }
 
@@ -25,6 +27,12 @@ public class TelegramMessage implements Message<Integer> {
         this.id = id;
         this.command = command;
     }
+
+//    static public TelegramMessage create(org.telegram.telegrambots.meta.api.objects.Message message) {
+//        if(message.getMessageId() != null) {
+//
+//        }
+//    }
 
     @Override
     public Integer id() {

@@ -8,6 +8,15 @@ import java.util.regex.Pattern;
 public class DefaultCommandValidator implements CommandValidator {
 
 	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#[a-z0-9]+)?)+");
+	private static CommandValidator DEFAULT_COMMAND_VALIDATOR;
+
+	public static synchronized CommandValidator getInstance() {
+		if(DEFAULT_COMMAND_VALIDATOR == null) {
+			DEFAULT_COMMAND_VALIDATOR = new DefaultCommandValidator();
+		}
+
+		return DEFAULT_COMMAND_VALIDATOR;
+	}
 
 	@Override
 	public boolean isCommand(String s) {
