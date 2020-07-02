@@ -15,24 +15,17 @@ public class TelegramMessage implements Message<Integer> {
     private final Integer id;
     private final Command command;
 
-    private TelegramMessage(org.telegram.telegrambots.meta.api.objects.Message message)
-            throws CommandParsingException, CommandValidationException, EmptyCommandException {
-        this(
-                message.getMessageId(),
-                DefaultCommandParser.getInstance().parse(message.getText())
-        );
-    }
-
     private TelegramMessage(Integer id, Command command) {
         this.id = id;
         this.command = command;
     }
 
-//    static public TelegramMessage create(org.telegram.telegrambots.meta.api.objects.Message message) {
-//        if(message.getMessageId() != null) {
-//
-//        }
-//    }
+    static public TelegramMessage create(org.telegram.telegrambots.meta.api.objects.Message message) throws EmptyCommandException, CommandValidationException, CommandParsingException {
+        DefaultCommandValidator.getInstance().validate(message.getText());
+        Command command = DefaultCommandParser.getInstance().parse(message.getText());
+
+        return new TelegramMessage(message.getMessageId(), command);
+    }
 
     @Override
     public Integer id() {
