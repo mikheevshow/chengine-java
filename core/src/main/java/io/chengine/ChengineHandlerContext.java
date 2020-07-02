@@ -2,6 +2,7 @@ package io.chengine;
 
 import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
+import io.chengine.command.i18n.CommandMetaInfo;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.command.validation.DefaultCommandValidator;
 import org.apache.commons.lang3.tuple.Pair;
@@ -31,6 +32,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
+	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
