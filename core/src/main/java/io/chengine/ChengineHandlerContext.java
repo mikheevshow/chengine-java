@@ -134,16 +134,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	public Set<String> getAllPaths() {
-		return commandHandlerMap.keySet();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	@Nullable
-	public Pair<Method, Object> getHandlerMethod(String command) {
-		return commandHandlerMap.get(command);
+		return commandMethodMap.keySet();
 	}
 
 	/**
