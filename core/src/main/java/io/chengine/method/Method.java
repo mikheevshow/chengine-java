@@ -12,7 +12,7 @@ public class Method {
         this.object = object;
     }
 
-    <T> T invoke(Class<T> clazz, Object ... args) {
+    public <T> T invoke(Class<T> clazz, Object ... args) {
         try {
             var result = this.method.invoke(object, args);
             return clazz.cast(result);
@@ -21,8 +21,16 @@ public class Method {
         }
     }
 
+    public void invokeVoid(Object ... args) {
+        invoke(Void.class, args);
+    }
+
     public java.lang.reflect.Method get() {
         return this.method;
+    }
+
+    public Object onObject() {
+        return this.object;
     }
 
     @Override
