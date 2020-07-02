@@ -1,6 +1,6 @@
 package io.chengine;
 
-import io.chengine.annotation.Command;
+import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.command.validation.DefaultCommandValidator;
@@ -83,9 +83,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 			Arrays
 				.stream(handler.getClass().getMethods())
-				.filter(method -> method.getAnnotation(Command.class) != null)
+				.filter(method -> method.getAnnotation(HandleCommand.class) != null)
 				.forEach(method -> {
-					Annotation annotation = method.getAnnotation(Command.class);
+					Annotation annotation = method.getAnnotation(HandleCommand.class);
 					try {
 						Method valueMethod = annotation.annotationType().getMethod("value");
 						String annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
