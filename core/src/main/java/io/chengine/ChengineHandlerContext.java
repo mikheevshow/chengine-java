@@ -32,6 +32,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 *
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
+	private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
 	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
@@ -104,6 +105,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
 
 						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
+						commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler));
 
 					} catch (Exception ex) {
 						//log.error(ex.getMessage(), ex);
@@ -148,6 +150,15 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Nullable
+	public io.chengine.method.Method get(String command) {
+		return commandMethodMap.get(command);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Set<?> getAllHandlers() {
 		return commandHandlerMap
 			.entrySet()
@@ -162,7 +173,6 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		Objects.requireNonNull(value, "Value for key " + entry.getKey());
 		return value.getRight();
 	};
-
 
 	//****************************************************************************************************************
 

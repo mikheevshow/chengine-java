@@ -20,4 +20,10 @@ public interface HandlerRegistry {
 
 	Set<?> getAllHandlers();
 
+	io.chengine.method.Method get(String command);
+
+	default io.chengine.method.Method get(Command command) {
+		return get(command.path());
+	}
+
 }

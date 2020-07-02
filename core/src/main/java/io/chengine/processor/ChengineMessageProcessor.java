@@ -16,11 +16,10 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 
 	@Override
 	public void process(BotRequest request, BotResponse response) {
-		var handlerMethod = methodResolver.resolve(request);
-		var method = handlerMethod.getLeft();
-		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method);
+		var method = methodResolver.resolve(request);
+		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
 		try {
-			var args = method.invoke(handlerMethod.getRight(), methodArguments);
+			var args = method.invoke(methodArguments);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
