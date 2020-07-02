@@ -1,6 +1,7 @@
 package io.chengine.testhandlers;
 
 import io.chengine.annotation.CommandParameter;
+import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 
 @Handler

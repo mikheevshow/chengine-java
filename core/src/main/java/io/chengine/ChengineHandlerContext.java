@@ -151,16 +151,17 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	public Set<String> getAllPaths() {
-		return commandMethodMap.keySet();
+		return commandHandlerMap.keySet();
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @return
 	 */
 	@Override
 	@Nullable
-	public io.chengine.method.Method get(String command) {
-		return commandMethodMap.get(command);
+	public Method get(String command) { //todo
+		return commandHandlerMap.get(command).getLeft();
 	}
 
 	/**
