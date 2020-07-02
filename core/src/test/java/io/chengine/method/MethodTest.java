@@ -3,6 +3,8 @@ package io.chengine.method;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 public class MethodTest {
 
     static class SomeClass {
@@ -29,6 +31,8 @@ public class MethodTest {
         var method = Method.of(SomeClass.class.getMethod("sayNothing"), someClass);
 
         method.invokeVoid();
+
+        Assertions.assertTrue(SomeClass.class.isAssignableFrom(SomeClass.class));
     }
 
 }

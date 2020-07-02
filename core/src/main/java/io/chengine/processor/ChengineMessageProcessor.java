@@ -20,6 +20,7 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
 		try {
 			var args = method.invoke(methodArguments);
+			System.out.println(method.belongsTo(response));
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}

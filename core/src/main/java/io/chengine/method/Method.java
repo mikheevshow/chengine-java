@@ -12,6 +12,7 @@ public class Method {
 
     private final java.lang.reflect.Method method;
     private final Object object;
+    private final Class<?> objectClass;
 
     public static Method of(@Nonnull java.lang.reflect.Method method, @Nonnull Object object) {
 
@@ -32,6 +33,7 @@ public class Method {
     private Method(java.lang.reflect.Method method, Object object) {
         this.method = method;
         this.object = object;
+        this.objectClass = object.getClass();
     }
 
     public <T> T invoke(Class<T> clazz, Object ... args) {
@@ -60,11 +62,11 @@ public class Method {
     }
 
     public boolean belongsTo(Object object) {
-        return belongsTo(object.getClass());
+        return objectClass.isInstance(object) || belongsTo(object.getClass());
     }
 
     public boolean belongsTo(Class<?> clazz) {
-        return this.object.getClass().equals(clazz);
+        return clazz != null && objectClass.isAssignableFrom(clazz);
     }
 
     @Override
