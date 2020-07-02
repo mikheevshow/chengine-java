@@ -1,5 +1,7 @@
 package io.chengine.method;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -11,7 +13,19 @@ public class Method {
     private final java.lang.reflect.Method method;
     private final Object object;
 
-    public static Method of(java.lang.reflect.Method method, Object object) {
+    public static Method of(@Nonnull java.lang.reflect.Method method, @Nonnull Object object) {
+
+        Objects.requireNonNull(method, "Method can't be null");
+        Objects.requireNonNull(object, "Object can't be null");
+
+        var containsMethod = Arrays
+                .asList(object.getClass().getDeclaredMethods())
+                .contains(method);
+
+        if (!containsMethod) {
+            throw new RuntimeException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
+        }
+
         return new Method(method, object);
     }
 
@@ -43,6 +57,14 @@ public class Method {
 
     public Object onObject() {
         return this.object;
+    }
+
+    public boolean belongsTo(Object object) {
+        return belongsTo(object.getClass());
+    }
+
+    public boolean belongsTo(Class<?> clazz) {
+        return this.object.getClass().equals(clazz);
     }
 
     @Override
