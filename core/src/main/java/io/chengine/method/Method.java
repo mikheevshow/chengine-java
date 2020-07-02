@@ -1,6 +1,7 @@
 package io.chengine.method;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -36,10 +37,14 @@ public class Method {
         this.objectClass = object.getClass();
     }
 
+    public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
+        var result = this.method.invoke(object, args);
+        return clazz.cast(result);
+    }
+
     public <T> T invoke(Class<T> clazz, Object ... args) {
         try {
-            var result = this.method.invoke(object, args);
-            return clazz.cast(result);
+            return invokeChecked(clazz, args);
         } catch (Exception ex) {
             throw new MethodInvocationException(ex);
         }
