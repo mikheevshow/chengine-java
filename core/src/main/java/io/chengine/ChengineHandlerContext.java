@@ -3,8 +3,8 @@ package io.chengine;
 import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 import io.chengine.command.i18n.CommandMetaInfo;
-import io.chengine.provider.HandlerProvider;
 import io.chengine.command.validation.DefaultCommandValidator;
+import io.chengine.provider.HandlerProvider;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -12,12 +12,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-//@Slf4j
 public class ChengineHandlerContext implements HandlerRegistry {
+
+	private static final Logger LOGGER = Logger.getLogger(ChengineHandlerContext.class.getName());
 
 	private final static String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
 	private final static String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
@@ -104,8 +106,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
 
-						commandHandlerMap.put(fullMethodCommandPathTemplate, Pair.of(method, handler));
-						commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler));
+						var handlerMethod = io.chengine.method.Method.of(method, handler);
+						commandMethodMap.put(fullMethodCommandPathTemplate, handlerMethod);
+						LOGGER.info("Method '" + fullMethodCommandPathTemplate + "' has been registered");
 
 					} catch (Exception ex) {
 						//log.error(ex.getMessage(), ex);
