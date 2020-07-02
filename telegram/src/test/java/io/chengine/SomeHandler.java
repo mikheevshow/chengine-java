@@ -1,6 +1,6 @@
 package io.chengine;
 
-import io.chengine.annotation.Command;
+import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 
 @Handler
@@ -15,7 +15,7 @@ public class SomeHandler {
 	// * someButton4  *  someButton4  * someButton5 *
 	// **********************************************
 	//
-	@Command("/somecommand")
+	@HandleCommand("/somecommand")
 	@InlineKeyboard(rows = {
 		"{someButton1, someButton2}",
 		"{someButton3}",

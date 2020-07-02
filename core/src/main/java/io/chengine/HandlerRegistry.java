@@ -1,17 +1,21 @@
 package io.chengine;
 
 
-import org.apache.commons.lang3.tuple.Pair;
+import io.chengine.command.Command;
+import io.chengine.method.Method;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 
 public interface HandlerRegistry {
 
 	Set<String> getAllPaths();
 
-	Pair<Method, Object> getHandlerMethod(String command);
-
 	Set<?> getAllHandlers();
+
+	Method get(String command);
+
+	default Method get(Command command) {
+		return get(command.path());
+	}
 
 }

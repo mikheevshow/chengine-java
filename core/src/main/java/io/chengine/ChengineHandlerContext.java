@@ -1,8 +1,9 @@
 package io.chengine;
 
-import io.chengine.annotation.Command;
 import io.chengine.annotation.CommandDescription;
+import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
+import io.chengine.command.i18n.CommandMetaInfo;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.command.validation.DefaultCommandValidator;
 import org.apache.commons.lang3.tuple.Pair;
@@ -33,6 +34,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
 	private final Map<String, Map<String, String>> commandDescriptions = new HashMap<>();
+	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
@@ -83,9 +85,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 			Arrays
 				.stream(handler.getClass().getMethods())
-				.filter(method -> method.getAnnotation(Command.class) != null)
+				.filter(method -> method.getAnnotation(HandleCommand.class) != null)
 				.forEach(method -> {
-					Annotation annotation = method.getAnnotation(Command.class);
+					Annotation annotation = method.getAnnotation(HandleCommand.class);
 					try {
 						Method valueMethod = annotation.annotationType().getMethod("value");
 						String annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
@@ -107,7 +109,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
 
 										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
-							});
+									});
 						}
 
 						if ("".equals(fullMethodCommandPathTemplate)) {
@@ -127,6 +129,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 					}
 				});
 
+
 			//log.info(commandHandlerMap.toString());
 			// Process registration
 
@@ -134,8 +137,6 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		} catch (Exception ex) {
 			//log.error(ex.getMessage(), ex);
 		}
-
-		System.out.println(commandDescriptions.toString());
 	}
 
 
@@ -150,7 +151,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	public Set<String> getAllPaths() {
-		return commandHandlerMap.keySet();
+		return commandMethodMap.keySet();
 	}
 
 	/**
@@ -158,8 +159,8 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	@Nullable
-	public Pair<Method, Object> getHandlerMethod(String command) {
-		return commandHandlerMap.get(command);
+	public io.chengine.method.Method get(String command) {
+		return commandMethodMap.get(command);
 	}
 
 	/**

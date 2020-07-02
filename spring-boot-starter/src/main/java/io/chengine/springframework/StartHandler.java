@@ -9,16 +9,13 @@ import io.chengine.springframework.stereotype.ComponentHandler;
 @ComponentHandler
 public class StartHandler {
 
-    @Command("/test")
-    @CommandDescription(description = {
-            "RU : Тестовая команда",
-            "EN : TestCommand"})
+    @HandleCommand("/test")
     public void startMethodHandler(User<?> user, Message<?> message) {
         System.out.println(user.firstName());
         System.out.println("message: " + message);
     }
 
-    @Command("/help")
+    @HandleCommand("/help")
     @CommandDescription(description = {
             "RU : Помощь",
             "EN : Help"})

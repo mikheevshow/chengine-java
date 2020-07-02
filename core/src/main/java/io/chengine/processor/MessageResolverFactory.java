@@ -1,10 +1,10 @@
 package io.chengine.processor;
 
 import io.chengine.connector.BotRequest;
+import io.chengine.method.Method;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 public class MessageResolverFactory implements MethodResolver {
@@ -17,7 +17,7 @@ public class MessageResolverFactory implements MethodResolver {
 
 	@Override
 	@Nullable
-	public Pair<Method, Object> resolve(BotRequest request) {
+	public Method resolve(BotRequest request) {
 		if(request.message().isCommand()) {
 			return commandMethodResolver.resolve(request);
 		}

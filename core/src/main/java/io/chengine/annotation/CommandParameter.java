@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Use this annotation for passing {@link Command} ({@link io.chengine.command.Command}) parameters into
+ * Use this annotation for passing {@link HandleCommand} ({@link io.chengine.command.Command}) parameters into
  * invoked method.
  *
- * @see Command
+ * @see HandleCommand
  *
  * If chengine could not cast string representation of a command parameter
  * into method argument's type, then {@link ClassCastException} will be thrown.
