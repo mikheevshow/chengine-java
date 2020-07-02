@@ -12,7 +12,7 @@ public interface HandlerRegistry {
 
 	Set<?> getAllHandlers();
 
-	java.lang.reflect.Method get(String command);
+	Method get(String command);
 
 	default Method get(Command command) {
 		return get(command.path());

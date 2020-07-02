@@ -35,6 +35,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	private final Map<String, Pair<Method, Object>> commandHandlerMap = new HashMap<>();
 	private final Map<String, Map<String, String>> commandDescriptions = new HashMap<>();
 	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
+	private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
 
 	private final DefaultCommandValidator defaultCommandValidator = new DefaultCommandValidator();
 
@@ -151,7 +152,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	public Set<String> getAllPaths() {
-		return commandHandlerMap.keySet();
+		return commandMethodMap.keySet();
 	}
 
 	/**
@@ -160,8 +161,8 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	@Nullable
-	public Method get(String command) { //todo
-		return commandHandlerMap.get(command).getLeft();
+	public io.chengine.method.Method get(String command) { //todo
+		return commandMethodMap.get(command);
 	}
 
 	/**
