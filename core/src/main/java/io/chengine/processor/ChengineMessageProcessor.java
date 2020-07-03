@@ -3,8 +3,12 @@ package io.chengine.processor;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.MethodArgumentInspector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ChengineMessageProcessor implements MessageProcessor<BotRequest, BotResponse> {
+
+	private final static Logger log = LogManager.getLogger(ChengineMessageProcessor.class);
 
 	private final MethodResolver methodResolver;
 	private final MethodArgumentInspector methodArgumentInspector;
@@ -18,14 +22,9 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 
 	@Override
 	public void process(BotRequest request, BotResponse response) {
+		log.info("Request " + request.toString());
 		var method = methodResolver.resolve(request);
 		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
-		try {
-			var object = method.invoke(methodArguments);
-			responseResolver.resolve(request, response, object);
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
-
+		responseResolver.resolve(request, response, method.invoke(methodArguments));
 	}
 }

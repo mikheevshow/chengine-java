@@ -18,13 +18,9 @@ public class TelegramMessageProcessor implements MessageProcessor<Update, BotRes
 	}
 
 	@Override
-	public void process(Update request, BotResponse response) {
-		try {
-			var botRequest = new TelegramBotRequest(request);
-			messageProcessor.process(botRequest, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void process(Update request, BotResponse response) throws Exception {
+		var botRequest = new TelegramBotRequest(request);
+		messageProcessor.process(botRequest, response);
 	}
 
 }

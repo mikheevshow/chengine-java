@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class DefaultCommandValidator implements CommandValidator {
 
 	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#[a-z0-9]+)?)+");
+	private final static long MAX_COMMAND_LENGTH = 64;
 	private static volatile CommandValidator COMMAND_VALIDATOR;
 
 	public static CommandValidator getInstance() {
@@ -39,7 +40,7 @@ public class DefaultCommandValidator implements CommandValidator {
 			if (s.trim().equals("/")) {
 				throw new EmptyCommandException();
 			}
-			if (s.substring(1).length() > 32) {
+			if (s.substring(1).length() > MAX_COMMAND_LENGTH) {
 				throw new CommandValidationException("Command length more than 32 symbols.");
 			}
 			if (!matcher.matches()) {

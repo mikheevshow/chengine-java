@@ -54,6 +54,10 @@ public class Method {
         return invoke(Object.class, args);
     }
 
+    public Object invokeChecked(Object ... args) throws InvocationTargetException, IllegalAccessException {
+        return this.method.invoke(object, args);
+    }
+
     public void invokeVoid(Object ... args) {
         invoke(Void.class, args);
     }

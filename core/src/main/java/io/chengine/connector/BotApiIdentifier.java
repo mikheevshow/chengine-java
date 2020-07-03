@@ -1,7 +1,7 @@
 package io.chengine.connector;
 
 @FunctionalInterface
-public interface BotClientIdentifier {
+public interface BotApiIdentifier {
 
 	String identifier();
 

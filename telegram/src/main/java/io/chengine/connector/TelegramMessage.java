@@ -20,8 +20,13 @@ public class TelegramMessage implements Message<Integer> {
     }
 
     static public TelegramMessage create(org.telegram.telegrambots.meta.api.objects.Message message) throws EmptyCommandException, CommandValidationException, CommandParsingException {
-        DefaultCommandValidator.getInstance().validate(message.getText());
-        Command command = DefaultCommandParser.getInstance().parse(message.getText());
+        var messageText = message.getText();
+        var commandValidator = DefaultCommandValidator.getInstance();
+        Command command = null;
+        if (commandValidator.isCommand(messageText)) {
+            commandValidator.validate(messageText);
+            command = DefaultCommandParser.getInstance().parse(messageText);
+        }
 
         return new TelegramMessage(message.getMessageId(), command);
     }

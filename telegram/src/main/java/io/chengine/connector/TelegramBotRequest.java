@@ -5,11 +5,11 @@ import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.EmptyCommandException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramBotRequest implements BotRequest{
+public class TelegramBotRequest implements BotRequest {
 
-    private User<Integer> user;
-    private Message<?> message;
-    private Chat<Long> chat;
+    private final User<Integer> user;
+    private final Message<?> message;
+    private final Chat<Long> chat;
 
     public TelegramBotRequest(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
         this.user = new TelegramUser(update.getMessage().getFrom());
@@ -18,7 +18,7 @@ public class TelegramBotRequest implements BotRequest{
     }
 
 	@Override
-    public BotClientIdentifier identifier() {
+    public BotApiIdentifier identifier() {
         return () -> "telegram";
     }
 
@@ -35,5 +35,14 @@ public class TelegramBotRequest implements BotRequest{
     @Override
     public Chat<?> chat() {
         return chat;
+    }
+
+    @Override
+    public String toString() {
+        return "TelegramBotRequest{" +
+                "user=" + user +
+                ", message=" + message +
+                ", chat=" + chat +
+                '}';
     }
 }
