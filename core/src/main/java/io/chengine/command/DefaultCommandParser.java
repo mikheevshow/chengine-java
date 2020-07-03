@@ -12,7 +12,7 @@ public class DefaultCommandParser implements CommandParser {
 	private final CommandValidator commandValidator = new DefaultCommandValidator();
 	private static volatile CommandParser COMMAND_PARSER = new DefaultCommandParser();
 
-	public static CommandParser getInstance() {
+	public static CommandParser instance() {
 		CommandParser commandParser = COMMAND_PARSER;
 		if(COMMAND_PARSER == null) {
 			synchronized (CommandValidator.class) {

@@ -21,11 +21,11 @@ public class TelegramMessage implements Message<Integer> {
 
     static public TelegramMessage create(org.telegram.telegrambots.meta.api.objects.Message message) throws EmptyCommandException, CommandValidationException, CommandParsingException {
         var messageText = message.getText();
-        var commandValidator = DefaultCommandValidator.getInstance();
+        var commandValidator = DefaultCommandValidator.instance();
         Command command = null;
         if (commandValidator.isCommand(messageText)) {
             commandValidator.validate(messageText);
-            command = DefaultCommandParser.getInstance().parse(messageText);
+            command = DefaultCommandParser.instance().parse(messageText);
         }
 
         return new TelegramMessage(message.getMessageId(), command);

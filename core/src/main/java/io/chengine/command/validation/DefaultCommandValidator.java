@@ -1,7 +1,5 @@
 package io.chengine.command.validation;
 
-import io.chengine.command.Command;
-
 import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -13,7 +11,7 @@ public class DefaultCommandValidator implements CommandValidator {
 	private final static long MAX_COMMAND_LENGTH = 64;
 	private static volatile CommandValidator COMMAND_VALIDATOR;
 
-	public static CommandValidator getInstance() {
+	public static CommandValidator instance() {
 		CommandValidator commandValidator = COMMAND_VALIDATOR;
 		if(COMMAND_VALIDATOR == null) {
 			synchronized (CommandValidator.class) {
