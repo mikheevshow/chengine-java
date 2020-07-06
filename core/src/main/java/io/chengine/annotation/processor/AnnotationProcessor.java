@@ -2,11 +2,17 @@ package io.chengine.annotation.processor;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public interface AnnotationProcessor<T, G> {
 
     Collection<Class<? extends Annotation>> supports();
 
-    T process(G input);
+    void process(T input, Consumer<G> processingCallback) throws Exception;
+
+    default void process(T input) throws Exception {
+        process(input, callback -> {});
+    }
 
 }

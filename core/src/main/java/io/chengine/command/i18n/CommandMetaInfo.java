@@ -13,6 +13,10 @@ public class CommandMetaInfo {
         this.localizationsMap = localizationsMap;
     }
 
+    public void put(Locale locale, String localization) {
+        localizationsMap.put(locale,localization);
+    }
+
     @Nullable
     public String getLocalization(final Locale locale) {
         return localizationsMap == null ? null : localizationsMap.get(locale);

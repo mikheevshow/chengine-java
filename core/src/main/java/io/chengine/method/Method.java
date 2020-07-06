@@ -1,8 +1,13 @@
 package io.chengine.method;
 
+import io.chengine.connector.BotApiIdentifier;
+
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -14,8 +19,13 @@ public class Method {
     private final java.lang.reflect.Method method;
     private final Object object;
     private final Class<?> objectClass;
+    private final Map<String, Boolean> apiAccessMap;
 
-    public static Method of(@Nonnull java.lang.reflect.Method method, @Nonnull Object object) {
+    public static Method of(
+            @Nonnull java.lang.reflect.Method method,
+            @Nonnull Object object,
+            @Nullable Map<String, Boolean> apiAccessMap
+    ) {
 
         Objects.requireNonNull(method, "Method can't be null");
         Objects.requireNonNull(object, "Object can't be null");
@@ -28,13 +38,14 @@ public class Method {
             throw new RuntimeException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
-        return new Method(method, object);
+        return new Method(method, object, Objects.requireNonNullElse(apiAccessMap, new HashMap<>()));
     }
 
-    private Method(java.lang.reflect.Method method, Object object) {
+    private Method(java.lang.reflect.Method method, Object object, Map<String, Boolean> apiAccessMap) {
         this.method = method;
         this.object = object;
         this.objectClass = object.getClass();
+        this.apiAccessMap = apiAccessMap;
     }
 
     public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
@@ -77,6 +88,15 @@ public class Method {
     public boolean belongsTo(Class<?> clazz) {
         return clazz != null && objectClass.isAssignableFrom(clazz);
     }
+
+    public boolean availableForBotApi(BotApiIdentifier botApiIdentifier) {
+        return availableForBotApi(botApiIdentifier.identifier());
+    }
+
+    public boolean availableForBotApi(String botApiIdentifier) {
+        return apiAccessMap.getOrDefault(botApiIdentifier, false);
+    }
+
 
     @Override
     public boolean equals(Object o) {

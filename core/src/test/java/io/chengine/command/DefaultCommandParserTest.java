@@ -39,7 +39,7 @@ public class DefaultCommandParserTest {
 		"///",
 		"###",
 		"command",
-		"/thiscommandmuchmorethanthirtytwosymbols"
+		"/thiscommandmuchmorethanthirtytwosymbolsandmuchmorethansixtyfoursymbols"
 	})
 	public void failedParse2(String command) {
 		assertThrows(CommandValidationException.class, () -> defaultCommandParser.parse(command));
