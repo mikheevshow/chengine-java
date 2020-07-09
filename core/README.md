@@ -18,7 +18,7 @@ The central part of chengine is a ChengineHandlerContext class
 #### Creation of command handlers
 
 ```java
-import io.chengine.connector.BotRequest;
+import io.chengine.annotation.HandleCommand;import io.chengine.connector.BotRequest;
 import io.chengine.annotation.CommandParameter;
 import io.chengine.springframework.stereotype.ComponentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class SomeHandler {
     this.someAnotherService = someAnotherService;
   }
 
-  @Command("/id#/info")
+  @HandleCommand("/id#/info")
   public BotResponse someHandleMethod(@CommandParameter("id") final Long id, final BotRequest botRequest) {
     // Do some actions
   }
