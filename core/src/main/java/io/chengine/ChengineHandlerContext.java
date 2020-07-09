@@ -85,90 +85,6 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		registerHandlers(Collections.singletonList(handler));
 	}
 
-	/**
-	 *
-	 */
-//	public void registerHandlerClass(final Object handler) {
-//		try {
-//			Objects.requireNonNull(handler, "handler object can't be null");
-//			final Class<?> handlerClass = handler.getClass();
-//			final Annotation[] handlerClassAnnotations = handlerClass.getDeclaredAnnotations();
-//			final Annotation annotationHandler = findHandlerAnnotationRecursively(handlerClassAnnotations);
-//			if (annotationHandler == null) {
-//				throw new HandlerCreationException(String.format(CLASS_NOT_ANNOTATED_MESSAGE, Handler.class.getCanonicalName(), handlerClass.getCanonicalName()));
-//			}
-//
-//			String handlerAnnotationCommandPath = "";
-//			for (var annotation : handlerClassAnnotations) {
-//				if (isHandler(annotation)) {
-//					Method valueMethod = annotation.annotationType().getMethod("value");
-//					handlerAnnotationCommandPath = valueMethod.invoke(annotation).toString();
-//					break;
-//				} else if (annotatedByHandler(annotation)) { // See contract about inheritance of Handler annotation
-//					Method valueMethod = annotation.annotationType().getMethod("command");
-//					handlerAnnotationCommandPath = valueMethod.invoke(annotation).toString();
-//					break;
-//				}
-//			}
-//
-//			String finalHandlerAnnotationCommandPath = handlerAnnotationCommandPath;
-//
-//			Arrays
-//				.stream(handler.getClass().getMethods())
-//				.filter(method -> method.getAnnotation(HandleCommand.class) != null)
-//				.forEach(method -> {
-//					Annotation annotation = method.getAnnotation(HandleCommand.class);
-//					try {
-//						Method valueMethod = annotation.annotationType().getMethod("value");
-//						String annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
-//						String fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
-//
-//						Annotation descriptionAnnotation = method.getAnnotation(CommandDescription.class);
-//						if(Objects.nonNull(descriptionAnnotation)) {
-//							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
-//							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
-//
-//							Arrays
-//									.stream(descriptions)
-//									.forEach(str -> {
-//										String delimiter = " : ";
-//										int delimiterPos = str.indexOf(delimiter);
-//
-//										Map<String, String> localeDescription =
-//												commandDescriptions.getOrDefault(fullMethodCommandPathTemplate, new HashMap<>());
-//										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
-//
-//										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
-//									});
-//						}
-//
-//						if ("".equals(fullMethodCommandPathTemplate)) {
-//							throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
-//						}
-//
-//						if (commandMethodMap.containsKey(fullMethodCommandPathTemplate)) {
-//							throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
-//						}
-//
-//						//defaultCommandValidator.validateCommandTemplate(fullMethodCommandPathTemplate);
-//
-//						commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler));
-//
-//					} catch (Exception ex) {
-//						//log.error(ex.getMessage(), ex);
-//					}
-//				});
-//
-//
-//			//log.info(commandHandlerMap.toString());
-//			// Process registration
-//
-//			//log.info(String.format(HANDLER_CLASS_REGISTERED_MESSAGE, handlerClass.getCanonicalName(), this));
-//		} catch (Exception ex) {
-//			//log.error(ex.getMessage(), ex);
-//		}
-//	}
-
 
 	//****************************************************************************************************************
 	//
@@ -208,4 +124,33 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 	//****************************************************************************************************************
 
+	@Nullable
+	private Annotation findHandlerAnnotationRecursively(final Annotation[] annotations) {
+		if (annotations == null || annotations.length == 0)
+			return null;
+
+		for (final Annotation annotation : annotations) {
+			if (isHandler(annotation))
+				return annotation;
+		}
+
+		for (final Annotation annotation : annotations) {
+			Annotation a = findHandlerAnnotationRecursively(annotation.annotationType().getAnnotations());
+			if (a != null)
+				return a;
+		}
+
+		return null;
+	}
+
+	private boolean annotatedByHandler(Annotation annotation) {
+		Annotation[] annotations = annotation.annotationType().getDeclaredAnnotations();
+		Annotation handlerAnnotation = findHandlerAnnotationRecursively(annotations);
+
+		return handlerAnnotation != null;
+	}
+
+	private boolean isHandler(Annotation annotation) {
+		return annotation.annotationType().equals(Handler.class);
+	}
 }

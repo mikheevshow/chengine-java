@@ -4,6 +4,8 @@ import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 import io.chengine.connector.BotApiIdentifier;
 import io.chengine.method.Method;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -15,6 +17,8 @@ import java.util.function.Consumer;
  * Process {@link HandleCommand} annotation.
  */
 public class HandleCommandAnnotationProcessor implements AnnotationProcessor<HandleCommandAnnotationProcessor.Input, HandleCommandAnnotationProcessor.Callback> {
+
+    private final static Logger log = LogManager.getLogger(HandleCommandAnnotationProcessor.class);
 
     //****************************************************************************************************************
 
@@ -47,6 +51,7 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
 
     @Override
     public void process(Input input, Consumer<Callback> processingCallback) throws Exception {
+        log.info(input.handlers);
         for (var handler : input.handlers) {
             var handlerAnnotationCommandPath = "";
             for (var annotation : handler.getClass().getAnnotations()) {
@@ -60,8 +65,38 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
                     break;
                 }
             }
+
+            String finalHandlerAnnotationCommandPath = handlerAnnotationCommandPath;
+
+            Arrays
+                    .stream(handler.getClass().getMethods())
+                    .filter(method -> method.getAnnotation(HandleCommand.class) != null)
+                    .forEach(method -> {
+                        Annotation annotation = method.getAnnotation(HandleCommand.class);
+                        try {
+                            var valueMethod = annotation.annotationType().getMethod("value");
+                            var annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
+                            var fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
+
+
+                            if ("".equals(fullMethodCommandPathTemplate)) {
+                                throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
+                            }
+
+                            if (input.commandMethodMap.containsKey(fullMethodCommandPathTemplate)) {
+                                throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
+                            }
+
+                            input.commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler, null));
+                        } catch (Exception ex) {
+                            log.error(ex.getMessage(), ex);
+                        }
+
+                    });
+
+
+            processingCallback.accept(new Callback());
         }
-        processingCallback.accept(new Callback());
     }
 
     @Nullable

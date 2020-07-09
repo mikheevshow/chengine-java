@@ -46,6 +46,26 @@ public class CommandDescriptionAnnotationProcessor implements AnnotationProcesso
 
     @Override
     public void process(Input input, Consumer<Callback> processingCallback) {
+        // just do nothing for now
+
+        //						Annotation descriptionAnnotation = method.getAnnotation(CommandDescription.class);
+//						if(Objects.nonNull(descriptionAnnotation)) {
+//							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
+//							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
+//
+//							Arrays
+//									.stream(descriptions)
+//									.forEach(str -> {
+//										String delimiter = " : ";
+//										int delimiterPos = str.indexOf(delimiter);
+//
+//										Map<String, String> localeDescription =
+//												commandDescriptions.getOrDefault(fullMethodCommandPathTemplate, new HashMap<>());
+//										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
+//
+//										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
+//									});
+//						}
 
         processingCallback.accept(new Callback());
     }
