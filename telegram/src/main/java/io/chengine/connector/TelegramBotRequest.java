@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramBotRequest implements BotRequest {
 
-    private final BotApiIdentifier botApiIdentifier = new TelegramBotApiIdentifier();
     private final User<Integer> user;
     private final Message<?> message;
     private final Chat<Long> chat;
@@ -21,7 +20,7 @@ public class TelegramBotRequest implements BotRequest {
 
 	@Override
     public BotApiIdentifier identifier() {
-        return this.botApiIdentifier;
+        return TelegramBotApiIdentifier.instance();
     }
 
     @Override

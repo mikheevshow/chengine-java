@@ -68,32 +68,25 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
 
             String finalHandlerAnnotationCommandPath = handlerAnnotationCommandPath;
 
-            Arrays
-                    .stream(handler.getClass().getMethods())
-                    .filter(method -> method.getAnnotation(HandleCommand.class) != null)
-                    .forEach(method -> {
-                        Annotation annotation = method.getAnnotation(HandleCommand.class);
-                        try {
-                            var valueMethod = annotation.annotationType().getMethod("value");
-                            var annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
-                            var fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
+            for (var method : handler.getClass().getMethods()) {
+                var annotation = method.getAnnotation(HandleCommand.class);
+                if (annotation != null) {
+                    var valueMethod = annotation.annotationType().getMethod("value");
+                    var annotationCommandPathTemplate = valueMethod.invoke(annotation).toString();
+                    var fullMethodCommandPathTemplate = finalHandlerAnnotationCommandPath + annotationCommandPathTemplate;
 
 
-                            if ("".equals(fullMethodCommandPathTemplate)) {
-                                throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
-                            }
+                    if ("".equals(fullMethodCommandPathTemplate)) {
+                        throw new RuntimeException("Command annotation value can't be empty if Handler annotation value is empty in class " + handler.getClass().getCanonicalName());
+                    }
 
-                            if (input.commandMethodMap.containsKey(fullMethodCommandPathTemplate)) {
-                                throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
-                            }
+                    if (input.commandMethodMap.containsKey(fullMethodCommandPathTemplate)) {
+                        throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
+                    }
 
-                            input.commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler, null));
-                        } catch (Exception ex) {
-                            log.error(ex.getMessage(), ex);
-                        }
-
-                    });
-
+                    input.commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler, null));
+                }
+            }
 
             processingCallback.accept(new Callback());
         }

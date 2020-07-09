@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class DefaultCommandValidator implements CommandValidator {
 
-	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#[a-z0-9]+)?)+");
+	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#([a-z0-9]+)?)?)+");
 	private final static long MAX_COMMAND_LENGTH = 64;
 	private static volatile CommandValidator COMMAND_VALIDATOR;
 

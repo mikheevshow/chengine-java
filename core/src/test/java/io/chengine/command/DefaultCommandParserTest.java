@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DefaultCommandParserTest {
 
-	private final DefaultCommandParser defaultCommandParser = new DefaultCommandParser();
+	private final CommandParser defaultCommandParser = DefaultCommandParser.instance();
 
 	@ParameterizedTest
 	@ValueSource(strings = {
@@ -28,8 +28,6 @@ public class DefaultCommandParserTest {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-		"/hello#",
-		"/hello#/some",
 		"/hello##/some",
 		"/hello#//some",
 		"/hello/some##",
@@ -102,6 +100,28 @@ public class DefaultCommandParserTest {
 			() -> assertEquals(1, command.getParamSet().size()),
 			() -> assertNull(command.getParam("someParam")),
 			() -> assertTrue(command.hasParams())
+		);
+	}
+
+	@Test
+	@SneakyThrows
+	public void parseCorrectTest5() {
+		var command = defaultCommandParser.parse("/hello#");
+		assertAll(
+				() -> assertEquals("/hello#", command.path()),
+				() -> assertEquals(1, command.getParamSet().size()),
+				() -> assertEquals("", command.getParam("hello"))
+		);
+	}
+
+	@Test
+	@SneakyThrows
+	public void parseCorrectTest6() {
+		var command = defaultCommandParser.parse("/hello#/some");
+		assertAll(
+				() -> assertEquals("/hello#/some", command.path()),
+				() -> assertEquals(1, command.getParamSet().size()),
+				() -> assertEquals("", command.getParam("hello"))
 		);
 	}
 }

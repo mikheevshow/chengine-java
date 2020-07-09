@@ -12,8 +12,13 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramBotMessagingConnector implements BotMessagingConnector<Update> {
 
-	private final CommandValidator commandValidator = new DefaultCommandValidator();
-	private final CommandParser commandParser = new DefaultCommandParser();
+	private final CommandValidator commandValidator = DefaultCommandValidator.instance();
+	private final CommandParser commandParser = DefaultCommandParser.instance();
+
+	@Override
+	public BotApiIdentifier identifier() {
+		return TelegramBotApiIdentifier.instance();
+	}
 
 	@Override
 	public boolean doesPlainTextSupport() {
@@ -34,7 +39,7 @@ public class TelegramBotMessagingConnector implements BotMessagingConnector<Upda
 	@Override
 	public boolean isCommand(Update update) {
 		var message = update.getMessage();
-		return message != null && message.isCommand();
+		return message != null && (message.isCommand() || commandValidator.isCommand(message.getText()));
 	}
 
 	@Override
