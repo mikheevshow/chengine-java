@@ -30,8 +30,8 @@ public @interface HandleCommand {
 
 	String value() default "";
 
-	Class<? extends BotApiIdentifier>[] canBeHandledBy() default BotApiIdentifier.class;
+	Class<? extends BotApiIdentifier>[] onlyFor() default BotApiIdentifier.class;
 
-	Class<? extends BotApiIdentifier>[] canBeHandledByAllExcept() default BotApiIdentifier.class;
+	Class<? extends BotApiIdentifier>[] forAllExcept() default BotApiIdentifier.class;
 
 }

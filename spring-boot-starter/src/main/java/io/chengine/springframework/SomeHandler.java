@@ -19,7 +19,7 @@ public class SomeHandler {
     @SneakyThrows
     public static void main(String[] args) {
         var anno = SomeHandler.class.getMethod("someMethod", String.class, String.class, User.class).getAnnotation(HandleCommand.class);
-        var api = anno.canBeHandledBy()[0];
+        var api = anno.onlyFor()[0];
         //System.out.println(api.is);
         //System.out.println(((BotApiIdentifier) api.getDeclaredConstructors()[0].newInstance()).identifier());
     }

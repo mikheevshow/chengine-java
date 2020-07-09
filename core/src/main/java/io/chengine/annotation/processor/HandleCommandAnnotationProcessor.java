@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 /**
  * Process {@link HandleCommand} annotation.
  */
-public class HandleCommandAnnotationProcessor implements AnnotationProcessor<HandleCommandAnnotationProcessor.Input, HandleCommandAnnotationProcessor.Callback> {
+public class HandleCommandAnnotationProcessor implements AnnotationProcessor<HandleCommandAnnotationProcessor.Input, Object> {
 
     private final static Logger log = LogManager.getLogger(HandleCommandAnnotationProcessor.class);
 
@@ -40,8 +40,6 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
 
     }
 
-    public static final class Callback {}
-
     //****************************************************************************************************************
 
     @Override
@@ -50,8 +48,8 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
     }
 
     @Override
-    public void process(Input input, Consumer<Callback> processingCallback) throws Exception {
-        log.info(input.handlers);
+    public void process(Input input, Consumer<Object> processingCallback) throws Exception {
+
         for (var handler : input.handlers) {
             var handlerAnnotationCommandPath = "";
             for (var annotation : handler.getClass().getAnnotations()) {
@@ -84,11 +82,13 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
                         throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
                     }
 
-                    input.commandMethodMap.put(fullMethodCommandPathTemplate, io.chengine.method.Method.of(method, handler, null));
+                    var chengineMethod = io.chengine.method.Method.of(method, handler);
+                    input.commandMethodMap.put(fullMethodCommandPathTemplate, chengineMethod);
+                    input.methodPathMap.put(chengineMethod.get(), fullMethodCommandPathTemplate);
                 }
             }
 
-            processingCallback.accept(new Callback());
+            processingCallback.accept(null);
         }
     }
 
@@ -137,8 +137,8 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
     }
 
     private boolean skip(@Nonnull HandleCommand handleCommand) {
-        var includeOnly = handleCommand.canBeHandledBy();
-        var includeAllExcept = handleCommand.canBeHandledByAllExcept();
+        var includeOnly = handleCommand.onlyFor();
+        var includeAllExcept = handleCommand.forAllExcept();
         return doesntProcess(includeOnly) && doesntProcess(includeAllExcept);
     }
 

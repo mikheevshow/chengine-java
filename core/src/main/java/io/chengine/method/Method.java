@@ -19,12 +19,10 @@ public class Method {
     private final java.lang.reflect.Method method;
     private final Object object;
     private final Class<?> objectClass;
-    private final Map<String, Boolean> apiAccessMap;
 
     public static Method of(
             @Nonnull java.lang.reflect.Method method,
-            @Nonnull Object object,
-            @Nullable Map<String, Boolean> apiAccessMap
+            @Nonnull Object object
     ) {
 
         Objects.requireNonNull(method, "Method can't be null");
@@ -38,14 +36,13 @@ public class Method {
             throw new RuntimeException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
-        return new Method(method, object, Objects.requireNonNullElse(apiAccessMap, new HashMap<>()));
+        return new Method(method, object);
     }
 
-    private Method(java.lang.reflect.Method method, Object object, Map<String, Boolean> apiAccessMap) {
+    private Method(java.lang.reflect.Method method, Object object) {
         this.method = method;
         this.object = object;
         this.objectClass = object.getClass();
-        this.apiAccessMap = apiAccessMap;
     }
 
     public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
@@ -88,15 +85,6 @@ public class Method {
     public boolean belongsTo(Class<?> clazz) {
         return clazz != null && objectClass.isAssignableFrom(clazz);
     }
-
-    public boolean availableForBotApi(BotApiIdentifier botApiIdentifier) {
-        return availableForBotApi(botApiIdentifier.identifier());
-    }
-
-    public boolean availableForBotApi(String botApiIdentifier) {
-        return apiAccessMap.getOrDefault(botApiIdentifier, false);
-    }
-
 
     @Override
     public boolean equals(Object o) {

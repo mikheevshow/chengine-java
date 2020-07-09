@@ -1,6 +1,7 @@
 package io.chengine.command.i18n;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -11,6 +12,10 @@ public class CommandMetaInfo {
 
     public CommandMetaInfo(Map<Locale, String> localizationsMap) {
         this.localizationsMap = localizationsMap;
+    }
+
+    public CommandMetaInfo() {
+        localizationsMap = new HashMap<>();
     }
 
     public void put(Locale locale, String localization) {

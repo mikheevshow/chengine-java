@@ -4,6 +4,7 @@ import io.chengine.annotation.CommandDescription;
 import io.chengine.annotation.CommandParameter;
 import io.chengine.annotation.HandleCommand;
 import io.chengine.connector.Message;
+import io.chengine.connector.TelegramBotApiIdentifier;
 import io.chengine.connector.User;
 import io.chengine.springframework.stereotype.ComponentHandler;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @ComponentHandler
 public class StartHandler {
 
-    @HandleCommand("/test")
+    @HandleCommand(value = "/test", onlyFor = TelegramBotApiIdentifier.class)
     @CommandDescription(description = {
             "RU : Команда для теста",
             "EN : The command for test"})

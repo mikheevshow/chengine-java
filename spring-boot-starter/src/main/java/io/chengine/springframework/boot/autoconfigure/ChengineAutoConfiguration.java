@@ -1,7 +1,7 @@
 package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.ChengineConfiguration;
-import io.chengine.ChengineHandlerContext;
+import io.chengine.context.ChengineHandlerContext;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
 import io.chengine.springframework.provider.SpringHandlerProvider;

@@ -5,15 +5,13 @@ import io.chengine.command.i18n.CommandMetaInfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
  *
  */
-public class CommandDescriptionAnnotationProcessor implements AnnotationProcessor<CommandDescriptionAnnotationProcessor.Input, CommandDescriptionAnnotationProcessor.Callback> {
+public class CommandDescriptionAnnotationProcessor implements AnnotationProcessor<CommandDescriptionAnnotationProcessor.Input, Object> {
 
     //****************************************************************************************************************
 
@@ -45,28 +43,28 @@ public class CommandDescriptionAnnotationProcessor implements AnnotationProcesso
     }
 
     @Override
-    public void process(Input input, Consumer<Callback> processingCallback) {
-        // just do nothing for now
+    public void process(Input input, Consumer<Object> processingCallback) throws Exception {
 
-        //						Annotation descriptionAnnotation = method.getAnnotation(CommandDescription.class);
-//						if(Objects.nonNull(descriptionAnnotation)) {
-//							Method descriptionMethod = descriptionAnnotation.annotationType().getMethod("description");
-//							String[] descriptions = (String[]) descriptionMethod.invoke(descriptionAnnotation);
-//
-//							Arrays
-//									.stream(descriptions)
-//									.forEach(str -> {
-//										String delimiter = " : ";
-//										int delimiterPos = str.indexOf(delimiter);
-//
-//										Map<String, String> localeDescription =
-//												commandDescriptions.getOrDefault(fullMethodCommandPathTemplate, new HashMap<>());
-//										localeDescription.put(str.substring(0, delimiterPos), str.substring(delimiter.length() + delimiterPos));
-//
-//										commandDescriptions.put(fullMethodCommandPathTemplate, localeDescription);
-//									});
-//						}
+        for (var handler : input.handlers) {
+            for (var method : handler.getClass().getMethods()) {
+                var descriptionAnnotation = method.getAnnotation(CommandDescription.class);
+                if (descriptionAnnotation != null) {
+                    var description = descriptionAnnotation.annotationType().getMethod("description");
+                    var descriptions = (String[]) description.invoke(descriptionAnnotation);
+                    var commandMetaInfo = new CommandMetaInfo();
+                    for (var localization : descriptions) {
+                        var delimiter = " : ";
+                        var delimiterPosition = localization.indexOf(" : ");
+                        var locale = localization.substring(0, delimiterPosition);
+                        var localizedDescription = localization.substring(delimiter.length() + delimiterPosition);
+                        commandMetaInfo.put(new Locale(locale), localizedDescription);
+                    }
+                    var commandPath = input.methodPathMap.get(method);
+                    input.commandCommandMetaInfoMap.put(commandPath, commandMetaInfo);
+                }
+            }
+        }
 
-        processingCallback.accept(new Callback());
+        processingCallback.accept(null);
     }
 }

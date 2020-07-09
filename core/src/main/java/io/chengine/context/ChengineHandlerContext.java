@@ -1,5 +1,8 @@
-package io.chengine;
+package io.chengine.context;
 
+import io.chengine.ChengineConfiguration;
+import io.chengine.HandlerCreationException;
+import io.chengine.HandlerRegistry;
 import io.chengine.annotation.Handler;
 import io.chengine.annotation.Mutates;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
