@@ -64,9 +64,12 @@ public class SomeHandler {
     this.someAnotherService = someAnotherService;
   }
 
-  @Command("/id#/info")
-  public BotResponse someHandleMethod(@CommandParameter("id") final Long id, final BotRequest botRequest) {
-    // Do some actions
+  @HandleCommand("/id#/info")
+  public Edit editMessage(@CommandParameter("id") final Long id, final Message<?> message) {
+    return Edit
+                .message(message)
+                .setText(someAnotherService.getInfoAboutProduct(id))
+                .done();
   }
 }
 ```
