@@ -48,8 +48,8 @@ public class HelloWorld {
 
 #### Creation of command handlers
 
-Basically chengine command handlers looks like Spring MVC rest controllers. You should annotate class by @ComponentHanler annotation, then
-it will be founded by spring context. If you want to make the same command prefix for all methods inside handler, just use @CommandMapping annotation.
+Basically chengine command handlers looks like Spring MVC rest controllers. You should annotate class by @ComponentHandler annotation, then
+it will be found by spring context. If you want to make the same command prefix for all methods inside handler, just use @CommandMapping annotation.
 
 ```java
 
