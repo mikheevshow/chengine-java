@@ -1,12 +1,9 @@
 package io.chengine;
 
-import io.chengine.command.validation.CommandValidator;
-import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.TelegramBotRequest;
 import io.chengine.processor.MessageProcessor;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramMessageProcessor implements MessageProcessor<Update, BotResponse> {

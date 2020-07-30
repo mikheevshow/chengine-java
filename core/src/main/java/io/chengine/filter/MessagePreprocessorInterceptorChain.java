@@ -6,11 +6,11 @@ import io.chengine.connector.BotResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageInterceptorChain implements MessageProcessor<BotRequest, BotResponse> {
+public class MessagePreprocessorInterceptorChain implements MessageProcessor<BotRequest, BotResponse> {
 
     private final List<MessageProcessor<BotRequest, BotResponse>> interceptors;
 
-    private MessageInterceptorChain(List<MessageProcessor<BotRequest, BotResponse>> interceptors) {
+    private MessagePreprocessorInterceptorChain(List<MessageProcessor<BotRequest, BotResponse>> interceptors) {
         this.interceptors = interceptors;
     }
 
@@ -27,8 +27,8 @@ public class MessageInterceptorChain implements MessageProcessor<BotRequest, Bot
             return this;
         }
 
-        public MessageInterceptorChain build() {
-            return new MessageInterceptorChain(interceptors);
+        public MessagePreprocessorInterceptorChain build() {
+            return new MessagePreprocessorInterceptorChain(interceptors);
         }
 
     }

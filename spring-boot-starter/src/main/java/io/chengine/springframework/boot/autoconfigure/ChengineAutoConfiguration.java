@@ -28,7 +28,7 @@ public class ChengineAutoConfiguration {
 
 	@Bean
 	public ResponseResolver responseResolver() {
-		return new ReturnResponseProcessor();
+		return new MethodReturnedTypeProcessor();
 	}
 
 	@Bean

@@ -37,7 +37,7 @@ public class TelegramMessage implements Message<Integer> {
     }
 
     @Override
-    public boolean isCommand() {
+    public boolean containsCommand() {
         return Objects.nonNull(command);
     }
 

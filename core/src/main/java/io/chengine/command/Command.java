@@ -2,6 +2,7 @@ package io.chengine.command;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Command {
 
@@ -17,7 +18,7 @@ public class Command {
 		}
 	}
 
-	static class CommandBuilder {
+	public static class CommandBuilder {
 
 		private final Map<String, String> parameterMap = new LinkedHashMap<>();
 

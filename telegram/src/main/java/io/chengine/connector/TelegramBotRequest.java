@@ -5,16 +5,22 @@ import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.EmptyCommandException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 public class TelegramBotRequest implements BotRequest {
 
+    private final boolean isCallback;
     private final User<Integer> user;
     private final Message<?> message;
     private final Chat<Long> chat;
+    ConcurrentHashMap
 
 
     public TelegramBotRequest(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
         this.user = new TelegramUser(update.getMessage().getFrom());
-        this.message = TelegramMessage.create(update.getMessage());
+        var callback = update.getCallbackQuery();
+        this.isCallback = callback != null;
+        this.message = callback != null ? TelegramMessage.create(callback.getMessage()) : TelegramMessage.create(update.getMessage());
         this.chat = new TelegramChat(update.getMessage().getChatId());
     }
 
@@ -36,6 +42,11 @@ public class TelegramBotRequest implements BotRequest {
     @Override
     public Chat<?> chat() {
         return chat;
+    }
+
+    @Override
+    public boolean isCallback() {
+        return isCallback;
     }
 
     @Override

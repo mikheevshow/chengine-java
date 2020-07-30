@@ -1,6 +1,7 @@
 package io.chengine.connector;
 
 public class BotResponse {
+
     private Long chatId;
     private String message;
 

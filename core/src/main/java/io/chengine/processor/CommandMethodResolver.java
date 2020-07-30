@@ -4,7 +4,6 @@ import io.chengine.HandlerRegistry;
 import io.chengine.connector.BotRequest;
 import io.chengine.handler.HandlerNotFoundException;
 import io.chengine.method.Method;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CommandMethodResolver implements MethodResolver {
 

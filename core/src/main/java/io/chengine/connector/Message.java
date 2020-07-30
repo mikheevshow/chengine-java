@@ -6,7 +6,7 @@ public interface Message<Identifier> {
 
 	Identifier id();
 
-	boolean isCommand();
+	boolean containsCommand();
 
 	Command command();
 

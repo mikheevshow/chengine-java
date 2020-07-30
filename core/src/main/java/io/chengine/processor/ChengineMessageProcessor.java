@@ -22,7 +22,6 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 
 	@Override
 	public void process(BotRequest request, BotResponse response) {
-		log.info("Request " + request.toString());
 		var method = methodResolver.resolve(request);
 		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
 		responseResolver.resolve(request, response, method.invoke(methodArguments));

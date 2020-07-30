@@ -16,7 +16,7 @@ public class ChengineMethodSecurityProxy implements MessageProcessor<BotRequest,
 
     @Override
     public void process(BotRequest request, BotResponse response) throws Exception {
-        if (request.message().isCommand() && !securityContext.methodAvailableForApi(request.identifier())) {
+        if (request.message().containsCommand() && !securityContext.methodAvailableForApi(request.identifier())) {
             throw new RuntimeException("Метод не доступен");
         }
         chengineMessageProcessor.process(request, response);
