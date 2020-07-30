@@ -48,13 +48,13 @@ public class HelloWorld {
 
 #### Creation of command handlers
 
-```java
-import io.chengine.connector.BotRequest;
-import io.chengine.annotation.CommandParameter;
-import io.chengine.springframework.stereotype.ComponentHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+Basically chengine command handlers looks like Spring MVC rest controllers. You should annotate class by `@ComponentHandler` annotation, then
+it will be found by spring context. If you want to make the same command prefix for all methods inside handler, just use `@CommandMapping` annotation.
 
-@ComponentHandler("/command")
+```java
+
+@ComponentHandler
+@CommandMapping("/somecommand")
 public class SomeHandler {
 
   private final SomeAnotherService someAnotherService;
@@ -64,9 +64,12 @@ public class SomeHandler {
     this.someAnotherService = someAnotherService;
   }
 
-  @Command("/id#/info")
-  public BotResponse someHandleMethod(@CommandParameter("id") final Long id, final BotRequest botRequest) {
-    // Do some actions
+  @HandleCommand("/id#/info")
+  public Edit editMessage(@CommandParameter("id") final Long id, final Message<?> message) {
+    return Edit
+                .message(message)
+                .setText(someAnotherService.getInfoAboutProduct(id))
+                .done();
   }
 }
 ```
