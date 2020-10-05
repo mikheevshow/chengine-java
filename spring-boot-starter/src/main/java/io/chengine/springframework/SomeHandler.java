@@ -34,7 +34,7 @@ public class SomeHandler {
     @HandleCommand("/edit/left")
     public Edit edit(Message<?> message) {
 
-        new HashSet<String>().add();
+//        new HashSet<String>().add();
 
         return Edit.message(message)
                 .setText("Новая акция")
