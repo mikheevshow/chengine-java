@@ -14,9 +14,9 @@ public class InlineKeyboard extends Keyboard {
         this.rows = rows;
     }
 
-    public static InlineKeyboardBuilder builder() {
-       // return new InlineKeyboardBuilder();
-    }
+//    public static InlineKeyboardBuilder builder() {
+//       // return new InlineKeyboardBuilder();
+//    }
 
     public static class InlineKeyboardBuilder {
 

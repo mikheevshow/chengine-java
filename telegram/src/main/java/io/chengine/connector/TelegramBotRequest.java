@@ -5,15 +5,12 @@ import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.EmptyCommandException;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 public class TelegramBotRequest implements BotRequest {
 
     private final boolean isCallback;
     private final User<Integer> user;
     private final Message<?> message;
     private final Chat<Long> chat;
-    ConcurrentHashMap
 
 
     public TelegramBotRequest(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {

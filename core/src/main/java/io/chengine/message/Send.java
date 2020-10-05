@@ -20,9 +20,9 @@ public class Send {
             return this;
         }
 
-        public InlineKeyboardBuilder withInlineKeyboard() {
-            return new InlineKeyboardBuilder();
-        }
+//        public InlineKeyboardBuilder withInlineKeyboard() {
+//            return new InlineKeyboardBuilder();
+//        }
 
         public Send done() {
             return new Send();
