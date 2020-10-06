@@ -15,12 +15,14 @@
       "type": "java.lang.Boolean"
     },
     {
-      "name": "chengine.telegram.tokens",
-      "type": "java.util.ArrayList<String>"
+      "name": "chengine.telegram.token",
+      "type": "java.lang.String",
+      "description": "Put telegram bot token here"
     },
     {
-      "name": "chengine.telegram.usernames",
-      "type": "java.util.ArrayList<String>"
+      "name": "chengine.telegram.username",
+      "type": "java.lang.String",
+      "description": "Put telegram bot username here"
     }
   ],
   "hints": [

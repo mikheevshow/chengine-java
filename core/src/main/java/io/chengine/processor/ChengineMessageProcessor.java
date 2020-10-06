@@ -14,10 +14,18 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 	private final MethodArgumentInspector methodArgumentInspector;
 	private final ResponseResolver responseResolver;
 
-	public ChengineMessageProcessor(MethodResolver methodResolver, MethodArgumentInspector methodArgumentInspector, ResponseResolver responseResolver) {
+	public ChengineMessageProcessor(
+
+			final MethodResolver methodResolver,
+			final MethodArgumentInspector methodArgumentInspector,
+			final ResponseResolver responseResolver
+
+	) {
+
 		this.methodResolver = methodResolver;
 		this.methodArgumentInspector = methodArgumentInspector;
 		this.responseResolver = responseResolver;
+
 	}
 
 	@Override
