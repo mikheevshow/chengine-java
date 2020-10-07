@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChengineTelegramClientAutoConfiguration {
 
-    @Value(" ${chengine.telegram.token} ")
+    @Value("${chengine.telegram.token}")
     private String token;
 
-    @Value(" ${chengine.telegram.username} ")
+    @Value("${chengine.telegram.username}")
     private String username;
 
     @Bean
