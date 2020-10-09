@@ -1,13 +1,8 @@
 package io.chengine.method;
 
-import io.chengine.connector.BotApiIdentifier;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -53,7 +48,7 @@ public class Method {
     public <T> T invoke(Class<T> clazz, Object ... args) {
         try {
             return invokeChecked(clazz, args);
-        } catch (Exception ex) {
+        } catch (InvocationTargetException | IllegalAccessException ex) {
             throw new MethodInvocationException(ex);
         }
     }
