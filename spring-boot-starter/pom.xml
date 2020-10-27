@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>chengine</artifactId>
 		<groupId>io.chengine</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0-alpha-1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -32,13 +32,13 @@
 		<dependency>
 			<groupId>io.chengine</groupId>
 			<artifactId>telegram</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-alpha-1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.chengine</groupId>
 			<artifactId>nlp</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.0-alpha-1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
