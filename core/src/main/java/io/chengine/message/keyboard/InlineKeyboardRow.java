@@ -30,7 +30,7 @@ public class InlineKeyboardRow {
         }
 
         public InlineKeyboardRow build() {
-            return new InlineKeyboardRow(null);
+            return new InlineKeyboardRow(buttons);
         }
 
     }
