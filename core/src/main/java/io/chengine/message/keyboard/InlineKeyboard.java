@@ -1,5 +1,7 @@
 package io.chengine.message.keyboard;
 
+import io.chengine.message.exception.NoSuchButtonException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -9,13 +11,9 @@ public class InlineKeyboard {
     private final List<InlineKeyboardRow> rows;
 
     private InlineKeyboard(
-
             final List<InlineKeyboardRow> rows
-
     ) {
-
         this.rows = rows;
-
     }
 
     public static InlineKeyboardBuilder builder() {
@@ -24,7 +22,7 @@ public class InlineKeyboard {
 
     public static class InlineKeyboardBuilder {
 
-        private List<InlineKeyboardRow> rows = new ArrayList<>();
+        private final List<InlineKeyboardRow> rows = new ArrayList<>();
 
         public InlineKeyboardBuilder addRow(Consumer<InlineKeyboardRow.InlineKeyboardRowBuilder> row) {
             var rowBuilder = new InlineKeyboardRow.InlineKeyboardRowBuilder();
@@ -42,5 +40,16 @@ public class InlineKeyboard {
 
     public List<InlineKeyboardRow> getRows() {
         return rows;
+    }
+
+    public InlineKeyboardButton getButton(int rowIndex, int columnIndex) {
+        if (rowIndex > rows.size() - 1) {
+            throw new NoSuchButtonException("No button at row: " + rowIndex + ", and column: " + columnIndex);
+        }
+        var column = rows.get(rowIndex).getButtons();
+        if (columnIndex > column.size()) {
+            throw new NoSuchButtonException("No button at row: " + rowIndex + ", and column: " + columnIndex);
+        }
+        return column.get(columnIndex);
     }
 }

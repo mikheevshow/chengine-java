@@ -36,6 +36,6 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 	public void process(BotRequest request, BotResponse response) {
 		var method = methodResolver.resolve(request);
 		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
-		responseResolver.resolve(request, response, method.invoke(methodArguments));
+		responseResolver.resolve(request, response, method, method.invoke(methodArguments));
 	}
 }

@@ -20,7 +20,7 @@ public class InlineKeyboardRow {
 
     public static class InlineKeyboardRowBuilder {
 
-        private List<InlineKeyboardButton> buttons = new ArrayList<>();
+        private final List<InlineKeyboardButton> buttons = new ArrayList<>();
 
         public InlineKeyboardRowBuilder addButton(Consumer<InlineKeyboardButtonBuilder> button) {
             var buttonBuilder = new InlineKeyboardButtonBuilder();

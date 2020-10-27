@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  */
 public class HandleCommandAnnotationProcessor implements AnnotationProcessor<HandleCommandAnnotationProcessor.Input, Object> {
 
-    private final static Logger log = LogManager.getLogger(HandleCommandAnnotationProcessor.class);
+    private static final Logger log = LogManager.getLogger(HandleCommandAnnotationProcessor.class);
 
     //****************************************************************************************************************
 
@@ -82,7 +82,8 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
                         throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
                     }
 
-                    var chengineMethod = io.chengine.method.Method.of(method, handler, null);
+                    var methodDefinition = MethodDefinitionCreator.create(method);
+                    var chengineMethod = io.chengine.method.Method.of(method, handler, methodDefinition);
                     input.commandMethodMap.put(fullMethodCommandPathTemplate, chengineMethod);
                     input.methodPathMap.put(chengineMethod.get(), fullMethodCommandPathTemplate);
                 }
