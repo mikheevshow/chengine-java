@@ -35,11 +35,7 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 	@Override
 	public void process(BotRequest request, BotResponse response) {
 		var method = methodResolver.resolve(request);
-		if (securityGuard.methodAvailableForApi(method, request.identifier())) {
-			var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
-			responseResolver.resolve(request, response, method.invoke(methodArguments));
-		} else {
-
-		}
+		var methodArguments = methodArgumentInspector.inspectAndGetArguments(request, method.get());
+		responseResolver.resolve(request, response, method.invoke(methodArguments));
 	}
 }
