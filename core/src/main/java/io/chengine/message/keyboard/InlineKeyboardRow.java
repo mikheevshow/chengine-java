@@ -1,8 +1,8 @@
 package io.chengine.message.keyboard;
 
-import io.chengine.message.Send;
 import io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardButtonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -20,8 +20,17 @@ public class InlineKeyboardRow {
 
     public static class InlineKeyboardRowBuilder {
 
-        public InlineKeyboardRowBuilder add(Consumer<InlineKeyboardButtonBuilder> button) {
+        private List<InlineKeyboardButton> buttons = new ArrayList<>();
+
+        public InlineKeyboardRowBuilder addButton(Consumer<InlineKeyboardButtonBuilder> button) {
+            var buttonBuilder = new InlineKeyboardButtonBuilder();
+            button.accept(buttonBuilder);
+            buttons.add(buttonBuilder.build());
             return this;
+        }
+
+        public InlineKeyboardRow build() {
+            return new InlineKeyboardRow(null);
         }
 
     }

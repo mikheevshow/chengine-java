@@ -1,8 +1,8 @@
 package io.chengine.connector;
 
-public interface User<Identifier> {
+public interface User<I> {
 
-	Identifier id();
+	I id();
 
 	String username();
 

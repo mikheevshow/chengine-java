@@ -82,7 +82,7 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
                         throw new RuntimeException("Duplicate of methods with parameter " + fullMethodCommandPathTemplate);
                     }
 
-                    var chengineMethod = io.chengine.method.Method.of(method, handler);
+                    var chengineMethod = io.chengine.method.Method.of(method, handler, null);
                     input.commandMethodMap.put(fullMethodCommandPathTemplate, chengineMethod);
                     input.methodPathMap.put(chengineMethod.get(), fullMethodCommandPathTemplate);
                 }

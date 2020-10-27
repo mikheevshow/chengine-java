@@ -1,5 +1,7 @@
 package io.chengine.message.keyboard;
 
+import java.util.function.Supplier;
+
 public class InlineKeyboardButton {
 
     private final String text;
@@ -19,14 +21,21 @@ public class InlineKeyboardButton {
         private String text;
         private String data;
 
-        public InlineKeyboardButtonBuilder withText(String text) {
-            this.text = text;
+        public InlineKeyboardButtonBuilder withText(Supplier<String> text) {
+            this.text = text.get();
             return this;
         }
 
-        public InlineKeyboardButtonBuilder withData(String date) {
-            this.data = date;
+        public InlineKeyboardButtonBuilder withData(Supplier<String> data) {
+            this.data = data.get();
             return this;
+        }
+
+        public InlineKeyboardButton build() {
+            return new InlineKeyboardButton(
+                    text,
+                    data
+            );
         }
     }
 

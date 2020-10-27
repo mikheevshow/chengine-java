@@ -18,7 +18,7 @@ public class MethodTest {
     @Test
     public void TestSayHello() throws NoSuchMethodException {
         var someClass = new SomeClass();
-        var method = Method.of(SomeClass.class.getMethod("sayHello"), someClass);
+        var method = Method.of(SomeClass.class.getMethod("sayHello"), someClass, null);
 
         Assertions.assertEquals("Hello", method.invoke(String.class));
     }
@@ -26,7 +26,7 @@ public class MethodTest {
     @Test
     public void TestSayNothing() throws NoSuchMethodException {
         var someClass = new SomeClass();
-        var method = Method.of(SomeClass.class.getMethod("sayNothing"), someClass);
+        var method = Method.of(SomeClass.class.getMethod("sayNothing"), someClass, null);
 
         method.invokeVoid();
 

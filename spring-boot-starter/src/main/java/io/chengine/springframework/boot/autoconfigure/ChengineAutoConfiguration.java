@@ -4,6 +4,8 @@ import io.chengine.ChengineConfiguration;
 import io.chengine.context.ChengineHandlerContext;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
+import io.chengine.security.DefaultSecurityGuard;
+import io.chengine.security.SecurityGuard;
 import io.chengine.springframework.provider.SpringHandlerProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,10 +39,21 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public ChengineMessageProcessor chengineMessageProcessor(CommandMethodResolver commandMethodResolver, MethodArgumentInspector methodArgumentInspector,
-															 ResponseResolver responseResolver) {
+	public ChengineMessageProcessor chengineMessageProcessor(
 
-		return new ChengineMessageProcessor(commandMethodResolver, methodArgumentInspector, responseResolver);
+			CommandMethodResolver commandMethodResolver,
+			MethodArgumentInspector methodArgumentInspector,
+			ResponseResolver responseResolver,
+			SecurityGuard securityGuard
+
+	) {
+
+		return new ChengineMessageProcessor(
+				commandMethodResolver,
+				methodArgumentInspector,
+				responseResolver,
+				securityGuard
+		);
 	}
 
 	@Bean
@@ -50,6 +63,11 @@ public class ChengineAutoConfiguration {
 			.build();
 
 		return new ChengineHandlerContext(configuration);
+	}
+
+	@Bean
+	public SecurityGuard securityGuard() {
+		return new DefaultSecurityGuard();
 	}
 
 }

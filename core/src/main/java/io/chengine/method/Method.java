@@ -14,10 +14,12 @@ public class Method {
     private final java.lang.reflect.Method method;
     private final Object object;
     private final Class<?> objectClass;
+    private final MethodDefinition methodDefinition;
 
     public static Method of(
             @Nonnull java.lang.reflect.Method method,
-            @Nonnull Object object
+            @Nonnull Object object,
+            @Nonnull MethodDefinition methodDefinition
     ) {
 
         Objects.requireNonNull(method, "Method can't be null");
@@ -31,12 +33,13 @@ public class Method {
             throw new RuntimeException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
-        return new Method(method, object);
+        return new Method(method, object, methodDefinition);
     }
 
-    private Method(java.lang.reflect.Method method, Object object) {
+    private Method(java.lang.reflect.Method method, Object object, MethodDefinition methodDefinition) {
         this.method = method;
         this.object = object;
+        this.methodDefinition = methodDefinition;
         this.objectClass = object.getClass();
     }
 
@@ -79,6 +82,10 @@ public class Method {
 
     public boolean belongsTo(Class<?> clazz) {
         return clazz != null && objectClass.isAssignableFrom(clazz);
+    }
+
+    public MethodDefinition definition() {
+        return this.methodDefinition;
     }
 
     @Override

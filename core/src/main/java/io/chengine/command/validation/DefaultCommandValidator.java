@@ -8,22 +8,11 @@ import java.util.regex.Pattern;
 public class DefaultCommandValidator implements CommandValidator {
 
 	private final Pattern commandTemplatePattern = Pattern.compile("(/[a-z0-9]+(#([a-z0-9]+)?)?)+");
-	private final static long MAX_COMMAND_LENGTH = 64;
-	private static volatile CommandValidator COMMAND_VALIDATOR;
+	private static final long MAX_COMMAND_LENGTH = 64;
+	private static final CommandValidator COMMAND_VALIDATOR = new DefaultCommandValidator();
 
 	public static CommandValidator instance() {
-		CommandValidator commandValidator = COMMAND_VALIDATOR;
-		if(COMMAND_VALIDATOR == null) {
-			synchronized (CommandValidator.class) {
-				commandValidator = COMMAND_VALIDATOR;
-
-				if(commandValidator == null) {
-					COMMAND_VALIDATOR = commandValidator = new DefaultCommandValidator();
-				}
-			}
-		}
-
-		return commandValidator;
+		return COMMAND_VALIDATOR;
 	}
 
 	@Override

@@ -1,38 +1,32 @@
 package io.chengine.message.keyboard;
 
-import io.chengine.message.Send;
-import io.chengine.message.keyboard.InlineKeyboardRow.InlineKeyboardRowBuilder;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class InlineKeyboard extends Keyboard {
+public class InlineKeyboard {
 
-    private final List<InlineKeyboardRow> rows;
+    private InlineKeyboard() {}
 
-    public InlineKeyboard(List<InlineKeyboardRow> rows) {
-        this.rows = rows;
+    public static InlineKeyboardBuilder builder() {
+        return new InlineKeyboardBuilder();
     }
-
-//    public static InlineKeyboardBuilder builder() {
-//       // return new InlineKeyboardBuilder();
-//    }
 
     public static class InlineKeyboardBuilder {
 
-        private final Send.MessageBuilder parentBuilder;
+        private List<InlineKeyboardRow> rows = new ArrayList<>();
 
-        public InlineKeyboardBuilder(Send.MessageBuilder parentBuilder) {
-            this.parentBuilder = parentBuilder;
-        }
-
-        public InlineKeyboardBuilder add(Consumer<InlineKeyboardRowBuilder> row) {
+        public InlineKeyboardBuilder addRow(Consumer<InlineKeyboardRow.InlineKeyboardRowBuilder> row) {
+            var rowBuilder = new InlineKeyboardRow.InlineKeyboardRowBuilder();
+            row.accept(rowBuilder);
+            rows.add(rowBuilder.build());
             return this;
         }
 
-        public Send.MessageBuilder then() {
-            return parentBuilder;
+        public InlineKeyboard build() {
+            return new InlineKeyboard();
         }
+
     }
 
 }

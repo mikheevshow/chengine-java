@@ -9,22 +9,11 @@ import java.util.LinkedHashMap;
 
 public class DefaultCommandParser implements CommandParser {
 
-	private final CommandValidator commandValidator = new DefaultCommandValidator();
-	private static volatile CommandParser COMMAND_PARSER = new DefaultCommandParser();
+	private final CommandValidator commandValidator = DefaultCommandValidator.instance();
+	private static final CommandParser COMMAND_PARSER = new DefaultCommandParser();
 
 	public static CommandParser instance() {
-		CommandParser commandParser = COMMAND_PARSER;
-		if(COMMAND_PARSER == null) {
-			synchronized (CommandValidator.class) {
-				commandParser = COMMAND_PARSER;
-
-				if(commandParser == null) {
-					COMMAND_PARSER = commandParser = new DefaultCommandParser();
-				}
-			}
-		}
-
-		return commandParser;
+		return COMMAND_PARSER;
 	}
 
 	/**

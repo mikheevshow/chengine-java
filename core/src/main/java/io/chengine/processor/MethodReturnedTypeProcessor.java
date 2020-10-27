@@ -4,11 +4,15 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.message.Edit;
 import io.chengine.message.Send;
+import io.chengine.method.Method;
 
 public class MethodReturnedTypeProcessor implements ResponseResolver {
     @Override
     public void resolve(BotRequest botRequest, BotResponse botResponse, Object object) {
         var objClass = object.getClass();
+
+        if (objClass.equals(Void.TYPE)) {}
+
         if (Send.class.equals(objClass)) {
 
         } else if (Edit.class.equals(objClass)) {

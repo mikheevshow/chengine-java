@@ -1,10 +1,22 @@
 package io.chengine.message;
 
 import io.chengine.message.keyboard.InlineKeyboard;
-import io.chengine.message.keyboard.InlineKeyboard.InlineKeyboardBuilder;
-import io.chengine.message.keyboard.InlineKeyboardRow.InlineKeyboardRowBuilder;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class Send {
+
+    private final String text;
+    private final InlineKeyboard inlineKeyboard;
+
+    private Send(
+            final String text,
+            final InlineKeyboard inlineKeyboard
+    ) {
+        this.text = text;
+        this.inlineKeyboard = inlineKeyboard;
+    }
 
     public static MessageBuilder message() {
         return new MessageBuilder();
@@ -15,17 +27,23 @@ public class Send {
         private String text;
         private InlineKeyboard inlineKeyboard;
 
-        public MessageBuilder withText(String text) {
-            this.text = text;
+        public MessageBuilder withText(Supplier<String> text) {
+            this.text = text.get();
             return this;
         }
 
-//        public InlineKeyboardBuilder withInlineKeyboard() {
-//            return new InlineKeyboardBuilder();
-//        }
+        public MessageBuilder withInlineKeyboard(Consumer<InlineKeyboard.InlineKeyboardBuilder> inlineKeyboard) {
+            var inlineKeyboardBuilder = InlineKeyboard.builder();
+            inlineKeyboard.accept(inlineKeyboardBuilder);
+            this.inlineKeyboard = inlineKeyboardBuilder.build();
+            return this;
+        }
 
         public Send done() {
-            return new Send();
+            return new Send(
+                    text,
+                    inlineKeyboard
+            );
         }
     }
 
