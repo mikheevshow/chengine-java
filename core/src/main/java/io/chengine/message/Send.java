@@ -47,4 +47,11 @@ public class Send {
         }
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public InlineKeyboard getInlineKeyboard() {
+        return inlineKeyboard;
+    }
 }

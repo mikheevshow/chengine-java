@@ -34,4 +34,8 @@ public class InlineKeyboardRow {
         }
 
     }
+
+    public List<InlineKeyboardButton> getButtons() {
+        return buttons;
+    }
 }

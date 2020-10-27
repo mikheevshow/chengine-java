@@ -4,26 +4,24 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.message.Edit;
 import io.chengine.message.Send;
-import io.chengine.method.Method;
 
 public class MethodReturnedTypeProcessor implements ResponseResolver {
     @Override
     public void resolve(BotRequest botRequest, BotResponse botResponse, Object object) {
         var objClass = object.getClass();
 
-        if (objClass.equals(Void.TYPE)) {}
+        if (objClass.equals(Void.TYPE)) {
 
-        if (Send.class.equals(objClass)) {
-
+        } else if (Send.class.equals(objClass)) {
+            var send = (Send) object;
+            botResponse.setText(send.getText());
+            botResponse.setInlineKeyboard(send.getInlineKeyboard());
         } else if (Edit.class.equals(objClass)) {
 
         } else if (String.class.equals(objClass)) {
-
+            botResponse.setText(object.toString());
         } else {
-        }
 
-        if(object.getClass().equals(String.class)) {
-            botResponse.setMessage(object.toString());
         }
 
         botResponse.setChatId(Long.parseLong(botRequest.chat().id().toString()));

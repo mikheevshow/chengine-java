@@ -6,7 +6,17 @@ import java.util.function.Consumer;
 
 public class InlineKeyboard {
 
-    private InlineKeyboard() {}
+    private final List<InlineKeyboardRow> rows;
+
+    private InlineKeyboard(
+
+            final List<InlineKeyboardRow> rows
+
+    ) {
+
+        this.rows = rows;
+
+    }
 
     public static InlineKeyboardBuilder builder() {
         return new InlineKeyboardBuilder();
@@ -24,9 +34,13 @@ public class InlineKeyboard {
         }
 
         public InlineKeyboard build() {
-            return new InlineKeyboard();
+            return new InlineKeyboard(
+                    rows
+            );
         }
-
     }
 
+    public List<InlineKeyboardRow> getRows() {
+        return rows;
+    }
 }
