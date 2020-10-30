@@ -112,6 +112,9 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
     }
 
     private InlineKeyboard convertMarkupToChengineInlineKeyboard(InlineKeyboardMarkup inlineKeyboardMarkup) {
+        if (inlineKeyboardMarkup == null) {
+            return null;
+        }
         var rows = inlineKeyboardMarkup.getKeyboard();
         if (rows == null) {
             return null;
