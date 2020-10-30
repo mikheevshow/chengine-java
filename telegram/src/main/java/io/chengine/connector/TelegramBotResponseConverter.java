@@ -1,5 +1,6 @@
 package io.chengine.connector;
 
+import io.chengine.util.InlineKeyboardConverter;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -14,35 +15,13 @@ public class TelegramBotResponseConverter implements BotResponseConverter<BotApi
 	public BotApiMethod<?> convert(BotResponse response) {
 
 		var sendMessage = new SendMessage();
-		sendMessage.setText(response.getText());
-		sendMessage.setChatId(response.getChatId());
+		sendMessage.setText(response.getMessage().text());
+		sendMessage.setChatId(response.getChat().getId());
 
 
-		var chengineInlineKeyboard = response.getInlineKeyboard();
-		if (chengineInlineKeyboard != null) {
-
-			var telegramInlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-			var rows = new ArrayList<List<InlineKeyboardButton>>();
-
-			chengineInlineKeyboard
-					.getRows()
-					.forEach(row -> {
-						var telegramRow = new ArrayList<InlineKeyboardButton>();
-						row.getButtons()
-								.forEach(button -> {
-									var telegramButton = new InlineKeyboardButton();
-									telegramButton.setText(button.getText());
-									telegramButton.setCallbackData(button.getData());
-									telegramRow.add(telegramButton);
-								});
-						rows.add(telegramRow);
-					});
-
-
-			telegramInlineKeyboardMarkup.setKeyboard(rows);
-			sendMessage.setReplyMarkup(telegramInlineKeyboardMarkup);
-		}
+		var chengineInlineKeyboard = response.getMessage().inlineKeyboard();
+		var telegramKeyboard = InlineKeyboardConverter.toTelegram(chengineInlineKeyboard);
+		sendMessage.setReplyMarkup(telegramKeyboard);
 
 
 		return sendMessage;

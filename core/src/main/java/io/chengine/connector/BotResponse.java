@@ -1,39 +1,32 @@
 package io.chengine.connector;
 
-import io.chengine.message.keyboard.InlineKeyboard;
-
-import javax.annotation.Nullable;
-
 public class BotResponse {
 
-    private Long chatId;
+    private BotResponseStrategy responseStrategy;
+    private Chat chat;
+    private Message message;
 
-    private String text;
-
-    @Nullable
-    private InlineKeyboard inlineKeyboard;
-
-    public Long getChatId() {
-        return chatId;
+    public BotResponseStrategy getResponseStrategy() {
+        return responseStrategy;
     }
 
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
+    public void setResponseStrategy(BotResponseStrategy responseStrategy) {
+        this.responseStrategy = responseStrategy;
     }
 
-    public String getText() {
-        return text;
+    public Chat getChat() {
+        return chat;
     }
 
-    public void setText(String message) {
-        this.text = message;
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
-    public InlineKeyboard getInlineKeyboard() {
-        return inlineKeyboard;
+    public Message getMessage() {
+        return message;
     }
 
-    public void setInlineKeyboard(InlineKeyboard inlineKeyboard) {
-        this.inlineKeyboard = inlineKeyboard;
+    public void setMessage(Message message) {
+        this.message = message;
     }
 }

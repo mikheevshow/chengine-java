@@ -3,12 +3,16 @@ package io.chengine;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.BotResponseConverter;
 import io.chengine.processor.MessageProcessor;
+import io.chengine.util.InlineKeyboardConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
+import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
 
 public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
@@ -44,17 +48,22 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	public void onUpdateReceived(Update update) {
 		log.debug("Received message: {}", update);
 		try {
-			if (update.getCallbackQuery() == null) {
-				var botResponse = new BotResponse();
-				messageProcessor.process(update, botResponse);
+			var botResponse = new BotResponse();
+			messageProcessor.process(update, botResponse);
+			var responseStrategy = botResponse.getResponseStrategy();
+			if (SEND_MESSAGE.equals(responseStrategy)) {
 				this.execute(botResponseConverter.convert(botResponse));
-			} else  {
-				this.execute(new EditMessageText()
-						.setText("Huita")
-						.setMessageId(update.getCallbackQuery().getMessage().getMessageId())
-						.setChatId(update.getCallbackQuery().getMessage().getChatId())
-				);
+			} else if (EDIT_MESSAGE.equals(responseStrategy)) {
+				var edit = new EditMessageText()
+						.setChatId(botResponse.getChat().getId())
+						.setMessageId((int) botResponse.getMessage().id())
+						.setText(botResponse.getMessage().text())
+						.setReplyMarkup(InlineKeyboardConverter.toTelegram(botResponse.getMessage().inlineKeyboard()));
+				this.execute(edit);
+			} else {
+				log.info("Unknown response strategy type");
 			}
+
 		} catch (Exception ex) {
 			log.error(ex.getMessage(), ex);
 		}
