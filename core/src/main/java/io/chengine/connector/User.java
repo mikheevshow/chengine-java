@@ -3,25 +3,25 @@ package io.chengine.connector;
 public class User {
 
     private final long id;
-    private final boolean isBot;
+    private final Boolean isBot;
     private final String firstName;
     private final String lastName;
     private final String username;
     private final String languageCode;
-    private final boolean canJoinGroups;
+    private final Boolean canJoinGroups;
     private final Boolean canReadAllGroupMessages;
     private final Boolean supportInlineQueries;
 
     public User(
             long id,
-            boolean isBot,
+            Boolean isBot,
             String firstName,
             String lastName,
             String username,
             String languageCode,
-            boolean canJoinGroups,
-            boolean canReadAllGroupMessages,
-            boolean supportInlineQueries) {
+            Boolean canJoinGroups,
+            Boolean canReadAllGroupMessages,
+            Boolean supportInlineQueries) {
         this.id = id;
         this.isBot = isBot;
         this.firstName = firstName;
@@ -38,7 +38,7 @@ public class User {
         return id;
     }
 
-    public boolean isBot() {
+    public Boolean isBot() {
         return isBot;
     }
 
@@ -58,7 +58,7 @@ public class User {
         return languageCode;
     }
 
-    public boolean isCanJoinGroups() {
+    public Boolean isCanJoinGroups() {
         return canJoinGroups;
     }
 

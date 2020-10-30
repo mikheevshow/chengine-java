@@ -3,8 +3,8 @@ package io.chengine.connector;
 public class BotRequest {
 
 	private final BotApiIdentifier apiIdentifier;
-	private final boolean isCallback;
-	private final boolean isCommand;
+	private final Boolean isCallback;
+	private final Boolean isCommand;
 	private final Chat chat;
 	private final User user;
 	private final Message message;
@@ -12,8 +12,8 @@ public class BotRequest {
 
 	public BotRequest(
 			BotApiIdentifier apiIdentifier,
-			boolean isCallback,
-			boolean isCommand,
+			Boolean isCallback,
+			Boolean isCommand,
 			Chat chat,
 			User user,
 			Message message,
@@ -32,11 +32,11 @@ public class BotRequest {
 		return this.apiIdentifier;
 	}
 
-	public boolean isCallback() {
+	public Boolean isCallback() {
 		return this.isCallback;
 	}
 
-	public boolean isCommand() {
+	public Boolean isCommand() {
 		return this.isCommand;
 	}
 
