@@ -44,6 +44,6 @@ public class MethodReturnedTypeProcessor implements ResponseResolver {
             log.debug("Called method with unknown: {} return type class", objClass);
         }
 
-        botResponse.setChatId(Long.parseLong(botRequest.chat().id().toString()));
+        botResponse.setChatId(botRequest.chat().getId());
     }
 }

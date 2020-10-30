@@ -49,7 +49,7 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
 
     @Override
     public void process(Input input, Consumer<Object> processingCallback) throws Exception {
-
+        log.info("Start processing \"@HandleCommand\" annotation...");
         for (var handler : input.handlers) {
             var handlerAnnotationCommandPath = "";
             for (var annotation : handler.getClass().getAnnotations()) {

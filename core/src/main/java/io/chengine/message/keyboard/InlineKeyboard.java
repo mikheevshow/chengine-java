@@ -5,6 +5,7 @@ import io.chengine.message.exception.NoSuchButtonException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class InlineKeyboard {
 
@@ -31,10 +32,13 @@ public class InlineKeyboard {
             return this;
         }
 
+        public InlineKeyboardBuilder addRows(Supplier<List<InlineKeyboardRow>> keyboardRows) {
+            rows.addAll(keyboardRows.get());
+            return this;
+        }
+
         public InlineKeyboard build() {
-            return new InlineKeyboard(
-                    rows
-            );
+            return new InlineKeyboard(rows);
         }
     }
 

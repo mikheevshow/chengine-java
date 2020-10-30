@@ -11,12 +11,12 @@ import java.util.function.Supplier;
  */
 public class Edit {
 
-    private final Message<?> messageForEdit;
+    private final Message messageForEdit;
     private final String text;
     private final InlineKeyboard inlineKeyboard;
 
     private Edit(
-        final Message<?> message,
+        final Message message,
         final String text,
         final InlineKeyboard inlineKeyboard
     ) {
@@ -63,13 +63,13 @@ public class Edit {
      * @param message - a message
      * @return edit builder
      */
-    public static EditBuilder message(Message<?> message) {
+    public static EditBuilder message(Message message) {
         return new EditBuilder(message);
     }
 
     public static class EditBuilder {
 
-        private Message<?> messageForEdit;
+        private Message messageForEdit;
         private String text;
         private InlineKeyboard inlineKeyboard;
 
@@ -77,7 +77,7 @@ public class Edit {
 
         }
 
-        public EditBuilder(Message<?> message) {
+        public EditBuilder(Message message) {
             this.messageForEdit = message;
         }
 
@@ -99,7 +99,7 @@ public class Edit {
 
     }
 
-    public Message<?> getMessageForEdit() {
+    public Message getMessageForEdit() {
         return messageForEdit;
     }
 

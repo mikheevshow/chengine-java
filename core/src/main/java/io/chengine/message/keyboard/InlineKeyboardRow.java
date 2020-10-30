@@ -5,6 +5,7 @@ import io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardButtonBui
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class InlineKeyboardRow {
 
@@ -26,6 +27,11 @@ public class InlineKeyboardRow {
             var buttonBuilder = new InlineKeyboardButtonBuilder();
             button.accept(buttonBuilder);
             buttons.add(buttonBuilder.build());
+            return this;
+        }
+
+        public InlineKeyboardRowBuilder addButton(Supplier<InlineKeyboardButton> button) {
+            buttons.add(button.get());
             return this;
         }
 

@@ -107,6 +107,8 @@ public class Method {
         return "Method{" +
                 "method=" + method +
                 ", object=" + object +
+                ", objectClass=" + objectClass +
+                ", methodDefinition=" + methodDefinition +
                 '}';
     }
 }
