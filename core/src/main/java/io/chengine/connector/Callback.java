@@ -2,7 +2,7 @@ package io.chengine.connector;
 
 import javax.annotation.Nullable;
 
-public class CallbackModel {
+public class Callback {
 
     private final String id;
 
@@ -11,9 +11,9 @@ public class CallbackModel {
     private final String chatInstance;
 
     @Nullable
-    private String data;
+    private final String data;
 
-    public CallbackModel(String id, String inlineMessageId, String chatInstance, @Nullable String data) {
+    public Callback(String id, String inlineMessageId, String chatInstance, @Nullable String data) {
         this.id = id;
         this.inlineMessageId = inlineMessageId;
         this.chatInstance = chatInstance;

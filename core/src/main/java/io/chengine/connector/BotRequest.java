@@ -2,22 +2,22 @@ package io.chengine.connector;
 
 public class BotRequest {
 
-	private BotApiIdentifier apiIdentifier;
-	private boolean isCallback;
-	private boolean isCommand;
-	private ChatModel chat;
-	private UserModel user;
-	private Message message;
-	private CallbackModel callback;
+	private final BotApiIdentifier apiIdentifier;
+	private final boolean isCallback;
+	private final boolean isCommand;
+	private final Chat chat;
+	private final User user;
+	private final Message message;
+	private final Callback callback;
 
 	public BotRequest(
 			BotApiIdentifier apiIdentifier,
 			boolean isCallback,
 			boolean isCommand,
-			ChatModel chat,
-			UserModel user,
+			Chat chat,
+			User user,
 			Message message,
-			CallbackModel callback) {
+			Callback callback) {
 
 		this.apiIdentifier = apiIdentifier;
 		this.isCallback = isCallback;
@@ -44,15 +44,15 @@ public class BotRequest {
 		return this.message;
 	}
 
-	public UserModel user() {
+	public User user() {
 		return this.user;
 	}
 
-	public ChatModel chat() {
+	public Chat chat() {
 		return this.chat;
 	}
 
-	public CallbackModel callback() {
+	public Callback callback() {
 		return this.callback;
 	}
 }

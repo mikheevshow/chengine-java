@@ -9,7 +9,6 @@ import io.chengine.command.validation.EmptyCommandException;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardButton;
 import io.chengine.message.keyboard.InlineKeyboardRow;
-import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
@@ -46,9 +45,9 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         return validator.isCommand(text);
     }
 
-    private UserModel convertUser(Update update) {
+    private User convertUser(Update update) {
         var user = update.hasMessage() ? update.getMessage().getFrom() : update.getCallbackQuery().getFrom();
-        return new UserModel(
+        return new User(
                 user.getId(),
                 user.getBot(),
                 user.getFirstName(),
@@ -61,8 +60,8 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         );
     }
 
-    private ChatModel convertChat(Update update) {
-        Chat chat;
+    private Chat convertChat(Update update) {
+        org.telegram.telegrambots.meta.api.objects.Chat chat;
         if (update.hasMessage()) {
             chat = update.getMessage().getChat();
         } else if (update.hasCallbackQuery()) {
@@ -70,7 +69,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         } else {
             throw new RuntimeException("Can't find chat info");
         }
-        return new ChatModel(
+        return new Chat(
                 chat.getId(),
                 chat.getDescription(),
                 chat.getTitle(),
@@ -131,12 +130,12 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
     }
 
     @Nullable
-    private CallbackModel convertCallback(Update update) {
+    private Callback convertCallback(Update update) {
         if (!update.hasCallbackQuery()) {
             return null;
         }
         var callbackQuery = update.getCallbackQuery();
-        return new CallbackModel(
+        return new Callback(
                 callbackQuery.getId(),
                 callbackQuery.getInlineMessageId(),
                 callbackQuery.getChatInstance(),

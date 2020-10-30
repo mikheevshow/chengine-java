@@ -1,18 +1,27 @@
 package io.chengine.connector;
 
-public class ChatModel {
+public class Chat {
 
-    private long id;
-    private String type;
-    private String title;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String description;
-    private String inviteLink;
+    private final long id;
+    private final String type;
+    private final String title;
+    private final String username;
+    private final String firstName;
+    private final String lastName;
+    private final String description;
+    private final String inviteLink;
 
 
-    public ChatModel(long id, String type, String title, String username, String firstName, String lastName, String description, String inviteLink) {
+    public Chat(
+            long id,
+            String type,
+            String title,
+            String username,
+            String firstName,
+            String lastName,
+            String description,
+            String inviteLink) {
+
         this.id = id;
         this.type = type;
         this.title = title;

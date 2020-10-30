@@ -1,27 +1,72 @@
 package io.chengine.connector;
 
-public interface User<I> {
+public class User {
 
-	I id();
+    private final long id;
+    private final boolean isBot;
+    private final String firstName;
+    private final String lastName;
+    private final String username;
+    private final String languageCode;
+    private final boolean canJoinGroups;
+    private final Boolean canReadAllGroupMessages;
+    private final Boolean supportInlineQueries;
 
-	String username();
+    public User(
+            long id,
+            boolean isBot,
+            String firstName,
+            String lastName,
+            String username,
+            String languageCode,
+            boolean canJoinGroups,
+            boolean canReadAllGroupMessages,
+            boolean supportInlineQueries) {
+        this.id = id;
+        this.isBot = isBot;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.languageCode = languageCode;
+        this.canJoinGroups = canJoinGroups;
+        this.canReadAllGroupMessages = canReadAllGroupMessages;
+        this.supportInlineQueries = supportInlineQueries;
+    }
 
-	String firstName();
 
-	String lastName();
+    public long getId() {
+        return id;
+    }
 
-	String fatherName();
+    public boolean isBot() {
+        return isBot;
+    }
 
-	String phone();
+    public String getFirstName() {
+        return firstName;
+    }
 
-	Boolean isBot();
+    public String getLastName() {
+        return lastName;
+    }
 
-	String languageCode();
+    public String getUsername() {
+        return username;
+    }
 
-	Boolean canJoinGroups();
+    public String getLanguageCode() {
+        return languageCode;
+    }
 
-	Boolean canReadAllGroupMessages();
+    public boolean isCanJoinGroups() {
+        return canJoinGroups;
+    }
 
-	Boolean supportInlineQueries();
+    public Boolean getCanReadAllGroupMessages() {
+        return canReadAllGroupMessages;
+    }
 
+    public Boolean getSupportInlineQueries() {
+        return supportInlineQueries;
+    }
 }
