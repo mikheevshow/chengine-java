@@ -9,12 +9,9 @@
 	<packaging>pom</packaging>
 	<version>1.0.0-alpha-1-SNAPSHOT</version>
 	<modules>
-		<module>api</module>
 		<module>core</module>
 		<module>spring-boot-starter</module>
-		<module>session-management</module>
         <module>telegram</module>
-        <module>nlp</module>
 	</modules>
 
 	<properties>
