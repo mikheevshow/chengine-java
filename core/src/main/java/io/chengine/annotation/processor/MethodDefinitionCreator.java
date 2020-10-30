@@ -28,11 +28,11 @@ public class MethodDefinitionCreator {
         var includeApiSet = new HashSet<>(Arrays.asList(includeApi));
         var excludeApiSet = new HashSet<>(Arrays.asList(excludeApi));
 
-        for (var api : includeApiSet) {
-            if (excludeApiSet.contains(api)) {
-                throw new RuntimeException("Апи конфликт, аннотация содержит одинаковые элементы включающих/исключающих апи");
-            }
-        }
+//        for (var api : includeApiSet) {
+//            if (excludeApiSet.contains(api)) {
+//                throw new RuntimeException("Апи конфликт, аннотация содержит одинаковые элементы включающих/исключающих апи");
+//            }
+//        }
 
         return new HashSet<>();
     }
