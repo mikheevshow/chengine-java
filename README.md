@@ -54,7 +54,6 @@ it will be found by spring context. If you want to make the same command prefix 
 ```java
 
 @ComponentHandler
-@CommandMapping("/somecommand")
 public class SomeHandler {
 
   private final SomeAnotherService someAnotherService;
