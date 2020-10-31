@@ -85,7 +85,7 @@ public class SomeHandler {
   }
   
   @HandleCommand("/hello")
-  public Send sendGreeting(User user) { // Current user injection
+  public Send sendGreetingMessage(User user) { // Current user injection
     return Send
                 .message()
                 .withText(() -> "Hello " + user.username())
@@ -93,17 +93,17 @@ public class SomeHandler {
   }
   
   @HandleCommand("/hello/hide")
-  public Edit sendGreeting() { // Current message edit detection if inline keyboard button callback received
+  public Edit hideHelloButton() { // Current message edit detection if inline keyboard button callback received
     return Edit
                 .message()
-                .removeInlineKeyboardButton(0, 0)
+                .removeInlineKeyboardButton(/`rowIndex/` 0, /`columnIndex/` 0)
                 .done();
   }
   
   // Custom service using for fetch some data
   
   @HandleCommand("/winners")
-  public Send sendGreeting(Chat chat) {
+  public Send getAllWinners(Chat chat) {
     return Send
                .message()
                .withText(() -> {
