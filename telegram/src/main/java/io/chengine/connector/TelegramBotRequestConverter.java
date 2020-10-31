@@ -103,12 +103,25 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
 
     @Nullable
     private Command extractCommand(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
-        if (!isCommand(update)) {
-            return null;
+        if (update.hasCallbackQuery()) {
+            var text = update.getCallbackQuery().getData();
+            var validator = DefaultCommandValidator.instance();
+            if (validator.isCommand(text)) {
+                var parser = DefaultCommandParser.instance();
+                return parser.parse(text);
+            }
         }
-        var parser = DefaultCommandParser.instance();
-        var text = extractMessage(update).getText();
-        return parser.parse(text);
+
+        if (update.hasMessage()) {
+            var text = update.getMessage().getText();
+            var validator = DefaultCommandValidator.instance();
+            if (validator.isCommand(text)) {
+                var parser = DefaultCommandParser.instance();
+                return parser.parse(text);
+            }
+        }
+
+        return null;
     }
 
     private InlineKeyboard convertMarkupToChengineInlineKeyboard(InlineKeyboardMarkup inlineKeyboardMarkup) {
