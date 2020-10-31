@@ -41,7 +41,7 @@ public class MethodReturnedTypeProcessor implements ResponseResolver {
             log.debug("Called method with EDIT return type");
             if (securityGuard.methodCallingForEditMessage(method, botRequest)) {
                 var edit = (Edit) object;
-                if (botRequest.message() == null) {
+                if (botRequest.message() != null) {
                     // EDIT CURRENT MESSAGE
                     var message = new Message(
                             botRequest.message().id(),
