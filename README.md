@@ -63,13 +63,55 @@ public class SomeHandler {
   public SomeHadler(final SomeAnotherService someAnotherService) {
     this.someAnotherService = someAnotherService;
   }
-
-  @HandleCommand("/id#/info")
-  public Edit editMessage(@CommandParameter("id") final Long id, final Message<?> message) {
-    return Edit
-                .message(message)
-                .setText(someAnotherService.getInfoAboutProduct(id))
+  
+  @HandleCommand("/start")
+  public Send sendGreeting() {
+    return Send
+                .message()
+                .withText(() -> "Push button to say hello")
+                .withInlineKeyBoard(k -> k
+                        .addRow(r -> r
+                              .addButton(b -> b
+                                  .withText(() -> "Say hi!")
+                                  .withData(() -> "/hello")
+                              )
+                              .addButton(b -> b
+                                  .withText(() -> "Hide hello button")
+                                  .withData(() -> "/hello/hide")
+                              )
+                        )
+                )
                 .done();
   }
+  
+  @HandleCommand("/hello")
+  public Send sendGreeting(User user) { // Current user injection
+    return Send
+                .message()
+                .withText(() -> "Hello " + user.username())
+                .done();
+  }
+  
+  @HandleCommand("/hello/hide")
+  public Edit sendGreeting() { // Current message edit detection if inline keyboard button callback received
+    return Edit
+                .message()
+                .removeInlineKeyboardButton(0, 0)
+                .done();
+  }
+  
+  // Custom service using for fetch some data
+  
+  @HandleCommand("/winners")
+  public Send sendGreeting(Chat chat) {
+    return Send
+               .message()
+               .withText(() -> {
+                  var winners = someService.getChatWinners(chat.id())
+                  return "Our winners: " + winners.isEmpty() ? "nobody" : winners.toString();
+               })
+               .done();
+  }
+
 }
 ```
