@@ -17,11 +17,11 @@
             <artifactId>core</artifactId>
             <version>1.0.0-alpha-1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.vk.api</groupId>
-            <artifactId>sdk</artifactId>
-            <version>1.0.6</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.vk.api</groupId>-->
+<!--            <artifactId>sdk</artifactId>-->
+<!--            <version>1.0.6</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
