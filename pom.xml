@@ -12,6 +12,7 @@
 		<module>core</module>
 		<module>spring-boot-starter</module>
         <module>telegram</module>
+		<module>vk</module>
 	</modules>
 
 	<properties>
