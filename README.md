@@ -46,7 +46,18 @@ public class HelloWorld {
 
 #### Yaml Configuration
 
-#### Creation of command handlers
+##### Telegram Bot Autoconfiguration
+
+You may config telegram long pooling bot by adding folowing lines below into your `application.yml` config file:
+
+```yaml
+chengine:
+  telegram:
+    token: 1173254904:AAABBBCCCEEEDDDFFFGGGIIIE
+    username: just_some_bot_username
+```
+
+#### Create command handlers
 
 Basically chengine command handlers looks like Spring MVC rest controllers. You should annotate class by `@ComponentHandler` annotation, then
 it will be found by spring context. If you want to make the same command prefix for all methods inside handler, just use `@CommandMapping` annotation.
