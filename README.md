@@ -48,7 +48,7 @@ public class HelloWorld {
 
 ##### Telegram Bot Autoconfiguration
 
-You may config telegram long pooling bot by adding folowing lines below into your `application.yml` config file:
+You may config telegram long pooling bot by adding following lines below into your `application.yml` config file:
 
 ```yaml
 chengine:
@@ -106,14 +106,14 @@ public class SomeHandler {
   public Edit hideHelloButton() { // Current message edit detection if inline keyboard button callback received
     return Edit
                 .message()
-                .removeInlineKeyboardButton(/`rowIndex/` 0, /`columnIndex/` 0)
+                .removeInlineKeyboardButton(0, 0) // rowIndex, columnIndex
                 .done();
   }
   
   // Custom service using for fetch some data
   
   @HandleCommand("/winners")
-  public Send getAllWinners(Chat chat) {
+  public Send getAllWinners(Chat chat) { // Current chat injection
     return Send
                .message()
                .withText(() -> {
