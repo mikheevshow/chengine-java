@@ -12,7 +12,7 @@ public class TelegramBotResponseConverter implements BotResponseConverter<BotApi
 		var sendMessage = new SendMessage();
 		sendMessage.setText(response.getMessage().text());
 		sendMessage.setChatId(response.getChat().getId());
-		sendMessage.setParseMode(response.)
+		sendMessage.setParseMode(response.getMessage().parseMode());
 
 
 		var chengineInlineKeyboard = response.getMessage().inlineKeyboard();
