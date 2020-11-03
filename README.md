@@ -46,7 +46,18 @@ public class HelloWorld {
 
 #### Yaml Configuration
 
-#### Creation of command handlers
+##### Telegram Bot Autoconfiguration
+
+You may config telegram long pooling bot by adding following lines below into your `application.yml` config file:
+
+```yaml
+chengine:
+  telegram:
+    token: 1173254904:AAABBBCCCEEEDDDFFFGGGIIIE
+    username: just_some_bot_username
+```
+
+#### Create command handlers
 
 Basically chengine command handlers looks like Spring MVC rest controllers. You should annotate class by `@ComponentHandler` annotation, then
 it will be found by spring context. If you want to make the same command prefix for all methods inside handler, just use `@CommandMapping` annotation.
@@ -54,7 +65,6 @@ it will be found by spring context. If you want to make the same command prefix 
 ```java
 
 @ComponentHandler
-@CommandMapping("/somecommand")
 public class SomeHandler {
 
   private final SomeAnotherService someAnotherService;
@@ -63,13 +73,55 @@ public class SomeHandler {
   public SomeHadler(final SomeAnotherService someAnotherService) {
     this.someAnotherService = someAnotherService;
   }
-
-  @HandleCommand("/id#/info")
-  public Edit editMessage(@CommandParameter("id") final Long id, final Message<?> message) {
-    return Edit
-                .message(message)
-                .setText(someAnotherService.getInfoAboutProduct(id))
+  
+  @HandleCommand("/start")
+  public Send sendGreeting() {
+    return Send
+                .message()
+                .withText(() -> "Push button to say hello")
+                .withInlineKeyBoard(k -> k
+                        .addRow(r -> r
+                              .addButton(b -> b
+                                  .withText(() -> "Say hi!")
+                                  .withData(() -> "/hello")
+                              )
+                              .addButton(b -> b
+                                  .withText(() -> "Hide hello button")
+                                  .withData(() -> "/hello/hide")
+                              )
+                        )
+                )
                 .done();
   }
+  
+  @HandleCommand("/hello")
+  public Send sendGreetingMessage(User user) { // Current user injection
+    return Send
+                .message()
+                .withText(() -> "Hello " + user.username())
+                .done();
+  }
+  
+  @HandleCommand("/hello/hide")
+  public Edit hideHelloButton() { // Current message edit detection if inline keyboard button callback received
+    return Edit
+                .message()
+                .removeInlineKeyboardButton(0, 0) // rowIndex, columnIndex
+                .done();
+  }
+  
+  // Custom service using for fetch some data
+  
+  @HandleCommand("/winners")
+  public Send getAllWinners(Chat chat) { // Current chat injection
+    return Send
+               .message()
+               .withText(() -> {
+                  var winners = someService.getChatWinners(chat.id())
+                  return "Our winners: " + winners.isEmpty() ? "nobody" : winners.toString();
+               })
+               .done();
+  }
+
 }
 ```
