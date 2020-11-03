@@ -84,7 +84,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
     private Message convertMessage(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
         org.telegram.telegrambots.meta.api.objects.Message message = extractMessage(update);
         return new Message(
-                message.getMessageId(),
+                message.getMessageId().longValue(),
                 extractCommand(update),
                 message.getText(),
                 null,
