@@ -3,8 +3,17 @@ package io.chengine.connector;
 public class BotResponse {
 
     private BotResponseStrategy responseStrategy;
+    private boolean send = true;
     private Chat chat;
     private Message message;
+
+    public boolean isSend() {
+        return send;
+    }
+
+    public void setSend(boolean send) {
+        this.send = send;
+    }
 
     public BotResponseStrategy getResponseStrategy() {
         return responseStrategy;

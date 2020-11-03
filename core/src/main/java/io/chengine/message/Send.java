@@ -7,14 +7,23 @@ import java.util.function.Supplier;
 
 public class Send {
 
+    private final Integer chatId;
     private final String text;
+    private final String parseMode;
+    private final Attachment attachment;
     private final InlineKeyboard inlineKeyboard;
 
     private Send(
+            final Integer chatId,
             final String text,
-            final InlineKeyboard inlineKeyboard
-    ) {
+            final String parseMode,
+            final Attachment attachment,
+            final InlineKeyboard inlineKeyboard) {
+
+        this.chatId = chatId;
         this.text = text;
+        this.parseMode = parseMode;
+        this.attachment = attachment;
         this.inlineKeyboard = inlineKeyboard;
     }
 
@@ -24,11 +33,29 @@ public class Send {
 
     public static class MessageBuilder {
 
+        private Integer chatId;
         private String text;
+        private String parseMode;
+        private Attachment attachment;
         private InlineKeyboard inlineKeyboard;
+
+        public MessageBuilder toChatWithId(int chatId) {
+            this.chatId = chatId;
+            return this;
+        }
 
         public MessageBuilder withText(Supplier<String> text) {
             this.text = text.get();
+            return this;
+        }
+
+        public MessageBuilder usingParseMode(Supplier<String> parseMode) {
+            this.parseMode = parseMode.get();
+            return this;
+        }
+
+        public MessageBuilder withAttachment(Supplier<Attachment> attachment) {
+            this.attachment = attachment.get();
             return this;
         }
 
@@ -40,15 +67,24 @@ public class Send {
         }
 
         public Send done() {
-            return new Send(
-                    text,
-                    inlineKeyboard
-            );
+            return new Send(chatId, text, parseMode, attachment, inlineKeyboard);
         }
+    }
+
+    public Integer getChatId() {
+        return chatId;
     }
 
     public String getText() {
         return text;
+    }
+
+    public String getParseMode() {
+        return parseMode;
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
     }
 
     public InlineKeyboard getInlineKeyboard() {

@@ -7,15 +7,17 @@ import java.util.Objects;
 
 public class Message {
 
-    private long id;
+    private Long id;
     private Command command;
     private String text;
+    private String parseMode;
     private InlineKeyboard inlineKeyboard;
 
-    public Message(long id, Command command, String text, InlineKeyboard inlineKeyboard) {
+    public Message(Long id, Command command, String text, String parseMode, InlineKeyboard inlineKeyboard) {
         this.id = id;
         this.command = command;
         this.text = text;
+        this.parseMode = parseMode;
         this.inlineKeyboard = inlineKeyboard;
     }
 
@@ -33,6 +35,10 @@ public class Message {
 
     public String text() {
         return this.text;
+    }
+
+    public String parseMode() {
+        return parseMode;
     }
 
     public InlineKeyboard inlineKeyboard() {

@@ -2,12 +2,16 @@ package io.chengine.method;
 
 import io.chengine.annotation.CommandParameter;
 import io.chengine.connector.BotRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
 public class MethodArgumentInspector {
+
+	private static final Logger log = LogManager.getLogger(MethodArgumentInspector.class);
 
 	private final Set<Class<?>> injectableTypes;
 
@@ -53,12 +57,13 @@ public class MethodArgumentInspector {
 				try {
 					return method.invoke(request);
 				} catch (Exception ex) {
+					log.error(ex.getMessage(), ex);
 					throw new RuntimeException(ex);
 				}
 			}
 		}
 
-		return new RuntimeException("Can't find method in BotRequest.class with return type " + clazz.getName());
+		throw new RuntimeException("Can't find method in BotRequest.class with return type " + clazz.getName());
 	}
 
 	private Object stringToType(String s, Class<?> tClass) {

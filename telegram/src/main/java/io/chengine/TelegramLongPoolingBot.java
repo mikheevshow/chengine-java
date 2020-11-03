@@ -16,7 +16,7 @@ import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
 
 public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
-	private final static Logger log = LogManager.getLogger(TelegramLongPoolingBot.class);
+	private static final Logger log = LogManager.getLogger(TelegramLongPoolingBot.class);
 
 	private final MessageProcessor<Update, BotResponse> messageProcessor;
 	private final BotResponseConverter<BotApiMethod<?>> botResponseConverter;

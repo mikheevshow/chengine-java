@@ -87,6 +87,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
                 message.getMessageId(),
                 extractCommand(update),
                 message.getText(),
+                null,
                 convertMarkupToChengineInlineKeyboard(message.getReplyMarkup())
         );
     }
