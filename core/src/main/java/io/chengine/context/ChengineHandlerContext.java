@@ -7,6 +7,7 @@ import io.chengine.annotation.Handler;
 import io.chengine.annotation.Mutates;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
+import io.chengine.annotation.processor.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
 import io.chengine.provider.HandlerProvider;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 	@Mutates(by = HandleCommandAnnotationProcessor.class)
 	private final Map<Method, String> methodPathMap = new HashMap<>();
+
+	@Mutates(by = PipelineAnnotationProcessor.class)
+	private final Map<Method, String> pipelineMap = new HashMap<>();
 
 	/**
 	 * A map, where a key represented by command pattern and value is a command meta inforamtion object,
