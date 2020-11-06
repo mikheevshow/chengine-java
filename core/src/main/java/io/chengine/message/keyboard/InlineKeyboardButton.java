@@ -10,7 +10,7 @@ public class InlineKeyboardButton {
     private final String data;
     private final boolean pay;
 
-    public InlineKeyboardButton(
+    private InlineKeyboardButton(
             String text,
             String url,
             String data,

@@ -1,6 +1,7 @@
 package io.chengine.message;
 
 import io.chengine.message.keyboard.InlineKeyboard;
+import io.chengine.message.keyboard.Keyboard;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -12,19 +13,22 @@ public class Send {
     private final String parseMode;
     private final Attachment attachment;
     private final InlineKeyboard inlineKeyboard;
+    private final Keyboard keyboard;
 
     private Send(
             final Integer chatId,
             final String text,
             final String parseMode,
             final Attachment attachment,
-            final InlineKeyboard inlineKeyboard) {
+            final InlineKeyboard inlineKeyboard,
+            final Keyboard keyboard) {
 
         this.chatId = chatId;
         this.text = text;
         this.parseMode = parseMode;
         this.attachment = attachment;
         this.inlineKeyboard = inlineKeyboard;
+        this.keyboard = keyboard;
     }
 
     public static MessageBuilder message() {
@@ -38,6 +42,7 @@ public class Send {
         private String parseMode;
         private Attachment attachment;
         private InlineKeyboard inlineKeyboard;
+        private Keyboard keyboard;
 
         public MessageBuilder toChatWithId(int chatId) {
             this.chatId = chatId;
@@ -66,8 +71,15 @@ public class Send {
             return this;
         }
 
+        public MessageBuilder withKeyboard(Consumer<Keyboard.KeyboardBuilder> keyboard) {
+            var keyboardBuilder = Keyboard.builder();
+            keyboard.accept(keyboardBuilder);
+            this.keyboard = keyboardBuilder.build();
+            return this;
+        }
+
         public Send done() {
-            return new Send(chatId, text, parseMode, attachment, inlineKeyboard);
+            return new Send(chatId, text, parseMode, attachment, inlineKeyboard, keyboard);
         }
     }
 
@@ -89,6 +101,10 @@ public class Send {
 
     public InlineKeyboard getInlineKeyboard() {
         return inlineKeyboard;
+    }
+
+    public Keyboard getKeyboard() {
+        return keyboard;
     }
 
     @Override

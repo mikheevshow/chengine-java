@@ -24,7 +24,9 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         return new BotRequest(
                 TelegramBotApiIdentifier.instance(),
                 isCallback(request),
+                false,
                 isCommand(request),
+                false,
                 convertChat(request),
                 convertUser(request),
                 convertMessage(request),

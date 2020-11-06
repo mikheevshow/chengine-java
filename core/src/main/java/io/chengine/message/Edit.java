@@ -3,6 +3,7 @@ package io.chengine.message;
 import io.chengine.connector.Message;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardButton;
+import io.chengine.message.keyboard.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +18,23 @@ public class Edit {
     private final Message messageForEdit;
     private final String text;
     private final InlineKeyboard inlineKeyboard;
-    private final boolean removeKeyboard;
+    private final Keyboard keyboard;
+    private final boolean removeInlineKeyboard;
     private final List<ButtonMarkup> editButtons;
 
     private Edit(
         final Message message,
         final String text,
         final InlineKeyboard inlineKeyboard,
-        final boolean removeKeyboard,
+        final Keyboard keyboard,
+        final boolean removeInlineKeyboard,
         final List<ButtonMarkup> editButtons) {
 
         this.messageForEdit = message;
         this.text = text;
         this.inlineKeyboard = inlineKeyboard;
-        this.removeKeyboard = removeKeyboard;
+        this.keyboard = keyboard;
+        this.removeInlineKeyboard = removeInlineKeyboard;
         this.editButtons = editButtons;
     }
 
@@ -81,7 +85,8 @@ public class Edit {
         private Message messageForEdit;
         private String text;
         private InlineKeyboard inlineKeyboard;
-        private boolean removeKeyboard;
+        private Keyboard keyboard;
+        private boolean removeInlineKeyboard;
         private final List<ButtonMarkup> editButtons = new ArrayList<>();
 
         public EditBuilder() {
@@ -117,13 +122,13 @@ public class Edit {
         }
 
 
-        public EditBuilder removeKeyboard() {
-            this.removeKeyboard = true;
+        public EditBuilder removeInlineKeyboard() {
+            this.removeInlineKeyboard = true;
             return this;
         }
 
         public Edit done() {
-            return new Edit(messageForEdit, text, inlineKeyboard, removeKeyboard, editButtons);
+            return new Edit(messageForEdit, text, inlineKeyboard, keyboard, removeInlineKeyboard, editButtons);
         }
 
     }
@@ -140,8 +145,12 @@ public class Edit {
         return inlineKeyboard;
     }
 
-    public boolean isRemoveKeyboard() {
-        return removeKeyboard;
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
+
+    public boolean removeInlineKeyboard() {
+        return removeInlineKeyboard;
     }
 
     public List<ButtonMarkup> getEditButtons() {

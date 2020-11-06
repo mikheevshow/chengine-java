@@ -56,4 +56,9 @@ public class InlineKeyboard {
         }
         return column.get(columnIndex);
     }
+
+    public void setButton(int rowIndex, int columnIndex, InlineKeyboardButton button) {
+        getButton(rowIndex, columnIndex); // check existence
+        rows.get(rowIndex).getButtons().set(columnIndex, button);
+    }
 }
