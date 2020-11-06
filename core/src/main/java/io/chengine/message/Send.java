@@ -90,4 +90,15 @@ public class Send {
     public InlineKeyboard getInlineKeyboard() {
         return inlineKeyboard;
     }
+
+    @Override
+    public String toString() {
+        return "Send{" +
+                "chatId=" + chatId +
+                ", text='" + text + '\'' +
+                ", parseMode='" + parseMode + '\'' +
+                ", attachment=" + attachment +
+                ", inlineKeyboard=" + inlineKeyboard +
+                '}';
+    }
 }

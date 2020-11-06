@@ -16,15 +16,17 @@ public class MethodReturnedTypeProcessor implements ResponseResolver {
 
     @Override
     public void resolve(BotRequest botRequest, BotResponse botResponse, Method method, Object object) {
-        var objClass = object.getClass();
-        var handler = responseTypeHandlerFactory.get(objClass);
-        if (handler != null) {
-            handler.handle(method, object, botRequest, botResponse);
-        } else { // just cast to string unknown type
-            log.info("Unknown return type detection, cast response to String");
-            var message = new Message(null, null, object.toString(), null, null);
-            botResponse.setMessage(message);
+        if (object != null) {
+            var objClass = object.getClass();
+            var handler = responseTypeHandlerFactory.get(objClass);
+            if (handler != null) {
+                handler.handle(method, object, botRequest, botResponse);
+            } else { // just cast to string unknown type
+                log.info("Unknown return type detection, cast response to String");
+                var message = new Message(null, null, object.toString(), null, null);
+                botResponse.setMessage(message);
+            }
+            botResponse.setChat(botRequest.chat());
         }
-        botResponse.setChat(botRequest.chat());
     }
 }
