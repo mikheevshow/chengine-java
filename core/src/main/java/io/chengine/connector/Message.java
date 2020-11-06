@@ -9,8 +9,10 @@ public class Message {
 
     private Long id;
     private Command command;
+    private Location location;
     private String text;
     private String parseMode;
+
     private InlineKeyboard inlineKeyboard;
 
     public Message(Long id, Command command, String text, String parseMode, InlineKeyboard inlineKeyboard) {

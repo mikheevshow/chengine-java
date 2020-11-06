@@ -7,7 +7,6 @@ import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.command.validation.EmptyCommandException;
 import io.chengine.message.keyboard.InlineKeyboard;
-import io.chengine.message.keyboard.InlineKeyboardButton;
 import io.chengine.message.keyboard.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -15,6 +14,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+
+import static io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardButtonBuilder;
 
 public class TelegramBotRequestConverter implements BotRequestConverter<Update> {
 
@@ -136,10 +137,13 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         var inlineKeyboardRows = new ArrayList<InlineKeyboardRow>();
         for (var row : rows) {
             var inlineKeyboardRow = new InlineKeyboardRow.InlineKeyboardRowBuilder();
-            row.stream().<Consumer<InlineKeyboardButton.InlineKeyboardButtonBuilder>>map(button -> btn -> btn
-                    .withText(button::getText)
-                    .withData(button::getCallbackData)
-                    .withUrl(button::getUrl)).forEach(inlineKeyboardRow::addButton);
+            for (org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button : row) {
+                Consumer<InlineKeyboardButtonBuilder> inlineKeyboardButtonBuilderConsumer = btn -> btn
+                        .withText(button::getText)
+                        .withData(button::getCallbackData)
+                        .withUrl(button::getUrl);
+                inlineKeyboardRow.addButton(inlineKeyboardButtonBuilderConsumer);
+            }
             inlineKeyboardRows.add(inlineKeyboardRow.build());
         }
 
