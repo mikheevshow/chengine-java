@@ -17,6 +17,8 @@ public class Edit {
 
     private final Message messageForEdit;
     private final String text;
+    private final String parseMode;
+    private final Attachment attachment;
     private final InlineKeyboard inlineKeyboard;
     private final Keyboard keyboard;
     private final boolean removeInlineKeyboard;
@@ -25,6 +27,8 @@ public class Edit {
     private Edit(
         final Message message,
         final String text,
+        final String parseMode,
+        final Attachment attachment,
         final InlineKeyboard inlineKeyboard,
         final Keyboard keyboard,
         final boolean removeInlineKeyboard,
@@ -32,6 +36,8 @@ public class Edit {
 
         this.messageForEdit = message;
         this.text = text;
+        this.parseMode = parseMode;
+        this.attachment = attachment;
         this.inlineKeyboard = inlineKeyboard;
         this.keyboard = keyboard;
         this.removeInlineKeyboard = removeInlineKeyboard;
@@ -84,6 +90,8 @@ public class Edit {
 
         private Message messageForEdit;
         private String text;
+        private String parseMode;
+        private Attachment attachment;
         private InlineKeyboard inlineKeyboard;
         private Keyboard keyboard;
         private boolean removeInlineKeyboard;
@@ -128,7 +136,7 @@ public class Edit {
         }
 
         public Edit done() {
-            return new Edit(messageForEdit, text, inlineKeyboard, keyboard, removeInlineKeyboard, editButtons);
+            return new Edit(messageForEdit, text, parseMode, attachment, inlineKeyboard, keyboard, removeInlineKeyboard, editButtons);
         }
 
     }
