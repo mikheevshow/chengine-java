@@ -4,7 +4,7 @@ import io.chengine.TelegramLongPoolingBot;
 import io.chengine.TelegramMessageProcessor;
 import io.chengine.connector.BotRequestConverter;
 import io.chengine.connector.TelegramBotRequestConverter;
-import io.chengine.connector.TelegramBotResponseConverter;
+import io.chengine.connector.send.TelegramSendMessageBotResponseConverter;
 import io.chengine.processor.ChengineMessageProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +28,8 @@ public class ChengineTelegramClientAutoConfiguration {
     }
 
     @Bean
-    public TelegramBotResponseConverter telegramBotResponseConverter() {
-        return new TelegramBotResponseConverter();
+    public TelegramSendMessageBotResponseConverter telegramBotResponseConverter() {
+        return new TelegramSendMessageBotResponseConverter();
     }
 
     @Bean
@@ -38,7 +38,7 @@ public class ChengineTelegramClientAutoConfiguration {
     }
 
     @Bean
-    public TelegramLongPoolingBot telegramLongPoolingBot(TelegramMessageProcessor telegramMessageProcessor, TelegramBotResponseConverter telegramBotResponseConverter) {
-        return new TelegramLongPoolingBot(telegramMessageProcessor, telegramBotResponseConverter, token, username);
+    public TelegramLongPoolingBot telegramLongPoolingBot(TelegramMessageProcessor telegramMessageProcessor, TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter) {
+        return new TelegramLongPoolingBot(telegramMessageProcessor, telegramSendMessageBotResponseConverter, token, username);
     }
 }

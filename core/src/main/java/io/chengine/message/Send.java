@@ -1,5 +1,6 @@
 package io.chengine.message;
 
+import io.chengine.message.attachment.Attachment;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.Keyboard;
 
