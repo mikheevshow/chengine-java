@@ -5,6 +5,7 @@ import io.chengine.HandlerCreationException;
 import io.chengine.HandlerRegistry;
 import io.chengine.annotation.Handler;
 import io.chengine.annotation.Mutates;
+import io.chengine.annotation.dto.Pipeline;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
 import io.chengine.annotation.processor.PipelineAnnotationProcessor;
@@ -39,7 +40,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	private final Map<Method, String> methodPathMap = new HashMap<>();
 
 	@Mutates(by = PipelineAnnotationProcessor.class)
-	private final Map<Method, String> pipelineMap = new HashMap<>();
+	private final Set<Pipeline> pipelineSet = new HashSet<>();
 
 	/**
 	 * A map, where a key represented by command pattern and value is a command meta inforamtion object,
@@ -79,6 +80,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 			var handleCommandAnnotationProcessorInput = new HandleCommandAnnotationProcessor.Input(handlers, commandMethodMap, methodPathMap);
 			new HandleCommandAnnotationProcessor().process(handleCommandAnnotationProcessorInput);
+
+			var pipelineAnnotationProcessorInput = new PipelineAnnotationProcessor.Input(handlers, pipelineSet);
+			new PipelineAnnotationProcessor().process(pipelineAnnotationProcessorInput);
 
 			var commandDescriptionProcessorInput = new CommandDescriptionAnnotationProcessor.Input(handlers, commandMetaInfoMap, methodPathMap);
 			new CommandDescriptionAnnotationProcessor().process(commandDescriptionProcessorInput);

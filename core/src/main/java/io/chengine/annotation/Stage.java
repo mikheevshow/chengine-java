@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Stage {
 
-    int step() default 0;
+    int step() default 0; // 0 - entrypoint
 
-    String name() default ""; // TODO связывать c Pipeline по name?
+    String name() default "";
 
-    PipelineStage mode() default PipelineStage.SYNC;
+    StageMode mode() default StageMode.SYNC;
 }

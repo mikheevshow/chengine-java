@@ -9,4 +9,5 @@ public @interface Handler {
 
 	String value() default "";
 
+	HandlerType type() default HandlerType.DEFAULT;
 }

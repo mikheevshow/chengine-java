@@ -1,49 +1,77 @@
 package io.chengine.annotation.processor;
 
-import io.chengine.annotation.Pipeline;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import io.chengine.annotation.Handler;
+import io.chengine.annotation.HandlerType;
+import io.chengine.annotation.Stage;
+import io.chengine.annotation.dto.Pipeline;
+import io.chengine.method.Method;
+import io.chengine.method.MethodDefinition;
 
 import java.lang.annotation.Annotation;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-/**
- * Process {@link io.chengine.annotation.Pipeline} annotation.
- */
 public class PipelineAnnotationProcessor implements AnnotationProcessor<PipelineAnnotationProcessor.Input, Object> {
 
-    private static final Logger log = LogManager.getLogger(PipelineAnnotationProcessor.class);
-
-    public static final class Input {
-
-        private final Collection<?> pipelines;
-
-        public Input(
-            Collection<?> pipelines
-        ) {
-            this.pipelines = pipelines;
-        }
-
-    }
+    private final Predicate<Object> isPipeline = (obj) ->
+        obj.getClass().getAnnotation(Handler.class).type().equals(HandlerType.PIPELINE);
+    private final Predicate<Object> isStage = (obj) ->
+        obj.getClass().isAnnotationPresent(Stage.class);
 
     @Override
     public Collection<Class<? extends Annotation>> supports() {
-        return Collections.singletonList(Pipeline.class);
+        return Collections.singletonList(Handler.class);
     }
 
     @Override
-    public void process(PipelineAnnotationProcessor.Input input, Consumer<Object> processingCallback) throws Exception {
-        log.info("Start processing \"@Pipeline\" annotation...");
+    public void process(Input input, Consumer<Object> processingCallback) throws Exception {
+        var pipelines = input.handlers.stream()
+            .filter(isPipeline)
+            .collect(Collectors.toList());
 
-        for (var pipeline : input.pipelines) {
+        var pipelineSet = pipelines.stream()
+            .map(pipe -> {
+                var methods = pipe.getClass().getMethods();
+                var stages = Arrays.stream(methods)
+                    .filter(isStage)
+                    .map(method -> objectToStage(pipe, method))
+                    .collect(Collectors.toList());
 
+                return new Pipeline(
+                    pipe.getClass().getAnnotation(Handler.class).value(),
+                    pipe.getClass(),
+                    stages,
+                    stages.size(),
+                    null
+                );
+            })
+            .collect(Collectors.toSet());
+
+        input.pipelineSet.addAll(pipelineSet);
+
+    }
+
+    private io.chengine.annotation.dto.Stage objectToStage(Object obj, java.lang.reflect.Method method) {
+        return new io.chengine.annotation.dto.Stage(
+            obj.getClass().getAnnotation(Stage.class).name(),
+            Method.of(method, obj, new MethodDefinition(null, false)),
+            obj.getClass().getAnnotation(Stage.class).step(),
+            obj.getClass().getAnnotation(Stage.class).mode()
+        );
+    }
+
+    public static final class Input {
+
+        private final Collection<?> handlers;
+        private final Set<Pipeline> pipelineSet;
+
+        public Input(
+            Collection<?> handlers, Set<Pipeline> pipelineSet) {
+            this.handlers = handlers;
+            this.pipelineSet = pipelineSet;
         }
-    }
 
-    private boolean isPipeline() {
-        return false;
     }
-
 }
