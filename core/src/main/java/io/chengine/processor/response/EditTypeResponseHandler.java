@@ -11,15 +11,21 @@ import io.chengine.security.SecurityGuard;
 
 import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
 
-public class EditTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class EditTypeResponseHandler extends AbstractResponseTypeHandler {
 
     private final SecurityGuard securityGuard = new DefaultSecurityGuard();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<?> supports() {
         return Edit.class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void process(Method method, Object returnedObject, BotRequest request, BotResponse response) {
         if (securityGuard.callMethodToEditMessage(method, request)) {
@@ -27,10 +33,11 @@ public class EditTypeResponseHandler extends AbstractResponseTypeHandler {
             if (request.message() != null) {
 
                 var messageId = request.message().id();
-                var text = edit.getText() == null ? request.message().text() : edit.getText();
+                var text = edit.text() == null ? request.message().text() : edit.text();
+                var parseMode = edit.parseMode() == null ? request.message().parseMode() : edit.parseMode();
                 var inlineKeyboard = mergeKeyboards(edit, request.message().inlineKeyboard());
 
-                var message = new Message(messageId, null, text, null, inlineKeyboard);
+                var message = new Message(messageId, null, text, parseMode, inlineKeyboard);
 
                 response.setMessage(message);
                 response.setResponseStrategy(EDIT_MESSAGE);

@@ -8,18 +8,24 @@ import io.chengine.method.Method;
 
 import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
 
-public class SendTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class SendTypeResponseHandler extends AbstractResponseTypeHandler {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Class<?> supports() {
         return Send.class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void process(Method method, Object object, BotRequest request, BotResponse response) {
         var send = (Send) object;
         var message = new Message(
-                -1L,
+                null,
                 null,
                 send.getText(),
                 send.getParseMode(),

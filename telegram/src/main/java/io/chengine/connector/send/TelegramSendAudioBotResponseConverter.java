@@ -2,20 +2,17 @@ package io.chengine.connector.send;
 
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.BotResponseConverter;
-import io.chengine.util.InlineKeyboardConverter;
-import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 
-public class TelegramSendAudioBotResponseConverter implements BotResponseConverter<SendDocument> {
+public class TelegramSendAudioBotResponseConverter implements BotResponseConverter<SendAudio> {
 
     @Override
-    public SendDocument convert(BotResponse response) {
+    public SendAudio convert(BotResponse response) {
 
-        var sendDocument = new SendDocument();
+        var sendAudio = new SendAudio();
 
-        sendDocument.setCaption(response.message().text());
-        sendDocument.setChatId(response.chat().id());
-        sendDocument.setReplyMarkup(InlineKeyboardConverter.toTelegram(response.message().inlineKeyboard()));
+        sendAudio.setCaption(response.message().text());
 
-        return sendDocument;
+        return sendAudio;
     }
 }

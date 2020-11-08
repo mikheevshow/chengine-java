@@ -15,11 +15,7 @@ public class TelegramSendPhotoBotResponseConverter implements BotResponseConvert
         sendPhoto.setCaption(response.message().text());
         sendPhoto.setChatId(response.chat().id());
         sendPhoto.setParseMode(response.message().parseMode());
-
-        var chengineInlineKeyboard = response.message().inlineKeyboard();
-        var telegramKeyboard = InlineKeyboardConverter.toTelegram(chengineInlineKeyboard);
-        sendPhoto.setReplyMarkup(telegramKeyboard);
-
+        sendPhoto.setReplyMarkup(InlineKeyboardConverter.toTelegram(response.message().inlineKeyboard()));
 
         return sendPhoto;
     }

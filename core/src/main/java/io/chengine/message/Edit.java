@@ -146,8 +146,16 @@ public class Edit {
         return messageForEdit;
     }
 
-    public String getText() {
+    public String text() {
         return text;
+    }
+
+    public String parseMode() {
+        return parseMode;
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
     }
 
     public InlineKeyboard getInlineKeyboard() {

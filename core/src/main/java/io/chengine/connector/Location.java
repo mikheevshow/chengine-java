@@ -10,11 +10,11 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public float longitude() {
         return longitude;
     }
 
-    public float getLatitude() {
+    public float latitude() {
         return latitude;
     }
 }

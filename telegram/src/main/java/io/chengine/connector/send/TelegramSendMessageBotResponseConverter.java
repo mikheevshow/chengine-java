@@ -14,11 +14,7 @@ public class TelegramSendMessageBotResponseConverter implements BotResponseConve
 		sendMessage.setText(response.message().text());
 		sendMessage.setChatId(response.chat().id());
 		sendMessage.setParseMode(response.message().parseMode());
-
-
-		var chengineInlineKeyboard = response.message().inlineKeyboard();
-		var telegramKeyboard = InlineKeyboardConverter.toTelegram(chengineInlineKeyboard);
-		sendMessage.setReplyMarkup(telegramKeyboard);
+		sendMessage.setReplyMarkup(InlineKeyboardConverter.toTelegram(response.message().inlineKeyboard()));
 
 
 		return sendMessage;
