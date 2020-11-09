@@ -7,14 +7,14 @@ public class Pipeline {
     private Class<?> clazz;
     private List<Stage> stages;
     private int steps;
-    private Trigger trigger;
+    private Class<? extends AbstractTrigger> abstractTrigger;
 
-    public Pipeline(String name, Class<?> clazz, List<Stage> stages, int steps, Trigger trigger) {
+    public Pipeline(String name, Class<?> clazz, List<Stage> stages, int steps, Class<? extends AbstractTrigger> abstractTrigger) {
         this.name = name;
         this.clazz = clazz;
         this.stages = stages;
         this.steps = steps;
-        this.trigger = trigger;
+        this.abstractTrigger = abstractTrigger;
     }
 
     public String getName() {
@@ -49,11 +49,11 @@ public class Pipeline {
         this.steps = steps;
     }
 
-    public Trigger getTrigger() {
-        return trigger;
+    public Class<? extends AbstractTrigger> getTrigger() {
+        return abstractTrigger;
     }
 
-    public void setTrigger(Trigger trigger) {
-        this.trigger = trigger;
+    public void setTrigger(Class<? extends AbstractTrigger> abstractTrigger) {
+        this.abstractTrigger = abstractTrigger;
     }
 }

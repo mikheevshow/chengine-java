@@ -3,12 +3,16 @@ package io.chengine.annotation.processor;
 import io.chengine.annotation.Handler;
 import io.chengine.annotation.HandlerType;
 import io.chengine.annotation.Stage;
+import io.chengine.annotation.Trigger;
 import io.chengine.annotation.dto.Pipeline;
 import io.chengine.method.Method;
 import io.chengine.method.MethodDefinition;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -44,7 +48,7 @@ public class PipelineAnnotationProcessor implements AnnotationProcessor<Pipeline
                     pipe.getClass(),
                     stages,
                     stages.size(),
-                    null
+                    pipe.getClass().getAnnotation(Trigger.class).value()
                 );
             })
             .collect(Collectors.toSet());
