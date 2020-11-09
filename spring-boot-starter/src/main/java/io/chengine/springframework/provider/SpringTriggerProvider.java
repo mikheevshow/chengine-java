@@ -1,8 +1,6 @@
 package io.chengine.springframework.provider;
 
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.Trigger;
-import io.chengine.annotation.dto.AbstractTrigger;
+import io.chengine.pipeline.AbstractTrigger;
 import io.chengine.provider.TriggerProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

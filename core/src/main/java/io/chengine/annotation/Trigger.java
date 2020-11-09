@@ -1,6 +1,6 @@
 package io.chengine.annotation;
 
-import io.chengine.annotation.dto.AbstractTrigger;
+import io.chengine.pipeline.AbstractTrigger;
 
 import java.lang.annotation.*;
 

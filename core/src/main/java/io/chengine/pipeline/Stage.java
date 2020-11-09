@@ -1,4 +1,4 @@
-package io.chengine.annotation.dto;
+package io.chengine.pipeline;
 
 import io.chengine.annotation.StageMode;
 import io.chengine.method.Method;

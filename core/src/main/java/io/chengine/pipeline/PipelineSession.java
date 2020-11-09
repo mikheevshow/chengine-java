@@ -1,4 +1,4 @@
-package io.chengine.annotation.dto;
+package io.chengine.pipeline;
 
 import io.chengine.connector.User;
 

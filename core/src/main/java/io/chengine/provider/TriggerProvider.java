@@ -1,6 +1,6 @@
 package io.chengine.provider;
 
-import io.chengine.annotation.dto.AbstractTrigger;
+import io.chengine.pipeline.AbstractTrigger;
 
 import java.util.List;
 
