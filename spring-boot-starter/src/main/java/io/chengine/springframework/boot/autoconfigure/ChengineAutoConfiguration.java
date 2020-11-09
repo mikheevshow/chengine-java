@@ -7,6 +7,7 @@ import io.chengine.processor.*;
 import io.chengine.security.DefaultSecurityGuard;
 import io.chengine.security.SecurityGuard;
 import io.chengine.springframework.provider.SpringHandlerProvider;
+import io.chengine.springframework.provider.SpringTriggerProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +17,11 @@ public class ChengineAutoConfiguration {
 	@Bean
 	public SpringHandlerProvider springHandlerProvider() {
 		return new SpringHandlerProvider();
+	}
+
+	@Bean
+	public SpringTriggerProvider springTriggerProvider() {
+		return new SpringTriggerProvider();
 	}
 
 	@Bean
@@ -40,12 +46,10 @@ public class ChengineAutoConfiguration {
 
 	@Bean
 	public ChengineMessageProcessor chengineMessageProcessor(
-
 			CommandMethodResolver commandMethodResolver,
 			MethodArgumentInspector methodArgumentInspector,
 			ResponseResolver responseResolver,
 			SecurityGuard securityGuard
-
 	) {
 
 		return new ChengineMessageProcessor(
@@ -57,9 +61,13 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public ChengineHandlerContext chengineHandlerContext(SpringHandlerProvider springHandlerProvider) {
+	public ChengineHandlerContext chengineHandlerContext(
+		SpringHandlerProvider springHandlerProvider,
+		SpringTriggerProvider springTriggerProvider
+	) {
 		var configuration = new ChengineConfiguration.Builder()
 			.addHandlerProvider(springHandlerProvider)
+			.addTriggerProvider(springTriggerProvider)
 			.build();
 
 		return new ChengineHandlerContext(configuration);
