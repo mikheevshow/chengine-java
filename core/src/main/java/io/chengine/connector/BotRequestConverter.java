@@ -1,7 +1,7 @@
 package io.chengine.connector;
 
-public interface BotRequestConverter<T> {
+import io.chengine.commons.Converter;
 
-    BotRequest convert(T request) throws Exception;
+public interface BotRequestConverter<T> extends Converter<T, BotRequest> {
 
 }

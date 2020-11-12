@@ -12,16 +12,32 @@
     <artifactId>vk</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.vk.api</groupId>
+            <artifactId>sdk</artifactId>
+            <version>1.0.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>io.chengine</groupId>
             <artifactId>core</artifactId>
             <version>1.0.0-alpha-1-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.vk.api</groupId>-->
-<!--            <artifactId>sdk</artifactId>-->
-<!--            <version>1.0.6</version>-->
-<!--        </dependency>-->
     </dependencies>
 
 </project>

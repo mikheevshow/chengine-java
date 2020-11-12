@@ -2,14 +2,16 @@ package io.chengine;
 
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.BotResponseConverter;
+import io.chengine.connector.edit.EditResponseConverterFactory;
+import io.chengine.connector.send.SendResponseConverterFactory;
 import io.chengine.processor.MessageProcessor;
-import io.chengine.util.InlineKeyboardConverter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
 import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
@@ -19,14 +21,16 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	private static final Logger log = LogManager.getLogger(TelegramLongPoolingBot.class);
 
 	private final MessageProcessor<Update, BotResponse> messageProcessor;
-	private final BotResponseConverter<BotApiMethod<?>> botResponseConverter;
+	private final BotResponseConverter<SendMessage> botResponseConverter;
 	private final String token;
 	private final String username;
+	private final SendResponseConverterFactory sendResponseConverterFactory = new SendResponseConverterFactory();
+	private final EditResponseConverterFactory editResponseConverterFactory = new EditResponseConverterFactory();
 
 	public TelegramLongPoolingBot(
 
 		final MessageProcessor<Update, BotResponse> messageProcessor,
-		final BotResponseConverter<BotApiMethod<?>> botResponseConverter,
+		final BotResponseConverter<SendMessage> botResponseConverter,
 		final String telegramToken,
 		final String telegramUsername
 
@@ -50,20 +54,14 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 		try {
 			var botResponse = new BotResponse();
 			messageProcessor.process(update, botResponse);
-			var responseStrategy = botResponse.getResponseStrategy();
+			var responseStrategy = botResponse.responseStrategy();
 			if (SEND_MESSAGE.equals(responseStrategy)) {
-				this.execute(botResponseConverter.convert(botResponse));
+				send(botResponse);
 			} else if (EDIT_MESSAGE.equals(responseStrategy)) {
-				var edit = new EditMessageText()
-						.setChatId(botResponse.getChat().getId())
-						.setMessageId((int) botResponse.getMessage().id())
-						.setText(botResponse.getMessage().text())
-						.setReplyMarkup(InlineKeyboardConverter.toTelegram(botResponse.getMessage().inlineKeyboard()));
-				this.execute(edit);
+				edit(botResponse);
 			} else {
 				log.info("Unknown response strategy type");
 			}
-
 		} catch (Exception ex) {
 			log.error(ex.getMessage(), ex);
 		}
@@ -72,5 +70,15 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	@Override
 	public String getBotUsername() {
 		return username;
+	}
+
+	private void send(BotResponse response) throws TelegramApiException {
+		var botResponseConverter = sendResponseConverterFactory.get(SendMessage.class);
+		this.execute(botResponseConverter.convert(response));
+	}
+
+	private void edit(BotResponse response) throws TelegramApiException {
+		var botResponseConverter = editResponseConverterFactory.get(EditMessageText.class);
+		this.execute(botResponseConverter.convert(response));
 	}
 }

@@ -26,10 +26,10 @@ import static java.util.stream.Collectors.toSet;
 
 public class ChengineHandlerContext implements HandlerRegistry {
 
-    private final static Logger log = LogManager.getLogger(ChengineHandlerContext.class);
+	private static final Logger log = LogManager.getLogger(ChengineHandlerContext.class);
 
-    private final static String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
-    private final static String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
+	private static final String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
+	private static final String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
 
     private final List<HandlerProvider> handlerProviders = new ArrayList<>();
     private final List<TriggerProvider> triggerProviders = new ArrayList<>();
@@ -58,8 +58,8 @@ public class ChengineHandlerContext implements HandlerRegistry {
     @Mutates(by = CommandDescriptionAnnotationProcessor.class)
     private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
 
-    private ChengineHandlerContext() {
-    }
+	private ChengineHandlerContext() {
+	}
 
     public ChengineHandlerContext(ChengineConfiguration chengineConfiguration) {
         List<HandlerProvider> handlerProviders = chengineConfiguration.getHandlerProviders();
@@ -137,58 +137,49 @@ public class ChengineHandlerContext implements HandlerRegistry {
         return commandMethodMap.keySet();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @return
-     */
-    @Override
-    @Nullable
-    public io.chengine.method.Method get(String command) { //todo
-        return commandMethodMap.get(command);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Nullable
+	public io.chengine.method.Method get(String command) {
+		return commandMethodMap.get(command);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<?> getAllHandlers() {
-        return commandMethodMap
-            .values()
-            .stream()
-            .map(io.chengine.method.Method::onObject)
-            .collect(toSet());
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<?> getAllHandlers() {
+		return commandMethodMap
+			.values()
+			.stream()
+			.map(io.chengine.method.Method::onObject)
+			.collect(toSet());
+	}
 
-    //****************************************************************************************************************
+	//****************************************************************************************************************
 
-    @Nullable
-    private Annotation findHandlerAnnotationRecursively(final Annotation[] annotations) {
-        if (annotations == null || annotations.length == 0)
-            return null;
+	@Nullable
+	private Annotation findHandlerAnnotationRecursively(final Annotation[] annotations) {
+		if (annotations == null || annotations.length == 0)
+			return null;
 
-        for (final Annotation annotation : annotations) {
-            if (isHandler(annotation))
-                return annotation;
-        }
+		for (final Annotation annotation : annotations) {
+			if (isHandler(annotation))
+				return annotation;
+		}
 
-        for (final Annotation annotation : annotations) {
-            Annotation a = findHandlerAnnotationRecursively(annotation.annotationType().getAnnotations());
-            if (a != null)
-                return a;
-        }
+		for (final Annotation annotation : annotations) {
+			Annotation a = findHandlerAnnotationRecursively(annotation.annotationType().getAnnotations());
+			if (a != null)
+				return a;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private boolean annotatedByHandler(Annotation annotation) {
-        Annotation[] annotations = annotation.annotationType().getDeclaredAnnotations();
-        Annotation handlerAnnotation = findHandlerAnnotationRecursively(annotations);
-
-        return handlerAnnotation != null;
-    }
-
-    private boolean isHandler(Annotation annotation) {
-        return annotation.annotationType().equals(Handler.class);
-    }
+	private boolean isHandler(Annotation annotation) {
+		return annotation.annotationType().equals(Handler.class);
+	}
 }

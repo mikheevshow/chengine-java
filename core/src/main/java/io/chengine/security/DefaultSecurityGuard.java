@@ -13,7 +13,7 @@ public class DefaultSecurityGuard implements SecurityGuard {
     }
 
     @Override
-    public boolean methodCallingForEditMessage(Method method, BotRequest request) {
+    public boolean callMethodToEditMessage(Method method, BotRequest request) {
         return request.isCallback() && method.definition().isForEditContextualMessage();
     }
 }

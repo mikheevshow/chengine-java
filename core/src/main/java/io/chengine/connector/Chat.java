@@ -32,31 +32,31 @@ public class Chat {
         this.inviteLink = inviteLink;
     }
 
-    public long getId() {
+    public long id() {
         return id;
     }
 
-    public String getType() {
+    public String type() {
         return type;
     }
 
-    public String getTitle() {
+    public String title() {
         return title;
     }
 
-    public String getUsername() {
+    public String username() {
         return username;
     }
 
-    public String getFirstName() {
+    public String firstName() {
         return firstName;
     }
 
-    public String getLastName() {
+    public String lastName() {
         return lastName;
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 

@@ -15,7 +15,7 @@ public class BotResponse {
         this.send = send;
     }
 
-    public BotResponseStrategy getResponseStrategy() {
+    public BotResponseStrategy responseStrategy() {
         return responseStrategy;
     }
 
@@ -23,7 +23,7 @@ public class BotResponse {
         this.responseStrategy = responseStrategy;
     }
 
-    public Chat getChat() {
+    public Chat chat() {
         return chat;
     }
 
@@ -31,7 +31,7 @@ public class BotResponse {
         this.chat = chat;
     }
 
-    public Message getMessage() {
+    public Message message() {
         return message;
     }
 

@@ -3,32 +3,24 @@ package io.chengine.processor;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.MethodArgumentInspector;
-import io.chengine.security.SecurityGuard;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ChengineMessageProcessor implements MessageProcessor<BotRequest, BotResponse> {
-
-	private static final Logger log = LogManager.getLogger(ChengineMessageProcessor.class);
 
 	private final MethodResolver methodResolver;
 	private final MethodArgumentInspector methodArgumentInspector;
 	private final ResponseResolver responseResolver;
-	private final SecurityGuard securityGuard;
 
 	public ChengineMessageProcessor(
 
 			final MethodResolver methodResolver,
 			final MethodArgumentInspector methodArgumentInspector,
-			final ResponseResolver responseResolver,
-			final SecurityGuard securityGuard
+			final ResponseResolver responseResolver
 
 	) {
 
 		this.methodResolver = methodResolver;
 		this.methodArgumentInspector = methodArgumentInspector;
 		this.responseResolver = responseResolver;
-		this.securityGuard = securityGuard;
 
 	}
 

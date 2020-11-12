@@ -1,8 +1,10 @@
 package io.chengine.message;
 
 import io.chengine.connector.Message;
+import io.chengine.message.attachment.Attachment;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardButton;
+import io.chengine.message.keyboard.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +18,30 @@ public class Edit {
 
     private final Message messageForEdit;
     private final String text;
+    private final String parseMode;
+    private final Attachment attachment;
     private final InlineKeyboard inlineKeyboard;
-    private final boolean removeKeyboard;
+    private final Keyboard keyboard;
+    private final boolean removeInlineKeyboard;
     private final List<ButtonMarkup> editButtons;
 
     private Edit(
         final Message message,
         final String text,
+        final String parseMode,
+        final Attachment attachment,
         final InlineKeyboard inlineKeyboard,
-        final boolean removeKeyboard,
+        final Keyboard keyboard,
+        final boolean removeInlineKeyboard,
         final List<ButtonMarkup> editButtons) {
 
         this.messageForEdit = message;
         this.text = text;
+        this.parseMode = parseMode;
+        this.attachment = attachment;
         this.inlineKeyboard = inlineKeyboard;
-        this.removeKeyboard = removeKeyboard;
+        this.keyboard = keyboard;
+        this.removeInlineKeyboard = removeInlineKeyboard;
         this.editButtons = editButtons;
     }
 
@@ -80,8 +91,11 @@ public class Edit {
 
         private Message messageForEdit;
         private String text;
+        private String parseMode;
+        private Attachment attachment;
         private InlineKeyboard inlineKeyboard;
-        private boolean removeKeyboard;
+        private Keyboard keyboard;
+        private boolean removeInlineKeyboard;
         private final List<ButtonMarkup> editButtons = new ArrayList<>();
 
         public EditBuilder() {
@@ -117,13 +131,13 @@ public class Edit {
         }
 
 
-        public EditBuilder removeKeyboard() {
-            this.removeKeyboard = true;
+        public EditBuilder removeInlineKeyboard() {
+            this.removeInlineKeyboard = true;
             return this;
         }
 
         public Edit done() {
-            return new Edit(messageForEdit, text, inlineKeyboard, removeKeyboard, editButtons);
+            return new Edit(messageForEdit, text, parseMode, attachment, inlineKeyboard, keyboard, removeInlineKeyboard, editButtons);
         }
 
     }
@@ -132,16 +146,28 @@ public class Edit {
         return messageForEdit;
     }
 
-    public String getText() {
+    public String text() {
         return text;
+    }
+
+    public String parseMode() {
+        return parseMode;
+    }
+
+    public Attachment getAttachment() {
+        return attachment;
     }
 
     public InlineKeyboard getInlineKeyboard() {
         return inlineKeyboard;
     }
 
-    public boolean isRemoveKeyboard() {
-        return removeKeyboard;
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
+
+    public boolean removeInlineKeyboard() {
+        return removeInlineKeyboard;
     }
 
     public List<ButtonMarkup> getEditButtons() {

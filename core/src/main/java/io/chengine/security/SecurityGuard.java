@@ -8,6 +8,6 @@ public interface SecurityGuard {
 
     boolean methodAvailableForApi(Method method, BotApiIdentifier identifier);
 
-    boolean methodCallingForEditMessage(Method method, BotRequest request);
+    boolean callMethodToEditMessage(Method method, BotRequest request);
 
 }

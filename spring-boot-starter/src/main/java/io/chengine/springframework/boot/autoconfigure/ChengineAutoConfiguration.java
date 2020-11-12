@@ -48,15 +48,14 @@ public class ChengineAutoConfiguration {
 	public ChengineMessageProcessor chengineMessageProcessor(
 			CommandMethodResolver commandMethodResolver,
 			MethodArgumentInspector methodArgumentInspector,
-			ResponseResolver responseResolver,
-			SecurityGuard securityGuard
+			ResponseResolver responseResolver
+
 	) {
 
 		return new ChengineMessageProcessor(
 				commandMethodResolver,
 				methodArgumentInspector,
-				responseResolver,
-				securityGuard
+				responseResolver
 		);
 	}
 
@@ -71,11 +70,6 @@ public class ChengineAutoConfiguration {
 			.build();
 
 		return new ChengineHandlerContext(configuration);
-	}
-
-	@Bean
-	public SecurityGuard securityGuard() {
-		return new DefaultSecurityGuard();
 	}
 
 }

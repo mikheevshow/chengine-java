@@ -17,6 +17,14 @@ public abstract class AbstractResponseTypeHandler {
         process(method, returnedObject, request, response);
     }
 
+    /**
+     * Implement this method to provide specified response type processing
+     *
+     * @param method - called method
+     * @param returnedObject - object returned by method
+     * @param request - bot request object
+     * @param response - bot response object
+     */
     protected abstract void process(Method method, Object returnedObject, BotRequest request, BotResponse response);
 
 }

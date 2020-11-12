@@ -22,13 +22,12 @@ public class InlineKeyboardConverter {
                     .getRows()
                     .forEach(row -> {
                         var telegramRow = new ArrayList<InlineKeyboardButton>();
-                        row.getButtons()
-                                .forEach(button -> {
-                                    var telegramButton = new InlineKeyboardButton();
-                                    telegramButton.setText(button.getText());
-                                    telegramButton.setCallbackData(button.getData());
-                                    telegramRow.add(telegramButton);
-                                });
+                        row.getButtons().forEach(button -> {
+                            var telegramButton = new InlineKeyboardButton();
+                            telegramButton.setText(button.getText());
+                            telegramButton.setCallbackData(button.getData());
+                            telegramRow.add(telegramButton);
+                        });
                         rows.add(telegramRow);
                     });
 

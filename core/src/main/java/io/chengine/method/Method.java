@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class Method {
 
-    private final java.lang.reflect.Method method;
+    private final java.lang.reflect.Method reflectMethod;
     private final Object object;
     private final Class<?> objectClass;
     private final MethodDefinition methodDefinition;
@@ -30,21 +30,21 @@ public class Method {
                 .contains(method);
 
         if (!containsMethod) {
-            throw new RuntimeException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
+            throw new MethodInstantinationException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
         return new Method(method, object, methodDefinition);
     }
 
-    private Method(java.lang.reflect.Method method, Object object, MethodDefinition methodDefinition) {
-        this.method = method;
+    private Method(java.lang.reflect.Method reflectMethod, Object object, MethodDefinition methodDefinition) {
+        this.reflectMethod = reflectMethod;
         this.object = object;
         this.methodDefinition = methodDefinition;
         this.objectClass = object.getClass();
     }
 
     public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
-        var result = this.method.invoke(object, args);
+        var result = this.reflectMethod.invoke(object, args);
         return clazz.cast(result);
     }
 
@@ -61,7 +61,7 @@ public class Method {
     }
 
     public Object invokeChecked(Object ... args) throws InvocationTargetException, IllegalAccessException {
-        return this.method.invoke(object, args);
+        return this.reflectMethod.invoke(object, args);
     }
 
     public void invokeVoid(Object ... args) {
@@ -69,7 +69,7 @@ public class Method {
     }
 
     public java.lang.reflect.Method get() {
-        return this.method;
+        return this.reflectMethod;
     }
 
     public Object onObject() {
@@ -93,19 +93,19 @@ public class Method {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Method method1 = (Method) o;
-        return method.equals(method1.method) &&
+        return reflectMethod.equals(method1.reflectMethod) &&
                 object.equals(method1.object);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(method, object);
+        return Objects.hash(reflectMethod, object);
     }
 
     @Override
     public String toString() {
         return "Method{" +
-                "method=" + method +
+                "method=" + reflectMethod +
                 ", object=" + object +
                 ", objectClass=" + objectClass +
                 ", methodDefinition=" + methodDefinition +
