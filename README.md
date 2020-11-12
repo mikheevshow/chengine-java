@@ -136,8 +136,6 @@ You can create pipelines to build automatic business process with user. Here is 
 @ComponentPipeline("registration-pipeline")
 public class RegistrationPipeline {
 
-    private final String CANCEL_PIPELINE = "Отмена";
-
     @Autowired
     private final UserService userService;
 
@@ -146,7 +144,9 @@ public class RegistrationPipeline {
     public ActionStage registrationGreetingStage() {
         return ActionStage
                 .create()
-                .doAction(() -> Send.messageWithText(() -> "Nice to meet you. Let's Start! Please enter your email."))
+                .doAction(() -> 
+                    Send.messageWithText(() -> "Nice to meet you. Please enter your email.")
+                )
                 .done();
     }
 
@@ -161,13 +161,13 @@ public class RegistrationPipeline {
                         }
                             var user = userService.getByEmail(text);
                             if (user != null) {
-                                return CheckResult.fail("Пользователь с данным адресом электронной почты уже зарегестрирован. Укажите другой адрес.");
+                                return CheckResult.fail("User exist. User another email");
                             }
                                        
                         return CheckResult.success();
                  })
-                 .doOnSuccessCheck(() -> Send.messageWithText(() -> "На указанный адрес отправлен код, введите его в ответном сообщении"))
-                 .doOnFailCheck((checkResult, canceler) -> Send.messageWithText(() -> checkResult.getData().toString()))
+                 .doOnSuccessCheck(() -> Send.messageWithText(() -> "We sent code to email. Put it here."))
+                 .doOnFailCheck((checkResult, canceler) -> Send.messageWithText(() -> checkResult.getData()))
                  .doOnError(error -> { // Pipeline will terminates here if some exception will be trown
                      error.printStackTrace();
                      return Send.messageWithText(() -> "Ooops! Something went wrong, try again");
