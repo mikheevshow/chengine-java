@@ -15,35 +15,41 @@ public class DefaultCommandValidator implements CommandValidator {
 		return COMMAND_VALIDATOR;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isCommand(String s) {
 		return s != null && s.trim().startsWith("/");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void validate(String s) throws CommandValidationException, EmptyCommandException {
+	public void validate(String s) {
 		if (isCommand(s)) {
 			var matcher = commandMatcherFor(s);
 			if (s.trim().equals("/")) {
-				throw new EmptyCommandException();
+				throw new CommandValidationException("Command is empty");
 			}
 			if (s.substring(1).length() > MAX_COMMAND_LENGTH) {
-				throw new CommandValidationException("Command length more than 32 symbols.");
+				throw new CommandValidationException(String.format("Command length more than %s symbols.", MAX_COMMAND_LENGTH));
 			}
 			if (!matcher.matches()) {
 				throw new CommandValidationException("Command doesn't match pattern " + commandTemplatePattern.pattern());
 			}
 		} else {
 			if (s == null || s.isBlank()) {
-				throw new EmptyCommandException();
+				throw new CommandValidationException("Input string is null, blank or empty");
 			} else {
 				throw new CommandValidationException(s + " is not a command");
 			}
 		}
 	}
 
-	@Override
-	public Matcher commandMatcherFor(@Nonnull String command) {
+
+	private Matcher commandMatcherFor(@Nonnull String command) {
 		return commandTemplatePattern.matcher(Objects.requireNonNull(command, "Command can't be null"));
 	}
 

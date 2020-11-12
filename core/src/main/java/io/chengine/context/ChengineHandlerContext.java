@@ -22,10 +22,10 @@ import static java.util.stream.Collectors.toSet;
 
 public class ChengineHandlerContext implements HandlerRegistry {
 
-	private final static Logger log = LogManager.getLogger(ChengineHandlerContext.class);
+	private static final Logger log = LogManager.getLogger(ChengineHandlerContext.class);
 
-	private final static String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
-	private final static String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
+	private static final String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
+	private static final String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
 
 	/**
 	 * The central part of Chengine. It stores map of string handler path and handler's method.
@@ -105,11 +105,10 @@ public class ChengineHandlerContext implements HandlerRegistry {
 
 	/**
 	 * {@inheritDoc}
-	 * @return
 	 */
 	@Override
 	@Nullable
-	public io.chengine.method.Method get(String command) { //todo
+	public io.chengine.method.Method get(String command) {
 		return commandMethodMap.get(command);
 	}
 
@@ -144,13 +143,6 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		}
 
 		return null;
-	}
-
-	private boolean annotatedByHandler(Annotation annotation) {
-		Annotation[] annotations = annotation.annotationType().getDeclaredAnnotations();
-		Annotation handlerAnnotation = findHandlerAnnotationRecursively(annotations);
-
-		return handlerAnnotation != null;
 	}
 
 	private boolean isHandler(Annotation annotation) {

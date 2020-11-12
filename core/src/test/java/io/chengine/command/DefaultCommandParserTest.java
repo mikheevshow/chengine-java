@@ -1,7 +1,6 @@
 package io.chengine.command;
 
 import io.chengine.command.validation.CommandValidationException;
-import io.chengine.command.validation.EmptyCommandException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,7 +22,7 @@ public class DefaultCommandParserTest {
 		"    "
 	})
 	public void failedParse1(String command) {
-		assertThrows(EmptyCommandException.class, () -> defaultCommandParser.parse(command));
+		assertThrows(CommandValidationException.class, () -> defaultCommandParser.parse(command));
 	}
 
 	@ParameterizedTest

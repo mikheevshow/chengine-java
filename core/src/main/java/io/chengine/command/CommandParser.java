@@ -1,7 +1,6 @@
 package io.chengine.command;
 
 import io.chengine.command.validation.CommandValidationException;
-import io.chengine.command.validation.EmptyCommandException;
 
 public interface CommandParser {
 
@@ -14,6 +13,6 @@ public interface CommandParser {
 	 * @see io.chengine.command.validation.CommandValidator
 	 * @see CommandIterator
 	 */
-	Command parse(String command) throws EmptyCommandException, CommandParsingException, CommandValidationException;
+	Command parse(String command);
 
 }

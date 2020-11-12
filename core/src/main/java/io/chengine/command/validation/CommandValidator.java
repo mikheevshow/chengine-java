@@ -1,18 +1,21 @@
 package io.chengine.command.validation;
 
-import io.chengine.commons.NotImplementedException;
-
-import javax.annotation.Nonnull;
-import java.util.regex.Matcher;
-
 public interface CommandValidator {
 
+	/**
+	 * Check if string is a command
+	 *
+	 * @param s - string for checking
+	 * @return true if string is a command, false otherwise
+	 */
 	boolean isCommand(String s);
 
-	void validate(String s) throws CommandValidationException, EmptyCommandException;
-
-	default Matcher commandMatcherFor(@Nonnull String command) {
-		throw new NotImplementedException();
-	}
+	/**
+	 * Validate a string representation of command
+	 *
+	 * @param s - string for validating
+	 * @throws CommandValidationException
+	 */
+	void validate(String s);
 
 }

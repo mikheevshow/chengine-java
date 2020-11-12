@@ -5,7 +5,6 @@ import io.chengine.command.CommandParsingException;
 import io.chengine.command.DefaultCommandParser;
 import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.DefaultCommandValidator;
-import io.chengine.command.validation.EmptyCommandException;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -20,7 +19,7 @@ import static io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardBu
 public class TelegramBotRequestConverter implements BotRequestConverter<Update> {
 
     @Override
-    public BotRequest convert(Update request) throws CommandParsingException, CommandValidationException, EmptyCommandException {
+    public BotRequest convert(Update request) {
         return new BotRequest(
                 TelegramBotApiIdentifier.instance(),
                 isCallback(request),
@@ -84,7 +83,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         );
     }
 
-    private Message convertMessage(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
+    private Message convertMessage(Update update) {
         org.telegram.telegrambots.meta.api.objects.Message message = extractMessage(update);
         return new Message(
                 message.getMessageId().longValue(),
@@ -106,7 +105,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
     }
 
     @Nullable
-    private Command extractCommand(Update update) throws CommandParsingException, CommandValidationException, EmptyCommandException {
+    private Command extractCommand(Update update) {
         if (update.hasCallbackQuery()) {
             var text = update.getCallbackQuery().getData();
             var validator = DefaultCommandValidator.instance();

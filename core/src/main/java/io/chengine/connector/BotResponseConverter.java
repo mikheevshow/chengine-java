@@ -1,7 +1,7 @@
 package io.chengine.connector;
 
-public interface BotResponseConverter<T> {
+import io.chengine.commons.Converter;
 
-	T convert(BotResponse response);
+public interface BotResponseConverter<T> extends Converter<BotResponse, T> {
 
 }
