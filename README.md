@@ -125,3 +125,70 @@ public class SomeHandler {
 
 }
 ```
+
+#### Create Pipeline
+
+You can create pipelines to build automatic business process with user. Here is an example below:
+
+```java
+
+@Trigger(RegistrationTrigger.class)
+@ComponentPipeline("registration-pipeline")
+public class RegistrationPipeline {
+
+    private final String CANCEL_PIPELINE = "Отмена";
+
+    @Autowired
+    private final UserService userService;
+
+    // Initial Pipeline Stage
+    @Stage(step = 0, name = "registrationGreeting")
+    public ActionStage registrationGreetingStage() {
+        return ActionStage
+                .create()
+                .doAction(() -> Send.messageWithText(() -> "Nice to meet you. Let's Start! Please enter your email."))
+                .done();
+    }
+
+    @Stage(step = 1, name = "registrationStart")
+    public ActionStage registrationStartStage(Message message) {
+        return ActionStage
+                 .create()
+                 .checkStage(() -> { 
+                        var text = message.text();
+                        if (!userService.isEmail(text)) {
+                            return CheckResult.fail("Введите корректный email");
+                        }
+                            var user = userService.getByEmail(text);
+                            if (user != null) {
+                                return CheckResult.fail("Пользователь с данным адресом электронной почты уже зарегестрирован. Укажите другой адрес.");
+                            }
+                                       
+                        return CheckResult.success();
+                 })
+                 .doOnSuccessCheck(() -> Send.messageWithText(() -> "На указанный адрес отправлен код, введите его в ответном сообщении"))
+                 .doOnFailCheck((checkResult, canceler) -> Send.messageWithText(() -> checkResult.getData().toString()))
+                 .doOnError(error -> { // Pipeline will terminates here if some exception will be trown
+                     error.printStackTrace();
+                     return Send.messageWithText(() -> "Ooops! Something went wrong, try again");
+                 })
+                 .done();
+    }
+
+    // Last Pipeline Stage
+    @Stage(step = 2, name = "registrationDone")
+    public ActionStage registrationDone(BotRequest request) {
+
+        return ActionStage
+                .create()
+                .checkStage(() -> {
+                    // Here do some code validations
+                    return "1234".equals(request.message().text());   
+                })
+                .doOnSuccessCheck(() -> Send.messageWithText(() -> "Registration successful!"))
+                .doOnFailCheck((checkResult, canceler) -> Send.messageWithText("Wrong code, try again!"))
+                .done();
+    }
+
+}
+```

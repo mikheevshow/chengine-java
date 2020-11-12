@@ -1,5 +1,6 @@
 package io.chengine.message;
 
+import io.chengine.connector.Message;
 import io.chengine.message.attachment.Attachment;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.Keyboard;
@@ -7,7 +8,7 @@ import io.chengine.message.keyboard.Keyboard;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class Send {
+public class Send implements ActionResponse {
 
     private final Integer chatId;
     private final String text;
@@ -34,6 +35,10 @@ public class Send {
 
     public static MessageBuilder message() {
         return new MessageBuilder();
+    }
+
+    public static Send messageWithText(Supplier<String> text) {
+        return Send.message().withText(text).done();
     }
 
     public static class MessageBuilder {

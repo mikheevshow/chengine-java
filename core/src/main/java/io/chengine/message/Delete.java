@@ -1,6 +1,6 @@
 package io.chengine.message;
 
-public class Delete {
+public class Delete implements ActionResponse {
 
     private final Integer chatId;
     private final Integer messageId;
