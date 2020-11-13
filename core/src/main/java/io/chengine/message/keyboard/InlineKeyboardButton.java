@@ -7,17 +7,17 @@ public class InlineKeyboardButton {
 
     private final String text;
     private final String url;
-    private final String data;
+    private final String payload;
     private final boolean pay;
 
     private InlineKeyboardButton(
             String text,
             String url,
-            String data,
+            String payload,
             boolean pay) {
         this.text = text;
         this.url = url;
-        this.data = data;
+        this.payload = payload;
         this.pay = pay;
     }
 
@@ -66,8 +66,8 @@ public class InlineKeyboardButton {
         return url;
     }
 
-    public String getData() {
-        return data;
+    public String getPayload() {
+        return payload;
     }
 
     public boolean isPay() {

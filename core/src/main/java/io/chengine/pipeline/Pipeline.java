@@ -5,14 +5,14 @@ import java.util.List;
 public class Pipeline {
     private String name;
     private Class<?> clazz;
-    private List<Stage> stages;
+    private List<StageDefinition> stageDefinitions;
     private int steps;
     private Class<? extends AbstractTrigger> abstractTrigger;
 
-    public Pipeline(String name, Class<?> clazz, List<Stage> stages, int steps, Class<? extends AbstractTrigger> abstractTrigger) {
+    public Pipeline(String name, Class<?> clazz, List<StageDefinition> stageDefinitions, int steps, Class<? extends AbstractTrigger> abstractTrigger) {
         this.name = name;
         this.clazz = clazz;
-        this.stages = stages;
+        this.stageDefinitions = stageDefinitions;
         this.steps = steps;
         this.abstractTrigger = abstractTrigger;
     }
@@ -33,12 +33,12 @@ public class Pipeline {
         this.clazz = clazz;
     }
 
-    public List<Stage> getStages() {
-        return stages;
+    public List<StageDefinition> getStages() {
+        return stageDefinitions;
     }
 
-    public void setStages(List<Stage> stages) {
-        this.stages = stages;
+    public void setStages(List<StageDefinition> stageDefinitions) {
+        this.stageDefinitions = stageDefinitions;
     }
 
     public int getSteps() {

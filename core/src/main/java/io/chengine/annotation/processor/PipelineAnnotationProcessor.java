@@ -7,6 +7,7 @@ import io.chengine.annotation.Trigger;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.method.Method;
 import io.chengine.method.MethodDefinition;
+import io.chengine.pipeline.StageDefinition;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -57,8 +58,8 @@ public class PipelineAnnotationProcessor implements AnnotationProcessor<Pipeline
 
     }
 
-    private io.chengine.pipeline.Stage objectToStage(Object obj, java.lang.reflect.Method method) {
-        return new io.chengine.pipeline.Stage(
+    private StageDefinition objectToStage(Object obj, java.lang.reflect.Method method) {
+        return new StageDefinition(
             obj.getClass().getAnnotation(Stage.class).name(),
             Method.of(method, obj, new MethodDefinition(null, false)),
             obj.getClass().getAnnotation(Stage.class).step(),

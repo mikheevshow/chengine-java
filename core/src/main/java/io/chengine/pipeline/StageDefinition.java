@@ -3,13 +3,13 @@ package io.chengine.pipeline;
 import io.chengine.annotation.StageMode;
 import io.chengine.method.Method;
 
-public class Stage {
+public class StageDefinition {
     private String name;
     private Method method;
     private int step;
     private StageMode stageMode;
 
-    public Stage(String name, Method method, int step, StageMode stageMode) {
+    public StageDefinition(String name, Method method, int step, StageMode stageMode) {
         this.name = name;
         this.method = method;
         this.step = step;

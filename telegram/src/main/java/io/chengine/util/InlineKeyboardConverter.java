@@ -25,7 +25,7 @@ public class InlineKeyboardConverter {
                         row.getButtons().forEach(button -> {
                             var telegramButton = new InlineKeyboardButton();
                             telegramButton.setText(button.getText());
-                            telegramButton.setCallbackData(button.getData());
+                            telegramButton.setCallbackData(button.getPayload());
                             telegramRow.add(telegramButton);
                         });
                         rows.add(telegramRow);

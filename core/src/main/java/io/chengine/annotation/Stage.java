@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Stage {
 
-    int step() default 0; // 0 - entrypoint
+    int step();
 
-    String name() default "";
+    String name();
 
     StageMode mode() default StageMode.SYNC;
 }
