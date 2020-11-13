@@ -1,6 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.exec.Executable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -9,7 +10,11 @@ import java.util.function.Supplier;
  *
  * @param <T> - a context object for passing data between chain methods
  */
-public interface StageAction<T> {
+public interface StageAction<T> extends Executable {
+
+    // ==============================================================================================================
+    //	 Static Generators
+    // ==============================================================================================================
 
     /**
      * Creates a {@link FireStageAction}
@@ -30,6 +35,10 @@ public interface StageAction<T> {
     static <T> CheckStageAction<T> checkStage(Supplier<StageCheck<T>> check) {
         return new CheckStageAction<>(check);
     }
+
+    // ==============================================================================================================
+    //	 Error handling methods
+    // ==============================================================================================================
 
     StageAction<T> onErrorTerminate(Consumer<Throwable> error, Supplier<ActionResponse> response);
 

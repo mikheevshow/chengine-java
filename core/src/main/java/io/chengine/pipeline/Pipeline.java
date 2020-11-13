@@ -1,59 +1,69 @@
 package io.chengine.pipeline;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Pipeline {
-    private String name;
-    private Class<?> clazz;
-    private List<StageDefinition> stageDefinitions;
-    private int steps;
-    private Class<? extends AbstractTrigger> abstractTrigger;
 
-    public Pipeline(String name, Class<?> clazz, List<StageDefinition> stageDefinitions, int steps, Class<? extends AbstractTrigger> abstractTrigger) {
+    private final String name;
+    private final Class<?> clazz;
+    private final int inactionTimeout;
+    private final TimeUnit inactionTimeUnit;
+    private final List<StageDefinition> stageDefinitions;
+    private final Class<? extends AbstractTrigger> trigger;
+
+    public Pipeline(
+            String name,
+            Class<?> clazz,
+            List<StageDefinition> stageDefinitions,
+            Class<? extends AbstractTrigger> abstractTrigger) {
+
+        this(name, clazz, 0, TimeUnit.SECONDS, stageDefinitions, abstractTrigger);
+    }
+
+    // Приватный конструктор должен содеражать все поля
+    // Все остальные конструкторы должны выставлять начальные
+    // значения, вызывая его
+    private Pipeline(
+            String name, Class<?> clazz,
+            int inactionTimeout,
+            TimeUnit inactionTimeUnit,
+            List<StageDefinition> stageDefinitions,
+            Class<? extends AbstractTrigger> trigger) {
+
         this.name = name;
         this.clazz = clazz;
+        this.inactionTimeout = inactionTimeout;
+        this.inactionTimeUnit = inactionTimeUnit;
         this.stageDefinitions = stageDefinitions;
-        this.steps = steps;
-        this.abstractTrigger = abstractTrigger;
+        this.trigger = trigger;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Class<?> getClazz() {
         return clazz;
     }
 
-    public void setClazz(Class<?> clazz) {
-        this.clazz = clazz;
+    public int getInactionTimeout() {
+        return inactionTimeout;
     }
 
-    public List<StageDefinition> getStages() {
+    public TimeUnit getInactionTimeUnit() {
+        return inactionTimeUnit;
+    }
+
+    public List<StageDefinition> getStageDefinitions() {
         return stageDefinitions;
     }
 
-    public void setStages(List<StageDefinition> stageDefinitions) {
-        this.stageDefinitions = stageDefinitions;
-    }
-
     public int getSteps() {
-        return steps;
-    }
-
-    public void setSteps(int steps) {
-        this.steps = steps;
+        return stageDefinitions.size();
     }
 
     public Class<? extends AbstractTrigger> getTrigger() {
-        return abstractTrigger;
-    }
-
-    public void setTrigger(Class<? extends AbstractTrigger> abstractTrigger) {
-        this.abstractTrigger = abstractTrigger;
+        return trigger;
     }
 }

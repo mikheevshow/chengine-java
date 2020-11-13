@@ -4,6 +4,7 @@ import io.chengine.annotation.StageMode;
 import io.chengine.method.Method;
 
 public class StageDefinition {
+
     private String name;
     private Method method;
     private int step;

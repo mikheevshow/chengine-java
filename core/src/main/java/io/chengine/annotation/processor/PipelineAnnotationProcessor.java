@@ -48,7 +48,6 @@ public class PipelineAnnotationProcessor implements AnnotationProcessor<Pipeline
                     pipe.getClass().getAnnotation(Handler.class).value(),
                     pipe.getClass(),
                     stages,
-                    stages.size(),
                     pipe.getClass().getAnnotation(Trigger.class).value()
                 );
             })

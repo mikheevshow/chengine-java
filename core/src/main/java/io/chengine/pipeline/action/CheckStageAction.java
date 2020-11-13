@@ -1,6 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.exec.Executor;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -57,5 +58,10 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
 
     Supplier<StageCheck<T>> check() {
         return check;
+    }
+
+    @Override
+    public void executeOn(Executor executor) {
+
     }
 }

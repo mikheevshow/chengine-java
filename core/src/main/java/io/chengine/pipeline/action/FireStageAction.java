@@ -1,6 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.exec.Executor;
 
 import java.util.function.Supplier;
 
@@ -21,5 +22,10 @@ public class FireStageAction<T> extends AbstractStageAction<T> {
 
     public Supplier<ActionResponse> response() {
         return response;
+    }
+
+    @Override
+    public void executeOn(Executor executor) {
+
     }
 }
