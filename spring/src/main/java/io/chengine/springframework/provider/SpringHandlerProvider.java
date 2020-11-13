@@ -1,7 +1,6 @@
 package io.chengine.springframework.provider;
 
 import io.chengine.annotation.Handler;
-import io.chengine.provider.HandlerProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -19,7 +18,7 @@ public class SpringHandlerProvider implements HandlerProvider, ApplicationContex
 	}
 
 	@Override
-	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(final ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 }

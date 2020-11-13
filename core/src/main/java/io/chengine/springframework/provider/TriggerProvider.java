@@ -1,4 +1,4 @@
-package io.chengine.provider;
+package io.chengine.springframework.provider;
 
 import io.chengine.pipeline.AbstractTrigger;
 

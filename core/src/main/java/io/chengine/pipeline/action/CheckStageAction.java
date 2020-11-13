@@ -1,7 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.pipeline.exec.Executor;
+import io.chengine.pipeline.exec.Executors;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -18,14 +18,41 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
         this.check = check;
     }
 
+    /**
+     * This method works when {@link CheckStageAction#check} returns a {@link StageCheck#success()}.
+     * So it give a possibility to send a message. Stage index for current user increments.
+     *
+     * @param success - a function which receive {@link StageCheck} object and returns {@link ActionResponse}
+     * @return itself
+     * @see StageCheck
+     * @see ActionResponse
+     */
     public CheckStageAction<T> onSuccessCheckReturn(Function<StageCheck<T>, ActionResponse> success) {
         return this;
     }
 
-    public CheckStageAction<T> onSuccessCheckReturn(Supplier<ActionResponse> response) {
+    /**
+     * This method works when {@link CheckStageAction#check} returns a {@link StageCheck#success()}.
+     * So it give a possibility to send a message. Stage index for current user increments.
+     *
+     * @param success - a supplier which returns {@link ActionResponse}
+     * @return itself
+     * @see StageCheck
+     * @see ActionResponse
+     */
+    public CheckStageAction<T> onSuccessCheckReturn(Supplier<ActionResponse> success) {
         return this;
     }
 
+    /**
+     * This method works when {@link CheckStageAction#check} returns a {@link StageCheck#fail()}.
+     * So it give a possibility to send a message. Stage index for current user doesn't change.
+     *
+     * @param fail - a function which receive {@link StageCheck} object and returns {@link ActionResponse}
+     * @return itself
+     * @see StageCheck
+     * @see ActionResponse
+     */
     public CheckStageAction<T> onFailCheckReturn(Function<StageCheck<T>, ActionResponse> fail) {
         return this;
     }
@@ -40,6 +67,19 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckReturn(Supplier<ActionResponse> response) {
+        return this;
+    }
+
+    /**
+     * This method works when {@link CheckStageAction#check} returns a {@link StageCheck#fail()}.
+     * So it give a possibility to send a message. Stage index for current user increments and marks as successful.
+     *
+     * @param fail - a function which receive {@link StageCheck} object and returns {@link ActionResponse}
+     * @return itself
+     * @see StageCheck
+     * @see ActionResponse
+     */
+    public CheckStageAction<T> onFailCheckResume(Function<StageCheck<T>, ActionResponse> fail) {
         return this;
     }
 
@@ -61,7 +101,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
     }
 
     @Override
-    public void executeOn(Executor executor) {
-
+    public void execute() {
+        executeOn(Executors.check());
     }
 }

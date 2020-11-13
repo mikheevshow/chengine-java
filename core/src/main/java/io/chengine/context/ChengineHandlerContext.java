@@ -11,8 +11,8 @@ import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
 import io.chengine.annotation.processor.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
-import io.chengine.provider.HandlerProvider;
-import io.chengine.provider.TriggerProvider;
+import io.chengine.springframework.provider.HandlerProvider;
+import io.chengine.springframework.provider.TriggerProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -46,4 +46,6 @@ public interface StageAction<T> extends Executable {
 
     StageAction<T> onErrorResume(Consumer<Throwable> error, Supplier<ActionResponse> response);
 
+    void execute();
+
 }

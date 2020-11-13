@@ -27,9 +27,9 @@ public final class SendTypeResponseHandler extends AbstractResponseTypeHandler {
         var message = new Message(
                 null,
                 null,
-                send.getText(),
-                send.getParseMode(),
-                send.getInlineKeyboard()
+                send.text(),
+                send.parseMode(),
+                send.inlineKeyboard()
         );
         response.setResponseStrategy(SEND_MESSAGE);
         response.setMessage(message);

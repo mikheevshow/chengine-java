@@ -1,7 +1,7 @@
 package io.chengine;
 
-import io.chengine.provider.HandlerProvider;
-import io.chengine.provider.TriggerProvider;
+import io.chengine.springframework.provider.HandlerProvider;
+import io.chengine.springframework.provider.TriggerProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -4,8 +4,6 @@ import io.chengine.ChengineConfiguration;
 import io.chengine.context.ChengineHandlerContext;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
-import io.chengine.security.DefaultSecurityGuard;
-import io.chengine.security.SecurityGuard;
 import io.chengine.springframework.provider.SpringHandlerProvider;
 import io.chengine.springframework.provider.SpringTriggerProvider;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,6 @@
 package io.chengine.springframework.provider;
 
 import io.chengine.pipeline.AbstractTrigger;
-import io.chengine.provider.TriggerProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -19,7 +18,7 @@ public class SpringTriggerProvider implements TriggerProvider, ApplicationContex
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 }
