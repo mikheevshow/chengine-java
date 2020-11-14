@@ -1,7 +1,6 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.pipeline.exec.Executable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -10,7 +9,7 @@ import java.util.function.Supplier;
  *
  * @param <T> - a context object for passing data between chain methods
  */
-public interface StageAction<T> extends Executable {
+public interface StageAction<T> extends Executable<T> {
 
     // ==============================================================================================================
     //	 Static Generators
@@ -45,6 +44,8 @@ public interface StageAction<T> extends Executable {
     StageAction<T> onErrorTerminate(Consumer<Throwable> error);
 
     StageAction<T> onErrorResume(Consumer<Throwable> error, Supplier<ActionResponse> response);
+
+    StageAction<T> onErrorReturn(Consumer<Throwable> error, Supplier<ActionResponse> response);
 
     void execute();
 

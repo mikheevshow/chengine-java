@@ -8,7 +8,7 @@ import io.chengine.method.Method;
 
 import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
 
-public final class SendTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class SendTypeResponseHandler extends AbstractActionResponseHandler {
 
     /**
      * {@inheritDoc}

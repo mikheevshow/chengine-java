@@ -11,7 +11,7 @@ import io.chengine.security.SecurityGuard;
 
 import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
 
-public final class EditTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class EditTypeResponseHandler extends AbstractActionResponseHandler {
 
     private final SecurityGuard securityGuard = new DefaultSecurityGuard();
 

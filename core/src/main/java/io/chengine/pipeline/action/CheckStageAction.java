@@ -1,7 +1,6 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.pipeline.exec.Executors;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -13,6 +12,23 @@ import java.util.function.Supplier;
 public class CheckStageAction<T> extends AbstractStageAction<T> {
 
     private final Supplier<StageCheck<T>> check;
+
+    // ==============================================================================================================
+    //	 Success Functions
+    // ==============================================================================================================
+
+    private Function<StageCheck<T>, ActionResponse> successStageCheckActionResponse;
+    private Supplier<ActionResponse> successActionResponse;
+
+    // ==============================================================================================================
+    //	 Fail Functions
+    // ==============================================================================================================
+
+    private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseReturn;
+    private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseResume;
+    private Supplier<ActionResponse> failActionResponseResume;
+    private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseTerminate;
+
 
     protected CheckStageAction(Supplier<StageCheck<T>> check) {
         this.check = check;
@@ -28,6 +44,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onSuccessCheckReturn(Function<StageCheck<T>, ActionResponse> success) {
+        this.successStageCheckActionResponse = success;
         return this;
     }
 
@@ -41,6 +58,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onSuccessCheckReturn(Supplier<ActionResponse> success) {
+        this.successActionResponse = success;
         return this;
     }
 
@@ -54,6 +72,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckReturn(Function<StageCheck<T>, ActionResponse> fail) {
+        this.failStageCheckActionResponseReturn = fail;
         return this;
     }
 
@@ -67,6 +86,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckReturn(Supplier<ActionResponse> response) {
+        this.failActionResponseResume = response;
         return this;
     }
 
@@ -80,6 +100,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckResume(Function<StageCheck<T>, ActionResponse> fail) {
+        this.failStageCheckActionResponseResume = fail;
         return this;
     }
 
@@ -93,11 +114,37 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckTerminate(Function<StageCheck<T>, ActionResponse> fail) {
+        this.failStageCheckActionResponseTerminate = fail;
         return this;
     }
 
     Supplier<StageCheck<T>> check() {
         return check;
+    }
+
+
+    Function<StageCheck<T>, ActionResponse> successStageCheckActionResponse() {
+        return successStageCheckActionResponse;
+    }
+
+    Supplier<ActionResponse> successActionResponse() {
+        return successActionResponse;
+    }
+
+    Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseReturn() {
+        return failStageCheckActionResponseReturn;
+    }
+
+    Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseResume() {
+        return failStageCheckActionResponseResume;
+    }
+
+    Supplier<ActionResponse> failActionResponseResume() {
+        return failActionResponseResume;
+    }
+
+    Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseTerminate() {
+        return failStageCheckActionResponseTerminate;
     }
 
     @Override

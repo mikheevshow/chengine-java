@@ -4,7 +4,7 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.Method;
 
-public final class VoidTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class VoidTypeResponseHandler extends AbstractActionResponseHandler {
 
     /**
      * {@inheritDoc}
