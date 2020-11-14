@@ -25,6 +25,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
     // ==============================================================================================================
 
     private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseReturn;
+    private Supplier<ActionResponse> failActionResponseReturn;
     private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseResume;
     private Supplier<ActionResponse> failActionResponseResume;
     private Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseTerminate;
@@ -86,7 +87,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      * @see ActionResponse
      */
     public CheckStageAction<T> onFailCheckReturn(Supplier<ActionResponse> response) {
-        this.failActionResponseResume = response;
+        this.failActionResponseReturn = response;
         return this;
     }
 
@@ -101,6 +102,20 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
      */
     public CheckStageAction<T> onFailCheckResume(Function<StageCheck<T>, ActionResponse> fail) {
         this.failStageCheckActionResponseResume = fail;
+        return this;
+    }
+
+    /**
+     * This method works when {@link CheckStageAction#check} returns a {@link StageCheck#fail()}.
+     * So it give a possibility to send a message. Stage index for current user increments and marks as successful.
+     *
+     * @param fail - a function which receive {@link StageCheck} object and returns {@link ActionResponse}
+     * @return itself
+     * @see StageCheck
+     * @see ActionResponse
+     */
+    public CheckStageAction<T> onFailCheckResume(Supplier<ActionResponse> fail) {
+        this.failActionResponseResume = fail;
         return this;
     }
 
@@ -133,6 +148,10 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
 
     Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseReturn() {
         return failStageCheckActionResponseReturn;
+    }
+
+    public Supplier<ActionResponse> failActionResponseReturn() {
+        return failActionResponseReturn;
     }
 
     Function<StageCheck<T>, ActionResponse> failStageCheckActionResponseResume() {

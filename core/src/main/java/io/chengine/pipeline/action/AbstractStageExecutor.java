@@ -13,7 +13,7 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
 
     protected static final Logger log = LogManager.getLogger(AbstractStageExecutor.class);
 
-    protected ActionResponseHandler actionResponseHandler;
+    private final ActionResponseHandler actionResponseHandler;
 
     public AbstractStageExecutor(ActionResponseHandler actionResponseHandler) {
         this.actionResponseHandler = actionResponseHandler;
@@ -23,7 +23,7 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
     public void execute(Executable<T> executable) {
 
         try {
-            ActionResponse actionResponse = processStage(executable);
+            final ActionResponse actionResponse = processStage(executable);
             actionResponseHandler.handle(actionResponse);
         } catch (Exception ex) {
 
@@ -38,21 +38,27 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
                 actionResponseHandler.handle(actionResponse.get());
             } else if (stageAction.errorActionResponseResume() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
-                // TODO Do here pipeline step up in user session
-                log.info("Pipeline session must be updated here");
+                completeStage();
                 actionResponseHandler.handle(actionResponse.get());
             } else if (stageAction.errorActionResponseTerminate() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
-                // TODO Do here pipeline termination
-                log.info("Pipeline session must be terminated here");
+                terminateSession();
                 actionResponseHandler.handle(actionResponse.get());
             }
 
-            // TODO Do here pipeline termination
+            terminateSession();
             throw new NullPointerException("No one error handling method use. Terminate pipeline.");
         }
     }
 
     protected abstract ActionResponse processStage(Executable<T> executable) throws Exception;
+
+    protected void completeStage() {
+        // TODO add session update here
+    }
+
+    protected void terminateSession() {
+        // TODO add session termination here
+    }
 
 }
