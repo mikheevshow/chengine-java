@@ -1,7 +1,7 @@
 package io.chengine.springframework.provider;
 
 import io.chengine.pipeline.AbstractTrigger;
-import org.springframework.beans.BeansException;
+import io.chengine.provider.TriggerProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 

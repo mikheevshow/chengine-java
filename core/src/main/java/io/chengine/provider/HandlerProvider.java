@@ -1,4 +1,4 @@
-package io.chengine.springframework.provider;
+package io.chengine.provider;
 
 import io.chengine.annotation.Handler;
 

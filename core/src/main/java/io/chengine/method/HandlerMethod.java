@@ -1,22 +1,29 @@
 package io.chengine.method;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * A wrap around {@link java.lang.reflect.Method} class. Contains "invoke" methods
+ * A wrap around {@link Method} class. Contains "invoke" methods
  * which are throwing {@link MethodInvocationException}.
  */
-public class Method {
+public class HandlerMethod {
 
-    private final java.lang.reflect.Method reflectMethod;
+    private final Logger log = LogManager.getLogger(HandlerMethod.class);
+
+    private final Method method;
+    private  MethodParameter[] parameters;
     private final Object object;
     private final Class<?> objectClass;
     private final MethodDefinition methodDefinition;
 
-    public static Method of(
+    public static HandlerMethod of(
             @Nonnull java.lang.reflect.Method method,
             @Nonnull Object object,
             @Nonnull MethodDefinition methodDefinition
@@ -33,18 +40,18 @@ public class Method {
             throw new MethodInstantinationException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
-        return new Method(method, object, methodDefinition);
+        return new HandlerMethod(method, object, methodDefinition);
     }
 
-    private Method(java.lang.reflect.Method reflectMethod, Object object, MethodDefinition methodDefinition) {
-        this.reflectMethod = reflectMethod;
+    private HandlerMethod(java.lang.reflect.Method method, Object object, MethodDefinition methodDefinition) {
+        this.method = method;
         this.object = object;
         this.methodDefinition = methodDefinition;
         this.objectClass = object.getClass();
     }
 
     public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
-        var result = this.reflectMethod.invoke(object, args);
+        var result = this.method.invoke(object, args);
         return clazz.cast(result);
     }
 
@@ -61,7 +68,7 @@ public class Method {
     }
 
     public Object invokeChecked(Object ... args) throws InvocationTargetException, IllegalAccessException {
-        return this.reflectMethod.invoke(object, args);
+        return this.method.invoke(object, args);
     }
 
     public void invokeVoid(Object ... args) {
@@ -69,7 +76,7 @@ public class Method {
     }
 
     public java.lang.reflect.Method get() {
-        return this.reflectMethod;
+        return this.method;
     }
 
     public Object onObject() {
@@ -92,20 +99,20 @@ public class Method {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Method method1 = (Method) o;
-        return reflectMethod.equals(method1.reflectMethod) &&
-                object.equals(method1.object);
+        HandlerMethod handlerMethod1 = (HandlerMethod) o;
+        return method.equals(handlerMethod1.method) &&
+                object.equals(handlerMethod1.object);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reflectMethod, object);
+        return Objects.hash(method, object);
     }
 
     @Override
     public String toString() {
         return "Method{" +
-                "method=" + reflectMethod +
+                "method=" + method +
                 ", object=" + object +
                 ", objectClass=" + objectClass +
                 ", methodDefinition=" + methodDefinition +

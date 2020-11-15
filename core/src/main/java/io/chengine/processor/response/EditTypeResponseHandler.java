@@ -5,7 +5,7 @@ import io.chengine.connector.BotResponse;
 import io.chengine.connector.Message;
 import io.chengine.message.Edit;
 import io.chengine.message.keyboard.InlineKeyboard;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 import io.chengine.security.DefaultSecurityGuard;
 import io.chengine.security.SecurityGuard;
 
@@ -27,8 +27,8 @@ public final class EditTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    protected void process(Method method, Object returnedObject, BotRequest request, BotResponse response) {
-        if (securityGuard.callMethodToEditMessage(method, request)) {
+    protected void process(HandlerMethod handlerMethod, Object returnedObject, BotRequest request, BotResponse response) {
+        if (securityGuard.callMethodToEditMessage(handlerMethod, request)) {
             var edit = (Edit) returnedObject;
             if (request.message() != null) {
 

@@ -2,7 +2,7 @@ package io.chengine;
 
 
 import io.chengine.command.Command;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 import java.util.Set;
 
@@ -12,9 +12,9 @@ public interface HandlerRegistry {
 
 	Set<?> getAllHandlers();
 
-	Method get(String command);
+	HandlerMethod get(String command);
 
-	default Method get(Command command) {
+	default HandlerMethod get(Command command) {
 		return get(command.path());
 	}
 

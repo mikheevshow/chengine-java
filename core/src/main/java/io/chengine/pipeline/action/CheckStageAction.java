@@ -150,7 +150,7 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
         return failStageCheckActionResponseReturn;
     }
 
-    public Supplier<ActionResponse> failActionResponseReturn() {
+    Supplier<ActionResponse> failActionResponseReturn() {
         return failActionResponseReturn;
     }
 

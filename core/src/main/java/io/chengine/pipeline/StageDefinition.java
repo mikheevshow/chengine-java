@@ -1,18 +1,18 @@
 package io.chengine.pipeline;
 
 import io.chengine.annotation.StageMode;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 public class StageDefinition {
 
     private String name;
-    private Method method;
+    private HandlerMethod handlerMethod;
     private int step;
     private StageMode stageMode;
 
-    public StageDefinition(String name, Method method, int step, StageMode stageMode) {
+    public StageDefinition(String name, HandlerMethod handlerMethod, int step, StageMode stageMode) {
         this.name = name;
-        this.method = method;
+        this.handlerMethod = handlerMethod;
         this.step = step;
         this.stageMode = stageMode;
     }
@@ -25,12 +25,12 @@ public class StageDefinition {
         this.name = name;
     }
 
-    public Method getMethod() {
-        return method;
+    public HandlerMethod getMethod() {
+        return handlerMethod;
     }
 
-    public void setMethod(Method method) {
-        this.method = method;
+    public void setMethod(HandlerMethod handlerMethod) {
+        this.handlerMethod = handlerMethod;
     }
 
     public int getStep() {

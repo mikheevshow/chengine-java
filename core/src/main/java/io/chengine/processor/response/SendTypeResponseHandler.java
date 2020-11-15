@@ -4,7 +4,7 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.Message;
 import io.chengine.message.Send;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 import static io.chengine.connector.BotResponseStrategy.SEND_MESSAGE;
 
@@ -22,7 +22,7 @@ public final class SendTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    protected void process(Method method, Object object, BotRequest request, BotResponse response) {
+    protected void process(HandlerMethod handlerMethod, Object object, BotRequest request, BotResponse response) {
         var send = (Send) object;
         var message = new Message(
                 null,

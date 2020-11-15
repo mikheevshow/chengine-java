@@ -2,7 +2,7 @@ package io.chengine.processor.response;
 
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 public final class VoidTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -18,7 +18,7 @@ public final class VoidTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    protected void process(Method method, Object o, BotRequest request, BotResponse response) {
+    protected void process(HandlerMethod handlerMethod, Object o, BotRequest request, BotResponse response) {
         response.setSend(false);
     }
 }

@@ -28,6 +28,7 @@ public class FireAndForgetExecutor<T> extends AbstractStageExecutor<T> {
             throw new NullPointerException("doAction method has null argument");
         }
 
+        completeStage();
         return response.get();
     }
 }

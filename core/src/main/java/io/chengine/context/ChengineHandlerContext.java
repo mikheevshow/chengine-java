@@ -5,14 +5,15 @@ import io.chengine.HandlerCreationException;
 import io.chengine.HandlerRegistry;
 import io.chengine.annotation.Handler;
 import io.chengine.annotation.Mutates;
+import io.chengine.method.HandlerMethod;
 import io.chengine.pipeline.AbstractTrigger;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
 import io.chengine.annotation.processor.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
-import io.chengine.springframework.provider.HandlerProvider;
-import io.chengine.springframework.provider.TriggerProvider;
+import io.chengine.provider.HandlerProvider;
+import io.chengine.provider.TriggerProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +40,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
      * Key of every pair of Method and Handler object has following format: /{path1}/{param1}#/{path2}/...
      */
     @Mutates(by = HandleCommandAnnotationProcessor.class)
-    private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
+    private final Map<String, HandlerMethod> commandMethodMap = new HashMap<>();
 
     @Mutates(by = HandleCommandAnnotationProcessor.class)
     private final Map<Method, String> methodPathMap = new HashMap<>();
@@ -142,7 +143,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	 */
 	@Override
 	@Nullable
-	public io.chengine.method.Method get(String command) {
+	public HandlerMethod get(String command) {
 		return commandMethodMap.get(command);
 	}
 
@@ -154,7 +155,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		return commandMethodMap
 			.values()
 			.stream()
-			.map(io.chengine.method.Method::onObject)
+			.map(HandlerMethod::onObject)
 			.collect(toSet());
 	}
 

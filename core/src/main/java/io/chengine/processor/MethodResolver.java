@@ -1,10 +1,10 @@
 package io.chengine.processor;
 
 import io.chengine.connector.BotRequest;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 public interface MethodResolver {
 
-	Method resolve(BotRequest request);
+	HandlerMethod resolve(BotRequest request);
 
 }

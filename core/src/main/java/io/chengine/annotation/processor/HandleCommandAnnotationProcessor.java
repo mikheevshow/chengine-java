@@ -3,7 +3,7 @@ package io.chengine.annotation.processor;
 import io.chengine.annotation.HandleCommand;
 import io.chengine.annotation.Handler;
 import io.chengine.connector.BotApiIdentifier;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,12 +25,12 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
     public static final class Input {
 
         private final Collection<?> handlers;
-        private final Map<String, Method> commandMethodMap;
+        private final Map<String, HandlerMethod> commandMethodMap;
         private final Map<java.lang.reflect.Method, String> methodPathMap;
 
         public Input(
                 Collection<?> handlers,
-                Map<String, Method> commandMethodMap,
+                Map<String, HandlerMethod> commandMethodMap,
                 Map<java.lang.reflect.Method, String> methodPathMap) {
 
             this.handlers = handlers;
@@ -83,7 +83,7 @@ public class HandleCommandAnnotationProcessor implements AnnotationProcessor<Han
                     }
 
                     var methodDefinition = MethodDefinitionCreator.create(method);
-                    var chengineMethod = io.chengine.method.Method.of(method, handler, methodDefinition);
+                    var chengineMethod = HandlerMethod.of(method, handler, methodDefinition);
                     input.commandMethodMap.put(fullMethodCommandPathTemplate, chengineMethod);
                     input.methodPathMap.put(chengineMethod.get(), fullMethodCommandPathTemplate);
                 }
