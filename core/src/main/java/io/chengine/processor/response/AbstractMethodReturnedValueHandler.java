@@ -6,7 +6,7 @@ import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractResponseHandler<T> implements MethodReturnedValueHandler<T>{
+public abstract class AbstractMethodReturnedValueHandler<T> implements MethodReturnedValueHandler<T>{
 
     protected static final Logger log = LogManager.getLogger(AbstractActionResponseHandler.class);
 
@@ -18,7 +18,7 @@ public abstract class AbstractResponseHandler<T> implements MethodReturnedValueH
         if (isAllowToProcess(handlerMethod, request, response)) {
             process(handlerMethod, returnedObject, request, response);
         } else {
-            log.info("Process ActionResponse is not allowed.");
+            log.info("Process of {} class is not allowed.", returnedObject.getClass());
         }
     }
 

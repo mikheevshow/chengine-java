@@ -4,10 +4,10 @@ import java.util.*;
 
 public class ResponseTypeHandlerFactory {
 
-    private final Map<Class<?>, AbstractResponseHandler<?>> typeHandlersMap = new HashMap<>();
+    private final Map<Class<?>, AbstractMethodReturnedValueHandler<?>> typeHandlersMap = new HashMap<>();
 
     public ResponseTypeHandlerFactory() {
-        List<AbstractResponseHandler<?>> handlerList = List.of(
+        List<AbstractMethodReturnedValueHandler<?>> handlerList = List.of(
                 new VoidTypeResponseHandler(),
                 new SendTypeResponseHandler(),
                 new EditTypeResponseHandler()
@@ -15,7 +15,7 @@ public class ResponseTypeHandlerFactory {
         handlerList.forEach(handler -> typeHandlersMap.put(handler.supports(), handler));
     }
 
-    public AbstractResponseHandler<?> get(Class<?> clazz) {
+    public AbstractMethodReturnedValueHandler<?> get(Class<?> clazz) {
         return typeHandlersMap.getOrDefault(clazz, null);
     }
 
