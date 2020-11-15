@@ -21,6 +21,8 @@ public abstract class AbstractStageAction<T> implements StageAction<T> {
     protected Supplier<ActionResponse> errorActionResponseResume;
     protected Supplier<ActionResponse> errorActionResponseReturn;
 
+    protected Executor<T> executor;
+
     @Override
     public StageAction<T> onErrorTerminate(Consumer<Throwable> error, Supplier<ActionResponse> response) {
         this.errorConsumer = error;
@@ -50,7 +52,12 @@ public abstract class AbstractStageAction<T> implements StageAction<T> {
 
     @Override
     public void executeOn(Executor<T> executor) {
-        executor.execute(this);
+        this.executor = executor;
+    }
+
+    @Override
+    public ActionResponse execute() {
+        return this.executor.execute(this);
     }
 
     Consumer<Throwable> errorConsumer() {

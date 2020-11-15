@@ -24,6 +24,10 @@ public class PipelineSession {
         return pipeline;
     }
 
+    public StageDefinition currentStage() {
+        return this.getPipeline().getStageDefinitions().get(currentStep);
+    }
+
     public User getUser() {
         return user;
     }

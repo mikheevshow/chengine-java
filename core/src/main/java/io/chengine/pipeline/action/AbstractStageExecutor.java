@@ -1,7 +1,6 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.processor.response.ActionResponseHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,18 +12,11 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
 
     protected static final Logger log = LogManager.getLogger(AbstractStageExecutor.class);
 
-    private final ActionResponseHandler actionResponseHandler;
-
-    public AbstractStageExecutor(ActionResponseHandler actionResponseHandler) {
-        this.actionResponseHandler = actionResponseHandler;
-    }
-
     @Override
-    public void execute(Executable<T> executable) {
+    public ActionResponse execute(Executable<T> executable) {
 
         try {
-            final ActionResponse actionResponse = processStage(executable);
-            actionResponseHandler.handle(actionResponse);
+            return processStage(executable);
         } catch (Exception ex) {
 
             log.error(ex.getMessage(), ex);
@@ -35,15 +27,15 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
 
             if (stageAction.errorActionResponseReturn() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
-                actionResponseHandler.handle(actionResponse.get());
+                return actionResponse.get();
             } else if (stageAction.errorActionResponseResume() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
                 completeStage();
-                actionResponseHandler.handle(actionResponse.get());
+                return actionResponse.get();
             } else if (stageAction.errorActionResponseTerminate() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
                 terminateSession();
-                actionResponseHandler.handle(actionResponse.get());
+                return actionResponse.get();
             }
 
             terminateSession();

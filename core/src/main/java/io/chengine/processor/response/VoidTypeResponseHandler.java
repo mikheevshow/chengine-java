@@ -4,13 +4,13 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.HandlerMethod;
 
-public final class VoidTypeResponseHandler extends AbstractActionResponseHandler {
+public final class VoidTypeResponseHandler extends AbstractResponseHandler<Void> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Class<?> supports() {
+    public Class<? extends Void> supports() {
         return Void.TYPE;
     }
 
@@ -18,7 +18,16 @@ public final class VoidTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    protected void process(HandlerMethod handlerMethod, Object o, BotRequest request, BotResponse response) {
+    protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequest request, BotResponse response) {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void process(HandlerMethod handlerMethod, Void returnedObject, BotRequest request, BotResponse response) {
         response.setSend(false);
     }
+
 }

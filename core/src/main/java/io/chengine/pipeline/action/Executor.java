@@ -1,7 +1,9 @@
 package io.chengine.pipeline.action;
 
+import io.chengine.message.ActionResponse;
+
 public interface Executor<T> {
 
-    void execute(Executable<T> executable);
+    ActionResponse execute(Executable<T> executable);
 
 }

@@ -23,8 +23,4 @@ public class FireStageAction<T> extends AbstractStageAction<T> {
         return response;
     }
 
-    @Override
-    public void execute() {
-        this.executeOn(Executors.fire());
-    }
 }

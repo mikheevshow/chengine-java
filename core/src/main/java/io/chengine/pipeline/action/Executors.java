@@ -10,11 +10,11 @@ public class Executors {
     private Executors() {}
 
     static <T> Executor<T> fire() {
-        return new FireAndForgetExecutor<>(response -> log.info("Mock action response handler. Handle action {}", response));
+        return new FireAndForgetExecutor<>();
     }
 
     static <T> Executor<T> check() {
-        return new CheckStageExecutor<>(response -> log.info("Mock action response handler. Handle action {}", response));
+        return new CheckStageExecutor<>();
     }
 
 }

@@ -3,6 +3,7 @@ package io.chengine.processor.response;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.Message;
+import io.chengine.message.ActionResponse;
 import io.chengine.message.Send;
 import io.chengine.method.HandlerMethod;
 
@@ -14,7 +15,7 @@ public final class SendTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    public Class<?> supports() {
+    public Class<? extends ActionResponse> supports() {
         return Send.class;
     }
 
@@ -22,7 +23,15 @@ public final class SendTypeResponseHandler extends AbstractActionResponseHandler
      * {@inheritDoc}
      */
     @Override
-    protected void process(HandlerMethod handlerMethod, Object object, BotRequest request, BotResponse response) {
+    protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequest request, BotResponse response) {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void process(HandlerMethod handlerMethod, ActionResponse object, BotRequest request, BotResponse response) {
         var send = (Send) object;
         var message = new Message(
                 null,

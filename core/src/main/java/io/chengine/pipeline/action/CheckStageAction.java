@@ -166,8 +166,4 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
         return failStageCheckActionResponseTerminate;
     }
 
-    @Override
-    public void execute() {
-        executeOn(Executors.check());
-    }
 }

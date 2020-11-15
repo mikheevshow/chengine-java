@@ -1,7 +1,6 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.processor.response.ActionResponseHandler;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.naming.OperationNotSupportedException;
@@ -9,10 +8,6 @@ import java.util.Objects;
 
 @ThreadSafe
 public class CheckStageExecutor<T> extends AbstractStageExecutor<T> {
-
-    public CheckStageExecutor(ActionResponseHandler actionResponseHandler) {
-        super(actionResponseHandler);
-    }
 
     @Override
     protected ActionResponse processStage(Executable<T> executable) throws Exception {
