@@ -12,7 +12,13 @@ public class BotRequest {
 	private final Message message;
 	private final Callback callback;
 
+	/**
+	 * Original api message, can be cast for specific type
+	 */
+	private final Object origin;
+
 	public BotRequest(
+			final Object origin,
 			final BotApiIdentifier apiIdentifier,
 			final Boolean isCallback,
 			final Boolean isLocation,
@@ -23,6 +29,7 @@ public class BotRequest {
 			final Message message,
 			final Callback callback) {
 
+		this.origin = origin;
 		this.apiIdentifier = apiIdentifier;
 		this.isCallback = isCallback;
 		this.isLocation = isLocation;
@@ -32,6 +39,10 @@ public class BotRequest {
 		this.user = user;
 		this.message = message;
 		this.callback = callback;
+	}
+
+	public Object origin() {
+		return origin;
 	}
 
 	public BotApiIdentifier apiIdentifier() {

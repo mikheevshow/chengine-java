@@ -19,17 +19,18 @@ import static io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardBu
 public class TelegramBotRequestConverter implements BotRequestConverter<Update> {
 
     @Override
-    public BotRequest convert(Update request) {
+    public BotRequest convert(Update update) {
         return new BotRequest(
+                update,
                 TelegramBotApiIdentifier.instance(),
-                isCallback(request),
+                isCallback(update),
                 false,
-                isCommand(request),
+                isCommand(update),
                 false,
-                convertChat(request),
-                convertUser(request),
-                convertMessage(request),
-                convertCallback(request)
+                convertChat(update),
+                convertUser(update),
+                convertMessage(update),
+                convertCallback(update)
         );
     }
 
