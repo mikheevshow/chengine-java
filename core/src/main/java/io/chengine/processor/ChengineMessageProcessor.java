@@ -3,7 +3,7 @@ package io.chengine.processor;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.method.MethodArgumentInspector;
-import io.chengine.pipeline.PipelineUserInfoProvider;
+import io.chengine.pipeline.PipelineSessionManager;
 import io.chengine.pipeline.processor.PipelineRequestHandler;
 
 public class ChengineMessageProcessor implements MessageProcessor<BotRequest, BotResponse> {
@@ -12,8 +12,7 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 	private final MethodArgumentInspector methodArgumentInspector;
 	private final ResponseResolver responseResolver;
 
-
-	private final PipelineUserInfoProvider pipelineUserInfoProvider;
+	private final PipelineSessionManager pipelineSessionManager;
 	private final PipelineRequestHandler pipelineRequestHandler;
 
 	public ChengineMessageProcessor(
@@ -21,7 +20,7 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 			final MethodResolver methodResolver,
 			final MethodArgumentInspector methodArgumentInspector,
 			final ResponseResolver responseResolver,
-			final PipelineUserInfoProvider pipelineUserInfoProvider,
+			final PipelineSessionManager pipelineSessionManager,
 			final PipelineRequestHandler pipelineRequestHandler
 
 	) {
@@ -29,14 +28,14 @@ public class ChengineMessageProcessor implements MessageProcessor<BotRequest, Bo
 		this.methodResolver = methodResolver;
 		this.methodArgumentInspector = methodArgumentInspector;
 		this.responseResolver = responseResolver;
-		this.pipelineUserInfoProvider = pipelineUserInfoProvider;
+		this.pipelineSessionManager = pipelineSessionManager;
 		this.pipelineRequestHandler = pipelineRequestHandler;
 
 	}
 
 	@Override
 	public void process(BotRequest request, BotResponse response) {
-		if (pipelineUserInfoProvider.isUserInPipeline(request)) {
+		if (pipelineSessionManager.getCurrentSession() != null) {
 			pipelineRequestHandler.handleRequest(request, response);
 		} else {
 			var method = methodResolver.resolve(request);

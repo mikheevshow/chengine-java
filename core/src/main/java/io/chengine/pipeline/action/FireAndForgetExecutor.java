@@ -1,6 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.PipelineSessionManager;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.naming.OperationNotSupportedException;
@@ -8,6 +9,10 @@ import java.util.function.Supplier;
 
 @ThreadSafe
 public class FireAndForgetExecutor<T> extends AbstractStageExecutor<T> {
+
+    public FireAndForgetExecutor(PipelineSessionManager pipelineSessionManager) {
+        super(pipelineSessionManager);
+    }
 
     @Override
     protected ActionResponse processStage(Executable<T> executable) throws Exception {

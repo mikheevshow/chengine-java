@@ -10,10 +10,11 @@ public class PipelineSession {
     private UUID uuid;
     private Pipeline pipeline;
     private User user;
-    private int currentStep;
+
     private int ttl;
     private TimeUnit ttlTimeUnit;
 
+    private volatile int currentStep;
     private volatile boolean terminated;
 
     public UUID getSessionUuid() {
@@ -46,5 +47,13 @@ public class PipelineSession {
 
     public boolean isTerminated() {
         return terminated;
+    }
+
+    public boolean incrementPipelineSessionStep() {
+        synchronized (this) {
+            currentStep++;
+        }
+
+        return true;
     }
 }

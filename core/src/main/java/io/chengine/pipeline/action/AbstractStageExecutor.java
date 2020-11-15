@@ -1,6 +1,8 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.PipelineSession;
+import io.chengine.pipeline.PipelineSessionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +13,12 @@ import java.util.function.Supplier;
 public abstract class AbstractStageExecutor<T> implements Executor<T> {
 
     protected static final Logger log = LogManager.getLogger(AbstractStageExecutor.class);
+
+    private final PipelineSessionManager pipelineSessionManager;
+
+    public AbstractStageExecutor(PipelineSessionManager pipelineSessionManager) {
+        this.pipelineSessionManager = pipelineSessionManager;
+    }
 
     @Override
     public ActionResponse execute(Executable<T> executable) {
@@ -46,7 +54,8 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
     protected abstract ActionResponse processStage(Executable<T> executable) throws Exception;
 
     protected void completeStage() {
-        // TODO add session update here
+        final PipelineSession pipelineSession = pipelineSessionManager.getCurrentSession();
+        pipelineSession.incrementPipelineSessionStep();
     }
 
     protected void terminateSession() {

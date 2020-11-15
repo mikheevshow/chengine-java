@@ -14,6 +14,12 @@ public interface PipelineSessionManager {
      */
     PipelineSession getSession(BotRequest request);
 
+    PipelineSession getSession(UUID uuid);
+
+    PipelineSession getCurrentSession();
+
     boolean invalidateSession(UUID uuid);
+
+    boolean invalidateCurrentSession();
 
 }
