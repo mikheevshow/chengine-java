@@ -1,6 +1,6 @@
 package io.chengine.pipeline.action;
 
-import io.chengine.pipeline.PipelineSessionManager;
+import io.chengine.session.pipeline.PipelineSessionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

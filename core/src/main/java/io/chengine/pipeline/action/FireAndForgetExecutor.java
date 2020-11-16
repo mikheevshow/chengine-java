@@ -1,7 +1,7 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.pipeline.PipelineSessionManager;
+import io.chengine.session.pipeline.PipelineSessionManager;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.naming.OperationNotSupportedException;

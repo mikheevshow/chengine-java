@@ -5,6 +5,7 @@ import io.chengine.pipeline.Pipeline;
 import io.chengine.pipeline.StageDefinition;
 import io.chengine.session.Session;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -68,5 +69,18 @@ public class PipelineSession implements Session {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PipelineSession that = (PipelineSession) o;
+        return uuid.equals(that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }
