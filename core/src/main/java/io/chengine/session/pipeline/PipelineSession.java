@@ -1,11 +1,14 @@
-package io.chengine.pipeline;
+package io.chengine.session.pipeline;
 
 import io.chengine.connector.User;
+import io.chengine.pipeline.Pipeline;
+import io.chengine.pipeline.StageDefinition;
+import io.chengine.session.Session;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class PipelineSession {
+public class PipelineSession implements Session {
 
     private UUID uuid;
     private Pipeline pipeline;
@@ -16,6 +19,16 @@ public class PipelineSession {
 
     private volatile int currentStep;
     private volatile boolean terminated;
+
+    public PipelineSession(UUID uuid, Pipeline pipeline, User user, int ttl, TimeUnit ttlTimeUnit, int currentStep, boolean terminated) {
+        this.uuid = uuid;
+        this.pipeline = pipeline;
+        this.user = user;
+        this.ttl = ttl;
+        this.ttlTimeUnit = ttlTimeUnit;
+        this.currentStep = currentStep;
+        this.terminated = terminated;
+    }
 
     public UUID getSessionUuid() {
         return uuid;
@@ -49,7 +62,7 @@ public class PipelineSession {
         return terminated;
     }
 
-    public boolean incrementPipelineSessionStep() {
+    public boolean incrementSessionStep() {
         synchronized (this) {
             currentStep++;
         }

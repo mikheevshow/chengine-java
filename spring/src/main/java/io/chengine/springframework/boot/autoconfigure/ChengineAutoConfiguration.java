@@ -3,6 +3,9 @@ package io.chengine.springframework.boot.autoconfigure;
 import io.chengine.ChengineConfiguration;
 import io.chengine.context.ChengineHandlerContext;
 import io.chengine.method.MethodArgumentInspector;
+import io.chengine.session.ChengineSessionContext;
+import io.chengine.session.pipeline.PipelineSessionManager;
+import io.chengine.pipeline.processor.DefaultPipelineRequestHandler;
 import io.chengine.processor.*;
 import io.chengine.springframework.provider.SpringHandlerProvider;
 import io.chengine.springframework.provider.SpringTriggerProvider;
@@ -53,7 +56,9 @@ public class ChengineAutoConfiguration {
 		return new ChengineMessageProcessor(
 				commandMethodResolver,
 				methodArgumentInspector,
-				responseResolver
+				responseResolver,
+			new PipelineSessionManager(new ChengineSessionContext()),
+			new DefaultPipelineRequestHandler()
 		);
 	}
 
