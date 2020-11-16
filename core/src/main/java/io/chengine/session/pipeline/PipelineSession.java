@@ -1,5 +1,6 @@
 package io.chengine.session.pipeline;
 
+import io.chengine.connector.Chat;
 import io.chengine.connector.User;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.pipeline.StageDefinition;
@@ -11,54 +12,78 @@ import java.util.concurrent.TimeUnit;
 
 public class PipelineSession implements Session {
 
-    private UUID uuid;
-    private Pipeline pipeline;
-    private User user;
+    private final UUID uuid;
+    private final Pipeline pipeline;
+    private final User user;
+    private final Chat chat;
 
-    private int ttl;
-    private TimeUnit ttlTimeUnit;
+    private final int ttl;
+    private final TimeUnit ttlTimeUnit;
 
     private volatile int currentStep;
     private volatile boolean terminated;
 
-    public PipelineSession(UUID uuid, Pipeline pipeline, User user, int ttl, TimeUnit ttlTimeUnit, int currentStep, boolean terminated) {
+    public PipelineSession(
+            UUID uuid,
+            Pipeline pipeline,
+            User user,
+            Chat chat,
+            int ttl,
+            TimeUnit ttlTimeUnit,
+            int currentStep,
+            boolean terminated) {
+
         this.uuid = uuid;
         this.pipeline = pipeline;
         this.user = user;
+        this.chat = chat;
         this.ttl = ttl;
         this.ttlTimeUnit = ttlTimeUnit;
         this.currentStep = currentStep;
         this.terminated = terminated;
     }
 
-    public UUID getSessionUuid() {
+    @Override
+    public UUID uuid() {
         return uuid;
     }
 
-    public Pipeline getPipeline() {
+    @Override
+    public Pipeline pipeline() {
         return pipeline;
     }
 
+    @Override
     public StageDefinition currentStage() {
-        return this.getPipeline().getStageDefinitions().get(currentStep);
+        return this.pipeline().getStageDefinitions().get(currentStep);
     }
 
-    public User getUser() {
+    @Override
+    public User user() {
         return user;
     }
 
+    @Override
+    public Chat chat() {
+        return this.chat;
+    }
+
+    @Override
     public int getCurrentStep() {
         return currentStep;
     }
 
+    @Override
     public int getTtl() {
         return ttl;
     }
 
+    @Override
     public TimeUnit getTtlTimeUnit() {
         return ttlTimeUnit;
     }
 
+    @Override
     public boolean isTerminated() {
         return terminated;
     }

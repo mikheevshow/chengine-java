@@ -1,5 +1,6 @@
 package io.chengine;
 
+import io.chengine.connector.Chat;
 import io.chengine.connector.User;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.session.Session;
@@ -21,6 +22,7 @@ public class UtilCommon {
             UUID.randomUUID(),
             createEmptyPipeline(),
             createUserNotBot(),
+            createChat(),
             5,
             TimeUnit.MINUTES,
             0,
@@ -32,6 +34,20 @@ public class UtilCommon {
         return new User(1, false,
             "Andrey", "Borisov", "andreybrsv",
             "ru", true, true, true);
+    }
+
+    public static Chat createChat() {
+
+        return new Chat(
+                1L,
+                "group",
+                "Halo Welt",
+                "title",
+                "firstName",
+                "lastName",
+                "description",
+                "http://www.invite.com"
+        );
     }
 
     public static Pipeline createEmptyPipeline() {

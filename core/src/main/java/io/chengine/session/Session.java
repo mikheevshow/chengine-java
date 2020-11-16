@@ -1,5 +1,6 @@
 package io.chengine.session;
 
+import io.chengine.connector.Chat;
 import io.chengine.connector.User;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.pipeline.StageDefinition;
@@ -9,13 +10,15 @@ import java.util.concurrent.TimeUnit;
 
 public interface Session {
     
-    UUID getSessionUuid();
+    UUID uuid();
 
-    Pipeline getPipeline();
+    Pipeline pipeline();
 
     StageDefinition currentStage();
 
-    User getUser();
+    User user();
+
+    Chat chat();
 
     int getCurrentStep();
 

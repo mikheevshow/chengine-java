@@ -39,6 +39,7 @@ public class PipelineSessionManager implements SessionManager {
             UUID.randomUUID(),
             pipeline,
             request.user(),
+            request.chat(),
             5,
             TimeUnit.MINUTES,
             0,
@@ -59,20 +60,21 @@ public class PipelineSessionManager implements SessionManager {
 
     @Override
     public void invalidateSessionByUuid(UUID uuid) {
-        var sessionKey = chengineSessionContext.getConcurrentMap()
-            .entrySet().stream()
-            .filter(entry -> entry.getValue().getSessionUuid().equals(uuid))
-            .map(Map.Entry::getKey)
-            .findAny();
-
-        sessionKey.ifPresent(this::invalidateSession);
+        chengineSessionContext
+                .getConcurrentMap()
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().uuid().equals(uuid))
+                .map(Map.Entry::getKey)
+                .findAny()
+                .ifPresent(this::invalidateSession);
     }
 
     @Override
     public void invalidateCurrentSession() {
         var session = SessionUserContext.getSession();
         SessionUserContext.setSession(null);
-        invalidateSessionByUuid(session.getSessionUuid());
+        invalidateSessionByUuid(session.uuid());
     }
 
     private SessionKey createSessionKey(BotRequest request) {

@@ -10,11 +10,13 @@ import java.time.Duration;
 import java.util.concurrent.ConcurrentMap;
 
 public class ChengineSessionContext {
-    private final Cache<SessionKey, Session> cache = Caffeine.newBuilder()
-        .expireAfterWrite(Duration.ofMinutes(5))
-        .build();
 
     private final static Logger log = LogManager.getLogger(ChengineSessionContext.class);
+
+    private final Cache<SessionKey, Session> cache = Caffeine
+            .newBuilder()
+            .expireAfterWrite(Duration.ofMinutes(5))
+            .build();
 
     @Nullable
     public Session getSessionBySessionKey(SessionKey sessionKey) {
