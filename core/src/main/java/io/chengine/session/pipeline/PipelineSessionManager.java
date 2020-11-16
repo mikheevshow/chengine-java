@@ -2,11 +2,9 @@ package io.chengine.session.pipeline;
 
 import io.chengine.connector.BotRequest;
 import io.chengine.pipeline.Pipeline;
-import io.chengine.session.ChengineSessionContext;
-import io.chengine.session.Session;
-import io.chengine.session.SessionKey;
-import io.chengine.session.SessionManager;
+import io.chengine.session.*;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +29,7 @@ public class PipelineSessionManager implements SessionManager {
 
     @Override
     public Session getCurrentSession() {
-        return null; //todo ThreadLocal
+        return SessionUserContext.getSession();
     }
 
     @Override
@@ -60,8 +58,21 @@ public class PipelineSessionManager implements SessionManager {
     }
 
     @Override
+    public void invalidateSessionByUuid(UUID uuid) {
+        var sessionKey = chengineSessionContext.getConcurrentMap()
+            .entrySet().stream()
+            .filter(entry -> entry.getValue().getSessionUuid().equals(uuid))
+            .map(Map.Entry::getKey)
+            .findAny();
+
+        sessionKey.ifPresent(this::invalidateSession);
+    }
+
+    @Override
     public void invalidateCurrentSession() {
-        //todo ThreadLocal
+        var session = SessionUserContext.getSession();
+        SessionUserContext.setSession(null);
+        invalidateSessionByUuid(session.getSessionUuid());
     }
 
     private SessionKey createSessionKey(BotRequest request) {

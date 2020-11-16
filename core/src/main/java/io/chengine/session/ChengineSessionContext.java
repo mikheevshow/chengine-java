@@ -5,6 +5,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentMap;
 
 public class ChengineSessionContext {
     private final Cache<SessionKey, Session> cache = Caffeine.newBuilder()
@@ -25,5 +27,9 @@ public class ChengineSessionContext {
         if(getSessionBySessionKey(sessionKey) != null) {
             cache.invalidate(sessionKey);
         }
+    }
+
+    public ConcurrentMap<SessionKey, Session> getConcurrentMap() {
+        return cache.asMap();
     }
 }

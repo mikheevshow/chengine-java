@@ -25,6 +25,8 @@ public interface SessionManager {
 
     void invalidateSession(SessionKey sessionKey);
 
+    void invalidateSessionByUuid(UUID uuid);
+
     void invalidateCurrentSession();
 
 }
