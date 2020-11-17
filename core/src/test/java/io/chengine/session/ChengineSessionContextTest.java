@@ -6,7 +6,8 @@ import static io.chengine.UtilCommon.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChengineSessionContextTest {
-    private final ChengineSessionContext chengineSessionContext = new ChengineSessionContext();
+
+    private final ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext = new ChengineSessionContext<UserPipelineSessionInfo>();
 
     @Test
     public void putSessionBySessionKeyTest() {

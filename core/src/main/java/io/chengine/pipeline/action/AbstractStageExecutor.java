@@ -2,6 +2,7 @@ package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
 import io.chengine.session.Session;
+import io.chengine.session.UserPipelineSessionInfo;
 import io.chengine.session.pipeline.PipelineSession;
 import io.chengine.session.pipeline.PipelineSessionManager;
 import org.apache.logging.log4j.LogManager;
@@ -55,7 +56,7 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
     protected abstract ActionResponse processStage(Executable<T> executable) throws Exception;
 
     protected void completeStage() {
-        final Session pipelineSession = pipelineSessionManager.getCurrentSession();
+        final PipelineSession pipelineSession = (PipelineSession) pipelineSessionManager.getCurrentSession();
         pipelineSession.incrementSessionStep();
     }
 

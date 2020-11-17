@@ -3,10 +3,7 @@ package io.chengine;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.provider.TriggerProvider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ChengineConfiguration {
 
@@ -14,6 +11,7 @@ public class ChengineConfiguration {
 	private final boolean createAfterRegister;
 	private final List<HandlerProvider> handlerProviders;
 	private final List<TriggerProvider> triggerProviders;
+	private final List<RequestHandler> bots = Collections.emptyList();
 
 	private ChengineConfiguration(
 		final String packageToScan,
@@ -25,6 +23,10 @@ public class ChengineConfiguration {
 		this.createAfterRegister = createAfterRegister;
 		this.handlerProviders = handlerProviders;
 		this.triggerProviders = triggerProviders;
+	}
+
+	public static Builder builder() {
+		return new Builder();
 	}
 
 	public static class Builder {
@@ -104,5 +106,9 @@ public class ChengineConfiguration {
 
 	public List<TriggerProvider> getTriggerProviders() {
 		return triggerProviders;
+	}
+
+	public List<RequestHandler> getBots() {
+		return bots;
 	}
 }

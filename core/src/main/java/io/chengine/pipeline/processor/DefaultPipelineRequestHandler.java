@@ -11,6 +11,8 @@ import io.chengine.pipeline.StageDefinition;
 import io.chengine.pipeline.action.StageAction;
 import io.chengine.processor.response.AbstractActionResponseHandler;
 import io.chengine.processor.response.ResponseTypeHandlerFactory;
+import io.chengine.session.UserPipelineSessionInfo;
+import io.chengine.session.pipeline.PipelineSession;
 
 public class DefaultPipelineRequestHandler implements PipelineRequestHandler {
 
@@ -20,7 +22,7 @@ public class DefaultPipelineRequestHandler implements PipelineRequestHandler {
 
     @Override
     public void handleRequest(BotRequest request, BotResponse response) {
-        final Session session = sessionManager.getCurrentSession();
+        final PipelineSession session = (PipelineSession) sessionManager.getCurrentSession();
         final StageDefinition stage = session.currentStage();
         final HandlerMethod handlerMethod = stage.getMethod();
         final Object[] arguments = methodArgumentInspector.inspectAndGetArguments(request, handlerMethod.get());

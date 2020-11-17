@@ -1,63 +1,81 @@
 package io.chengine.session.pipeline;
 
 import io.chengine.connector.BotRequest;
-import io.chengine.pipeline.Pipeline;
 import io.chengine.session.*;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class PipelineSessionManager implements SessionManager {
+public class PipelineSessionManager implements SessionManager<UserPipelineSessionInfo> {
 
-    private final ChengineSessionContext chengineSessionContext;
+    private final ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext;
 
-    public PipelineSessionManager(ChengineSessionContext chengineSessionContext) {
+    public PipelineSessionManager(ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext) {
         this.chengineSessionContext = chengineSessionContext;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Session getSession(BotRequest request) {
+    public Session<UserPipelineSessionInfo> getSession(BotRequest request) {
         var sessionKey = createSessionKey(request);
         return chengineSessionContext.getSessionBySessionKey(sessionKey);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Session getSession(SessionKey sessionKey) {
+    public Session<UserPipelineSessionInfo> getSession(SessionKey sessionKey) {
         return chengineSessionContext.getSessionBySessionKey(sessionKey);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Session getCurrentSession() {
-        return UserSessionContextHolder.getSession();
+    @SuppressWarnings("unchecked")
+    public Session<UserPipelineSessionInfo> getCurrentSession() {
+        return (Session<UserPipelineSessionInfo>) UserSessionContextHolder.getSession();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Session createSession(BotRequest request, Pipeline pipeline) {
+    public Session<UserPipelineSessionInfo> createSession(BotRequest request, UserPipelineSessionInfo userPipelineSessionInfo) {
         var sessionKey = createSessionKey(request);
         var pipelineSession = new PipelineSession(
-            UUID.randomUUID(),
-            pipeline,
-            request.user(),
-            request.chat(),
-            5,
-            TimeUnit.MINUTES,
-            0,
-            false
+                UUID.randomUUID(),
+                userPipelineSessionInfo,
+                request.user(),
+                request.chat(),
+                5,
+                TimeUnit.MINUTES,
+                0,
+                false
         );
 
-        if(chengineSessionContext.getSessionBySessionKey(sessionKey) != null) {
+        if (chengineSessionContext.getSessionBySessionKey(sessionKey) != null) {
             throw new RuntimeException("Session already exist " + sessionKey);
         }
 
         return chengineSessionContext.putSessionBySessionKey(sessionKey, pipelineSession);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invalidateSession(SessionKey sessionKey) {
         chengineSessionContext.invalidateCacheBySessionKey(sessionKey);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invalidateSessionByUuid(UUID uuid) {
         chengineSessionContext
@@ -70,6 +88,9 @@ public class PipelineSessionManager implements SessionManager {
                 .ifPresent(this::invalidateSession);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invalidateCurrentSession() {
         var session = UserSessionContextHolder.getSession();
@@ -77,10 +98,13 @@ public class PipelineSessionManager implements SessionManager {
         invalidateSessionByUuid(session.uuid());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private SessionKey createSessionKey(BotRequest request) {
         return new SessionKey(
-            request.apiIdentifier().identifier(),
-            request.user().getId(),
-            request.chat().id());
+                request.apiIdentifier().identifier(),
+                request.user().getId(),
+                request.chat().id());
     }
 }

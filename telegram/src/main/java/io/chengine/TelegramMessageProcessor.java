@@ -6,15 +6,12 @@ import io.chengine.connector.BotResponse;
 import io.chengine.processor.MessageProcessor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramMessageProcessor implements MessageProcessor<Update, BotResponse> {
+public class TelegramMessageProcessor implements MessageProcessor<Update, BotResponse>, RequestHandler {
 
-	private final MessageProcessor<BotRequest, BotResponse> messageProcessor;
+	private MessageProcessor<BotRequest, BotResponse> messageProcessor;
 	private final BotRequestConverter<Update> botRequestConverter;
 
-	public TelegramMessageProcessor(
-			final MessageProcessor<BotRequest, BotResponse> messageProcessor,
-			final BotRequestConverter<Update> botRequestConverter) {
-		this.messageProcessor = messageProcessor;
+	public TelegramMessageProcessor(final BotRequestConverter<Update> botRequestConverter) {
 		this.botRequestConverter = botRequestConverter;
 	}
 
@@ -24,4 +21,8 @@ public class TelegramMessageProcessor implements MessageProcessor<Update, BotRes
 		messageProcessor.process(botRequest, response);
 	}
 
+	@Override
+	public void setMessageProcessor(MessageProcessor<BotRequest, BotResponse> messageProcessor) {
+		this.messageProcessor = messageProcessor;
+	}
 }

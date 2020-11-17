@@ -5,6 +5,7 @@ import io.chengine.connector.User;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.session.Session;
 import io.chengine.session.SessionKey;
+import io.chengine.session.UserPipelineSessionInfo;
 import io.chengine.session.pipeline.PipelineSession;
 
 import java.util.Collections;
@@ -50,7 +51,8 @@ public class UtilCommon {
         );
     }
 
-    public static Pipeline createEmptyPipeline() {
-        return new Pipeline("pipeline", null, Collections.emptyList(), null);
+    public static UserPipelineSessionInfo createEmptyPipeline() {
+        var pipeline = new Pipeline("pipeline", null, Collections.emptyList(), null);
+        return new UserPipelineSessionInfo(pipeline, Collections.emptyList(), 0);
     }
 }

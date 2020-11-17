@@ -9,17 +9,17 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentMap;
 
-public class ChengineSessionContext {
+public class ChengineSessionContext<T> {
 
     private final static Logger log = LogManager.getLogger(ChengineSessionContext.class);
 
-    private final Cache<SessionKey, Session> cache = Caffeine
+    private final Cache<SessionKey, Session<T>> cache = Caffeine
             .newBuilder()
             .expireAfterWrite(Duration.ofMinutes(5))
             .build();
 
     @Nullable
-    public Session getSessionBySessionKey(SessionKey sessionKey) {
+    public Session<T> getSessionBySessionKey(SessionKey sessionKey) {
         try {
             return cache.getIfPresent(sessionKey);
         } catch (NullPointerException e) {
@@ -28,7 +28,7 @@ public class ChengineSessionContext {
         }
     }
 
-    public Session putSessionBySessionKey(SessionKey sessionKey, Session session) {
+    public Session<T> putSessionBySessionKey(SessionKey sessionKey, Session<T> session) {
         cache.put(sessionKey, session);
         return getSessionBySessionKey(sessionKey);
     }
@@ -39,7 +39,7 @@ public class ChengineSessionContext {
         }
     }
 
-    public ConcurrentMap<SessionKey, Session> getConcurrentMap() {
+    public ConcurrentMap<SessionKey, Session<T>> getConcurrentMap() {
         return cache.asMap();
     }
 }

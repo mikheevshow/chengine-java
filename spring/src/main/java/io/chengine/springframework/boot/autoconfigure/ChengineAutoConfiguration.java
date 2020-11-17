@@ -1,16 +1,16 @@
 package io.chengine.springframework.boot.autoconfigure;
 
+import io.chengine.Chengine;
 import io.chengine.ChengineConfiguration;
-import io.chengine.context.ChengineHandlerContext;
-import io.chengine.method.MethodArgumentInspector;
-import io.chengine.session.ChengineSessionContext;
-import io.chengine.session.pipeline.PipelineSessionManager;
-import io.chengine.pipeline.processor.DefaultPipelineRequestHandler;
-import io.chengine.processor.*;
+import io.chengine.RequestHandler;
+import io.chengine.provider.HandlerProvider;
+import io.chengine.provider.TriggerProvider;
 import io.chengine.springframework.provider.SpringHandlerProvider;
 import io.chengine.springframework.provider.SpringTriggerProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class ChengineAutoConfiguration {
@@ -26,53 +26,21 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public MethodArgumentInspector methodArgumentInspector() {
-		return new MethodArgumentInspector();
-	}
-
-	@Bean
-	public CommandMethodResolver commandMethodResolver(ChengineHandlerContext chengineHandlerContext) {
-		return new CommandMethodResolver(chengineHandlerContext);
-	}
-
-	@Bean
-	public ResponseResolver responseResolver() {
-		return new MethodReturnedTypeProcessor();
-	}
-
-	@Bean
-	public MessageResolverFactory messageResolverFactory(CommandMethodResolver commandMethodResolver) {
-		return new MessageResolverFactory(commandMethodResolver);
-	}
-
-	@Bean
-	public ChengineMessageProcessor chengineMessageProcessor(
-			CommandMethodResolver commandMethodResolver,
-			MethodArgumentInspector methodArgumentInspector,
-			ResponseResolver responseResolver
-
+	public ChengineConfiguration chengineConfiguration(
+			HandlerProvider handlerProvider,
+			TriggerProvider triggerProvider,
+			List<RequestHandler> requestHandlers
 	) {
-
-		return new ChengineMessageProcessor(
-				commandMethodResolver,
-				methodArgumentInspector,
-				responseResolver,
-			new PipelineSessionManager(new ChengineSessionContext()),
-			new DefaultPipelineRequestHandler()
-		);
+		return ChengineConfiguration
+				.builder()
+				.addHandlerProvider(handlerProvider)
+				.addTriggerProvider(triggerProvider)
+				.build();
 	}
 
 	@Bean
-	public ChengineHandlerContext chengineHandlerContext(
-		SpringHandlerProvider springHandlerProvider,
-		SpringTriggerProvider springTriggerProvider
-	) {
-		var configuration = new ChengineConfiguration.Builder()
-			.addHandlerProvider(springHandlerProvider)
-			.addTriggerProvider(springTriggerProvider)
-			.build();
-
-		return new ChengineHandlerContext(configuration);
+	public Chengine chengine(ChengineConfiguration configuration) {
+		return new Chengine(configuration);
 	}
 
 }

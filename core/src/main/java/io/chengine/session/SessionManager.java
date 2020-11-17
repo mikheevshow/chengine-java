@@ -1,13 +1,11 @@
 package io.chengine.session;
 
 import io.chengine.connector.BotRequest;
-import io.chengine.pipeline.Pipeline;
-import io.chengine.session.Session;
-import io.chengine.session.SessionKey;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
-public interface SessionManager {
+public interface SessionManager<T> {
 
     /**
      * Gets session based on user, chat and bot api identifier
@@ -15,13 +13,34 @@ public interface SessionManager {
      * @param request - bot request
      * @return {@link Session} object
      */
-    Session getSession(BotRequest request);
+    Session<T> getSession(BotRequest request);
 
-    Session getSession(SessionKey sessionKey);
+    /**
+     * Gets session based on user, chat and bot api identifier
+     *
+     * @param sessionKey - specific {@link SessionKey}
+     * @return {@link Session} object
+     */
+    Session<T> getSession(SessionKey sessionKey);
 
-    Session getCurrentSession();
+    /**
+     * Gets session of current user
+     *
+     * @return {@link Session} object or null
+     * @see UserSessionContextHolder
+     */
+    @Nullable
+    Session<T> getCurrentSession();
 
-    Session createSession(BotRequest request, Pipeline pipeline);
+    /**
+     * Creates a new session
+     *
+     * @param request - bot request
+     * @param data - custom data
+     * @return {@link Session} object or null
+     * @see UserSessionContextHolder
+     */
+    Session<T> createSession(BotRequest request, T data);
 
     void invalidateSession(SessionKey sessionKey);
 

@@ -1,9 +1,7 @@
 package io.chengine.connector;
 
 import io.chengine.command.Command;
-import io.chengine.command.CommandParsingException;
 import io.chengine.command.DefaultCommandParser;
-import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardRow;
@@ -142,7 +140,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             for (org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button : row) {
                 Consumer<InlineKeyboardButtonBuilder> inlineKeyboardButtonBuilderConsumer = btn -> btn
                         .withText(button::getText)
-                        .withData(button::getCallbackData)
+                        .withPayload(button::getCallbackData)
                         .withUrl(button::getUrl);
                 inlineKeyboardRow.addButton(inlineKeyboardButtonBuilderConsumer);
             }

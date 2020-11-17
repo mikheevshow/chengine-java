@@ -1,21 +1,23 @@
 package io.chengine.session.pipeline;
 
+import io.chengine.connector.BotApiIdentifier;
 import io.chengine.connector.Chat;
 import io.chengine.connector.User;
-import io.chengine.pipeline.Pipeline;
 import io.chengine.pipeline.StageDefinition;
 import io.chengine.session.Session;
+import io.chengine.session.UserPipelineSessionInfo;
 
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class PipelineSession implements Session {
+public class PipelineSession implements Session<UserPipelineSessionInfo> {
 
     private final UUID uuid;
-    private final Pipeline pipeline;
     private final User user;
     private final Chat chat;
+
+    private final UserPipelineSessionInfo pipelineSessionInfo;
 
     private final int ttl;
     private final TimeUnit ttlTimeUnit;
@@ -25,7 +27,7 @@ public class PipelineSession implements Session {
 
     public PipelineSession(
             UUID uuid,
-            Pipeline pipeline,
+            UserPipelineSessionInfo pipelineSessionInfo,
             User user,
             Chat chat,
             int ttl,
@@ -34,13 +36,14 @@ public class PipelineSession implements Session {
             boolean terminated) {
 
         this.uuid = uuid;
-        this.pipeline = pipeline;
+        this.pipelineSessionInfo = pipelineSessionInfo;
         this.user = user;
         this.chat = chat;
         this.ttl = ttl;
         this.ttlTimeUnit = ttlTimeUnit;
         this.currentStep = currentStep;
         this.terminated = terminated;
+
     }
 
     @Override
@@ -49,13 +52,14 @@ public class PipelineSession implements Session {
     }
 
     @Override
-    public Pipeline pipeline() {
-        return pipeline;
+    public BotApiIdentifier api() {
+        return null;
     }
 
-    @Override
     public StageDefinition currentStage() {
-        return this.pipeline().getStageDefinitions().get(currentStep);
+        return this.pipelineSessionInfo
+                .getStageDefinitions()
+                .get(getCurrentStep());
     }
 
     @Override
@@ -68,9 +72,8 @@ public class PipelineSession implements Session {
         return this.chat;
     }
 
-    @Override
     public int getCurrentStep() {
-        return currentStep;
+        return pipelineSessionInfo.getCurrentStep();
     }
 
     @Override
@@ -89,11 +92,13 @@ public class PipelineSession implements Session {
     }
 
     public boolean incrementSessionStep() {
-        synchronized (this) {
-            currentStep++;
-        }
-
+        pipelineSessionInfo.incrementStep();
         return true;
+    }
+
+    @Override
+    public UserPipelineSessionInfo data() {
+        return this.pipelineSessionInfo;
     }
 
     @Override

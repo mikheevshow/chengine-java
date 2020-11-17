@@ -21,10 +21,8 @@ public class ChengineTelegramClientAutoConfiguration {
     private String username;
 
     @Bean
-    public TelegramMessageProcessor telegramMessageProcessor(
-            ChengineMessageProcessor chengineMessageProcessor,
-            BotRequestConverter<Update> botRequestConverter) {
-        return new TelegramMessageProcessor(chengineMessageProcessor, botRequestConverter);
+    public TelegramMessageProcessor telegramMessageProcessor(BotRequestConverter<Update> botRequestConverter) {
+        return new TelegramMessageProcessor(botRequestConverter);
     }
 
     @Bean
@@ -41,4 +39,5 @@ public class ChengineTelegramClientAutoConfiguration {
     public TelegramLongPoolingBot telegramLongPoolingBot(TelegramMessageProcessor telegramMessageProcessor, TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter) {
         return new TelegramLongPoolingBot(telegramMessageProcessor, telegramSendMessageBotResponseConverter, token, username);
     }
+
 }

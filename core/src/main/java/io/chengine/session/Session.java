@@ -1,20 +1,17 @@
 package io.chengine.session;
 
+import io.chengine.connector.BotApiIdentifier;
 import io.chengine.connector.Chat;
 import io.chengine.connector.User;
-import io.chengine.pipeline.Pipeline;
-import io.chengine.pipeline.StageDefinition;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public interface Session {
+public interface Session<T> {
     
     UUID uuid();
 
-    Pipeline pipeline();
-
-    StageDefinition currentStage();
+    BotApiIdentifier api();
 
     User user();
 
@@ -28,5 +25,6 @@ public interface Session {
 
     boolean isTerminated();
 
-    boolean incrementSessionStep();
+    T data();
+
 }
