@@ -29,7 +29,7 @@ public class PipelineSessionManager implements SessionManager {
 
     @Override
     public Session getCurrentSession() {
-        return SessionUserContext.getSession();
+        return UserSessionContextHolder.getSession();
     }
 
     @Override
@@ -72,8 +72,8 @@ public class PipelineSessionManager implements SessionManager {
 
     @Override
     public void invalidateCurrentSession() {
-        var session = SessionUserContext.getSession();
-        SessionUserContext.setSession(null);
+        var session = UserSessionContextHolder.getSession();
+        UserSessionContextHolder.setSession(null);
         invalidateSessionByUuid(session.uuid());
     }
 

@@ -1,6 +1,7 @@
 package io.chengine.session;
 
-public class SessionUserContext {
+public class UserSessionContextHolder {
+
     private static final ThreadLocal<Session> threadLocalScope = new ThreadLocal<>();
 
     public static Session getSession() {
@@ -10,4 +11,5 @@ public class SessionUserContext {
     public static void setSession(Session session) {
         threadLocalScope.set(session);
     }
+
 }

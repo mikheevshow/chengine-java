@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 @Handler
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ComponentHandler {
+public @interface HandlerComponent {
 
 	String command() default "";
 
