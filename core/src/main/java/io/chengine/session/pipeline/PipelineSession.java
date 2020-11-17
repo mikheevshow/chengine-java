@@ -22,7 +22,6 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
     private final int ttl;
     private final TimeUnit ttlTimeUnit;
 
-    private volatile int currentStep;
     private volatile boolean terminated;
 
     public PipelineSession(
@@ -41,7 +40,6 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
         this.chat = chat;
         this.ttl = ttl;
         this.ttlTimeUnit = ttlTimeUnit;
-        this.currentStep = currentStep;
         this.terminated = terminated;
 
     }
