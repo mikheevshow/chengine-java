@@ -3,6 +3,7 @@ package io.chengine.session;
 import java.util.Objects;
 
 public class SessionKey {
+
     private final String api;
     private final Long userId;
     private final Long chatId;
@@ -26,5 +27,14 @@ public class SessionKey {
     @Override
     public int hashCode() {
         return Objects.hash(api, userId, chatId);
+    }
+
+    @Override
+    public String toString() {
+        return "SessionKey{" +
+                "api='" + api + '\'' +
+                ", userId=" + userId +
+                ", chatId=" + chatId +
+                '}';
     }
 }
