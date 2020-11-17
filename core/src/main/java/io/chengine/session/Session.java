@@ -17,8 +17,6 @@ public interface Session<T> {
 
     Chat chat();
 
-    int getCurrentStep();
-
     int getTtl();
 
     TimeUnit getTtlTimeUnit();
