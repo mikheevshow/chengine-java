@@ -4,26 +4,32 @@ import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.context.ChengineHandlerContext;
 import io.chengine.method.MethodArgumentInspector;
+import io.chengine.pipeline.processor.PipelineRequestHandler;
 import io.chengine.processor.*;
+import io.chengine.session.SessionManager;
+import io.chengine.session.UserPipelineSessionInfo;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+// TODO
 public class Chengine {
 
-    private MethodResolver commandMethodResolver;
-    private MessageResolverFactory messageResolverFactory;
-    private MethodReturnedTypeProcessor methodReturnedTypeProcessor;
-    private MethodArgumentInspector methodArgumentInspector;
-    private MessageProcessor<BotRequest, BotResponse> messageProcessor;
-    private HandlerRegistry handlerRegistry;
-    private List<RequestHandler> botList;
+//    private MethodResolver commandMethodResolver = CommandMethodResolver(); // <- перенесено (инициализировать)
+//    private SessionManager<UserPipelineSessionInfo> userPipelineSessionInfoSessionManager;
+//    private PipelineRequestHandler pipelineRequestHandler;
+//    private MessageResolverFactory messageResolverFactory; // <- перенесено (инициализировать)
+//    private MethodReturnedTypeProcessor methodReturnedTypeProcessor;
+//    private MethodArgumentInspector methodArgumentInspector; // <- перенесено (инициализировать)
+//    private MessageProcessor<BotRequest, BotResponse> messageProcessor;
+//    private HandlerRegistry handlerRegistry;
+//    private List<RequestHandler> botList;
 
     private Chengine() {}
 
     public Chengine(ChengineConfiguration configuration) {
 
-        this.handlerRegistry = new ChengineHandlerContext(configuration);
+//        this.handlerRegistry = new ChengineHandlerContext(configuration);
 
     }
 
@@ -34,50 +40,12 @@ public class Chengine {
     }
 
     private void initMethodResolvers() {
-        this.commandMethodResolver = new CommandMethodResolver(handlerRegistry);
+//        this.commandMethodResolver = new CommandMethodResolver(handlerRegistry);
     }
 
 
     private void setMessageProcessorForBots() {
-        botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
+//        botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
     }
-
-
-    //	@Bean
-//	public MethodArgumentInspector methodArgumentInspector() {
-//		return new MethodArgumentInspector();
-//	}
-
-//	@Bean
-//	public CommandMethodResolver commandMethodResolver(ChengineHandlerContext chengineHandlerContext) {
-//		return new CommandMethodResolver(chengineHandlerContext);
-//	}
-
-//	@Bean
-//	public ResponseResolver responseResolver() {
-//		return new MethodReturnedTypeProcessor();
-//	}
-
-//	@Bean
-//	public MessageResolverFactory messageResolverFactory(CommandMethodResolver commandMethodResolver) {
-//		return new MessageResolverFactory(commandMethodResolver);
-//	}
-
-//	@Bean
-//	public ChengineMessageProcessor chengineMessageProcessor(
-//			CommandMethodResolver commandMethodResolver,
-//			MethodArgumentInspector methodArgumentInspector,
-//			ResponseResolver responseResolver
-//
-//	) {
-//
-//		return new ChengineMessageProcessor(
-//				commandMethodResolver,
-//				methodArgumentInspector,
-//				responseResolver,
-//			new PipelineSessionManager(new ChengineSessionContext()),
-//			new DefaultPipelineRequestHandler()
-//		);
-//	}
 
 }
