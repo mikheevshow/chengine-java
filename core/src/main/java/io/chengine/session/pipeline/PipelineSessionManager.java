@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 public class PipelineSessionManager implements SessionManager<UserPipelineSessionInfo> {
 
-    private final ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext;
+    private final SessionCache<UserPipelineSessionInfo> chengineSessionContext;
 
-    public PipelineSessionManager(ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext) {
+    public PipelineSessionManager(SessionCache<UserPipelineSessionInfo> chengineSessionContext) {
         this.chengineSessionContext = chengineSessionContext;
     }
 

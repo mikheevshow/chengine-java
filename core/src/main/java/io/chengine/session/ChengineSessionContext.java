@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentMap;
 
-public class ChengineSessionContext<T> {
+public class ChengineSessionContext<T> implements SessionCache<T> {
 
     private final static Logger log = LogManager.getLogger(ChengineSessionContext.class);
 
