@@ -9,6 +9,7 @@ public class ChengineSessionContextTest {
 
     private final ChengineSessionContext<UserPipelineSessionInfo> chengineSessionContext = new ChengineSessionContext<UserPipelineSessionInfo>();
 
+    //test
     @Test
     public void putSessionBySessionKeyTest() {
         var sessionKey = createSessionKey("telegram");
