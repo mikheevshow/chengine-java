@@ -52,6 +52,7 @@ public class PipelineSessionManager implements SessionManager<UserPipelineSessio
                 userPipelineSessionInfo,
                 request.user(),
                 request.chat(),
+                request.apiIdentifier(),
                 5,
                 TimeUnit.MINUTES,
                 0,

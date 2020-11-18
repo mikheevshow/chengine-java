@@ -16,6 +16,7 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
     private final UUID uuid;
     private final User user;
     private final Chat chat;
+    private final BotApiIdentifier botApiIdentifier;
 
     private final UserPipelineSessionInfo pipelineSessionInfo;
 
@@ -29,6 +30,7 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
             UserPipelineSessionInfo pipelineSessionInfo,
             User user,
             Chat chat,
+            BotApiIdentifier botApiIdentifier,
             int ttl,
             TimeUnit ttlTimeUnit,
             int currentStep,
@@ -38,6 +40,7 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
         this.pipelineSessionInfo = pipelineSessionInfo;
         this.user = user;
         this.chat = chat;
+        this.botApiIdentifier = botApiIdentifier;
         this.ttl = ttl;
         this.ttlTimeUnit = ttlTimeUnit;
         this.terminated = terminated;
@@ -51,7 +54,7 @@ public class PipelineSession implements Session<UserPipelineSessionInfo> {
 
     @Override
     public BotApiIdentifier api() {
-        return null;
+        return botApiIdentifier;
     }
 
     public StageDefinition currentStage() {
