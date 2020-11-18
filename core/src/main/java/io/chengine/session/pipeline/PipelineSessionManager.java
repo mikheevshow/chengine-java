@@ -63,7 +63,9 @@ public class PipelineSessionManager implements SessionManager<UserPipelineSessio
             throw new RuntimeException("Session already exist " + sessionKey);
         }
 
-        return chengineSessionContext.putSessionBySessionKey(sessionKey, pipelineSession);
+        var session = chengineSessionContext.putSessionBySessionKey(sessionKey, pipelineSession);
+        UserSessionContextHolder.setSession(session);
+        return session;
     }
 
     /**
