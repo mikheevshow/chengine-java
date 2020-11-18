@@ -1,5 +1,6 @@
 package io.chengine;
 
+import io.chengine.connector.BotRequest;
 import io.chengine.connector.Chat;
 import io.chengine.connector.User;
 import io.chengine.pipeline.Pipeline;
@@ -24,6 +25,7 @@ public class UtilCommon {
             createEmptyPipeline(),
             createUserNotBot(),
             createChat(),
+                () -> "telegram",
             5,
             TimeUnit.MINUTES,
             0,
@@ -38,7 +40,6 @@ public class UtilCommon {
     }
 
     public static Chat createChat() {
-
         return new Chat(
                 1L,
                 "group",
@@ -54,5 +55,19 @@ public class UtilCommon {
     public static UserPipelineSessionInfo createEmptyPipeline() {
         var pipeline = new Pipeline("pipeline", null, Collections.emptyList(), null);
         return new UserPipelineSessionInfo(pipeline, Collections.emptyList(), 0);
+    }
+
+    public static BotRequest createBotRequest() {
+        return new BotRequest(
+                null,
+                () -> "telegram",
+                false,
+                false,
+                false,
+                false,
+                createChat(),
+                createUserNotBot(),
+                null,
+                null);
     }
 }
