@@ -118,7 +118,7 @@ public class StageActionTest {
     }
 
     @Test
-    @DisplayName("Throw exception in `checkStage` method")
+    @DisplayName("Throw an exception in `checkStage` method")
     public void testThrowExceptionInCheckStage() {
 
         var failMessageText = "FAILED_MESSAGE";
