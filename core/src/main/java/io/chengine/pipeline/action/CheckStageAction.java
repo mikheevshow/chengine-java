@@ -133,6 +133,11 @@ public class CheckStageAction<T> extends AbstractStageAction<T> {
         return this;
     }
 
+    @Override
+    protected void onPartialAssembly() {
+
+    }
+
     Supplier<StageCheck<T>> check() {
         return check;
     }

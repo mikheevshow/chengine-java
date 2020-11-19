@@ -1,10 +1,11 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.action.exception.StageActionExecutionException;
+import io.chengine.pipeline.action.exception.StageActionNotSupportedException;
 import io.chengine.session.pipeline.PipelineSessionManager;
 
 import javax.annotation.concurrent.ThreadSafe;
-import javax.naming.OperationNotSupportedException;
 import java.util.function.Supplier;
 
 @ThreadSafe
@@ -15,10 +16,10 @@ public class FireAndForgetExecutor<T> extends AbstractStageExecutor<T> {
     }
 
     @Override
-    protected ActionResponse processStage(Executable<T> executable) throws Exception {
+    protected ActionResponse processStage(Executable<T> executable) {
 
-        if (!(executable instanceof FireStageAction)) {
-            throw new OperationNotSupportedException("Can't process");
+        if (!(executable.getClass().isAssignableFrom(FireStageAction.class))) {
+            throw new StageActionExecutionException("Can't execute actions of class: " + executable.getClass());
         }
 
         FireStageAction<T> stageAction = (FireStageAction<T>) executable;

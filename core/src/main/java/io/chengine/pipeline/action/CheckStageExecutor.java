@@ -1,10 +1,11 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.action.exception.MethodNotUsedException;
+import io.chengine.pipeline.action.exception.StageActionExecutionException;
 import io.chengine.session.pipeline.PipelineSessionManager;
 
 import javax.annotation.concurrent.ThreadSafe;
-import javax.naming.OperationNotSupportedException;
 import java.util.Objects;
 
 @ThreadSafe
@@ -15,9 +16,9 @@ public class CheckStageExecutor<T> extends AbstractStageExecutor<T> {
     }
 
     @Override
-    protected ActionResponse processStage(Executable<T> executable) throws Exception {
-        if (!(executable instanceof CheckStageAction)) {
-            throw new OperationNotSupportedException("Can't execute actions of class: " + executable.getClass());
+    protected ActionResponse processStage(Executable<T> executable) {
+        if (!(executable.getClass().isAssignableFrom(CheckStageAction.class))) {
+            throw new StageActionExecutionException("Can't execute actions of class: " + executable.getClass());
         }
 
         CheckStageAction<T> checkStageAction = (CheckStageAction<T>) executable;
@@ -35,7 +36,7 @@ public class CheckStageExecutor<T> extends AbstractStageExecutor<T> {
             } else if (checkStageAction.successActionResponse() != null) {
                 actionResponse = checkStageAction.successActionResponse().get();
             } else {
-                throw new MethodNotUsedException("No one success handling method use. Terminate pipeline.");
+                throw new StageActionExecutionException("No one success handling method use. Terminate pipeline.");
             }
 
             completeStage();

@@ -1,4 +1,4 @@
-package io.chengine.pipeline.action;
+package io.chengine.pipeline.action.exception;
 
 public class MethodNotUsedException extends RuntimeException {
 

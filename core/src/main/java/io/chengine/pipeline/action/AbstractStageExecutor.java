@@ -1,6 +1,9 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.action.exception.StageActionException;
+import io.chengine.pipeline.action.exception.StageActionExecutionException;
+import io.chengine.pipeline.action.exception.StageActionNotSupportedException;
 import io.chengine.session.Session;
 import io.chengine.session.UserPipelineSessionInfo;
 import io.chengine.session.pipeline.PipelineSession;
@@ -27,13 +30,18 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
 
         try {
             return processStage(executable);
-        } catch (Exception ex) {
-
-            log.error(ex.getMessage(), ex);
+        } catch (StageActionNotSupportedException ex) {
+            throw ex;
+        } catch (RuntimeException ex) {
 
             final AbstractStageAction<T> stageAction = (AbstractStageAction<T>) executable;
             final Consumer<Throwable> throwableConsumer = stageAction.errorConsumer();
-            Objects.requireNonNull(throwableConsumer, "Error handling consumer can't be null");
+
+            if (throwableConsumer == null) {
+                throw new StageActionExecutionException("Exception consumer is not defined, terminate session", ex);
+            }
+
+            throwableConsumer.accept(ex);
 
             if (stageAction.errorActionResponseReturn() != null) {
                 final Supplier<ActionResponse> actionResponse = stageAction.errorActionResponseReturn();
@@ -53,7 +61,7 @@ public abstract class AbstractStageExecutor<T> implements Executor<T> {
         }
     }
 
-    protected abstract ActionResponse processStage(Executable<T> executable) throws Exception;
+    protected abstract ActionResponse processStage(Executable<T> executable) throws RuntimeException;
 
     protected void completeStage() {
         final PipelineSession pipelineSession = (PipelineSession) pipelineSessionManager.getCurrentSession();

@@ -1,6 +1,9 @@
 package io.chengine.pipeline.action;
 
 import io.chengine.message.ActionResponse;
+import io.chengine.pipeline.action.exception.StageActionAssemblyException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
@@ -23,4 +26,10 @@ public class FireStageAction<T> extends AbstractStageAction<T> {
         return response;
     }
 
+    @Override
+    protected void onPartialAssembly() {
+        if (response == null) {
+            throw new StageActionAssemblyException("Passed `null` argument in doAction method");
+        }
+    }
 }
