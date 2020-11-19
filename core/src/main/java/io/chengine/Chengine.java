@@ -39,6 +39,7 @@ public class Chengine {
 
     @PostConstruct
     private void init() {
+
         this.commandMethodResolver = new CommandMethodResolver(this.handlerRegistry);
         this.sessionCache = new ChengineSessionContext<>();
         this.userPipelineSessionInfoSessionManager = new PipelineSessionManager(this.sessionCache);
@@ -55,15 +56,6 @@ public class Chengine {
         );
 
         this.botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
+
     }
-
-    private void initMethodResolvers() {
-//        this.commandMethodResolver = new CommandMethodResolver(handlerRegistry);
-    }
-
-
-    private void setMessageProcessorForBots() {
-//        botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
-    }
-
 }

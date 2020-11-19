@@ -19,7 +19,7 @@ public class UtilCommon {
         return new SessionKey(api, 1L, 1L);
     }
 
-    public static Session createPipelineSession() {
+    public static Session<UserPipelineSessionInfo> createPipelineSession() {
         return new PipelineSession(
             UUID.randomUUID(),
             createEmptyPipeline(),

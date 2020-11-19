@@ -1,6 +1,5 @@
 package io.chengine.session;
 
-import io.chengine.connector.BotRequest;
 import io.chengine.session.pipeline.PipelineSessionManager;
 import org.junit.jupiter.api.Test;
 
@@ -89,5 +88,13 @@ public class PipelineSessionManagerTest {
         pipelineSessionManager.invalidateCurrentSession();
         var currentSessionAfter = pipelineSessionManager.getCurrentSession();
         assertNull(currentSessionAfter);
+    }
+
+    @Test
+    public void sessionAlreadyExist() {
+        var request = createBotRequest();
+        var pipeline = createEmptyPipeline();
+        pipelineSessionManager.createSession(request, pipeline);
+        assertThrows(RuntimeException.class, () -> pipelineSessionManager.createSession(request, pipeline));
     }
 }

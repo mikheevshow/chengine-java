@@ -1,5 +1,6 @@
 package io.chengine.pipeline.action;
 
+import io.chengine.session.ChengineSessionContext;
 import io.chengine.session.pipeline.PipelineSessionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,15 +9,17 @@ public class Executors {
 
     private static final Logger log = LogManager.getLogger(Executors.class);
 
-    private static PipelineSessionManager pipelineSessionManager;
+    private final PipelineSessionManager pipelineSessionManager;
 
-    private Executors() {}
+    public Executors(PipelineSessionManager pipelineSessionManager) {
+        this.pipelineSessionManager = pipelineSessionManager;
+    }
 
-    static <T> Executor<T> fire() {
+    public <T> Executor<T> fire() {
         return new FireAndForgetExecutor<>(pipelineSessionManager);
     }
 
-    static <T> Executor<T> check() {
+    public <T> Executor<T> check() {
         return new CheckStageExecutor<>(pipelineSessionManager);
     }
 
