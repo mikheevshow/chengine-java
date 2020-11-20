@@ -10,13 +10,13 @@ public class Pipeline {
     private final int inactionTimeout;
     private final TimeUnit inactionTimeUnit;
     private final List<StageDefinition> stageDefinitions;
-    private final Class<? extends AbstractTrigger> trigger;
+    private final Class<? extends EventTrigger> trigger;
 
     public Pipeline(
             String name,
             Class<?> clazz,
             List<StageDefinition> stageDefinitions,
-            Class<? extends AbstractTrigger> abstractTrigger) {
+            Class<? extends EventTrigger> abstractTrigger) {
 
         this(name, clazz, 0, TimeUnit.SECONDS, stageDefinitions, abstractTrigger);
     }
@@ -29,7 +29,7 @@ public class Pipeline {
             int inactionTimeout,
             TimeUnit inactionTimeUnit,
             List<StageDefinition> stageDefinitions,
-            Class<? extends AbstractTrigger> trigger) {
+            Class<? extends EventTrigger> trigger) {
 
         this.name = name;
         this.clazz = clazz;
@@ -63,7 +63,7 @@ public class Pipeline {
         return stageDefinitions.size();
     }
 
-    public Class<? extends AbstractTrigger> getTrigger() {
+    public Class<? extends EventTrigger> getTrigger() {
         return trigger;
     }
 }

@@ -1,6 +1,6 @@
 package io.chengine.springframework.stereotype;
 
-import io.chengine.annotation.Handler;
+import io.chengine.handler.Handler;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;

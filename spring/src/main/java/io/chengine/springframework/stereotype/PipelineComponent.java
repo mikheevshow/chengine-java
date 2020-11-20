@@ -1,7 +1,7 @@
 package io.chengine.springframework.stereotype;
 
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.HandlerType;
+import io.chengine.handler.Handler;
+import io.chengine.pipeline.PipelineHandlerType;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Handler(type = HandlerType.PIPELINE)
+@Handler(type = PipelineHandlerType.TYPE)
 public @interface PipelineComponent {
 
     int inactiveTimeout() default 0;

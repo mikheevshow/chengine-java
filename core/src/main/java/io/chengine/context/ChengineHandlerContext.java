@@ -1,12 +1,12 @@
 package io.chengine.context;
 
 import io.chengine.ChengineProperties;
-import io.chengine.HandlerCreationException;
-import io.chengine.HandlerRegistry;
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.Mutates;
+import io.chengine.handler.HandlerCreationException;
+import io.chengine.handler.HandlerRegistry;
+import io.chengine.handler.Handler;
+import io.chengine.Mutates;
 import io.chengine.method.HandlerMethod;
-import io.chengine.pipeline.AbstractTrigger;
+import io.chengine.pipeline.EventTrigger;
 import io.chengine.pipeline.Pipeline;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
@@ -49,9 +49,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
     @Mutates(by = PipelineAnnotationProcessor.class)
     private final Set<Pipeline> pipelineSet = new HashSet<>();
 
-    private final Set<? super AbstractTrigger> triggerSet = new HashSet<>();
+    private final Set<? super EventTrigger> triggerSet = new HashSet<>();
 
-    private final Map<Class<? extends AbstractTrigger>, Pipeline> triggerPipelineMap = new HashMap<>();
+    private final Map<Class<? extends EventTrigger>, Pipeline> triggerPipelineMap = new HashMap<>();
 
     /**
      * A map, where a key represented by command pattern and value is a command meta inforamtion object,
@@ -84,7 +84,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
         );
     }
 
-    public void registerTriggers(final Collection<? extends AbstractTrigger> triggers) {
+    public void registerTriggers(final Collection<? extends EventTrigger> triggers) {
         try {
             Objects.requireNonNull(triggers, "Trigger collection is empty");
             triggerSet.addAll(triggers);

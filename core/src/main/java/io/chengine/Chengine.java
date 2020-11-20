@@ -3,6 +3,7 @@ package io.chengine;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.context.ChengineHandlerContext;
+import io.chengine.handler.HandlerRegistry;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.pipeline.processor.DefaultPipelineRequestHandler;
 import io.chengine.pipeline.processor.PipelineRequestHandler;

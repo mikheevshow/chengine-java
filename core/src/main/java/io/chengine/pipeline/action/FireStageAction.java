@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 /**
  * Stage action which uses fire and forget response strategy.
- * Must be use in the first step of a pipeline {@link io.chengine.annotation.HandlerType#PIPELINE}
+ * Must be use in the first step of a pipeline {@link io.chengine.pipeline.PipelineHandlerType#TYPE}
  * by calling {@link StageAction#doAction(Supplier)} method.
  *
  * @param <T> - a context object for passing data between chain methods

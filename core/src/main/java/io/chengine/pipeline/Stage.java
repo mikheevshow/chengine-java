@@ -1,4 +1,4 @@
-package io.chengine.annotation;
+package io.chengine.pipeline;
 
 import java.lang.annotation.*;
 

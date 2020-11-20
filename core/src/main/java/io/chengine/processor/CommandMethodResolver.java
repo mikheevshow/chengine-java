@@ -1,6 +1,6 @@
 package io.chengine.processor;
 
-import io.chengine.HandlerRegistry;
+import io.chengine.handler.HandlerRegistry;
 import io.chengine.connector.BotRequest;
 import io.chengine.handler.HandlerNotFoundException;
 import io.chengine.method.HandlerMethod;

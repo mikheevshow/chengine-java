@@ -1,6 +1,6 @@
 package io.chengine.annotation.processor;
 
-import io.chengine.annotation.HandleCommand;
+import io.chengine.command.HandleCommand;
 import io.chengine.connector.BotApiIdentifier;
 import io.chengine.message.Edit;
 import io.chengine.method.MethodDefinition;

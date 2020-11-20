@@ -1,6 +1,6 @@
 package io.chengine.springframework.provider;
 
-import io.chengine.annotation.Handler;
+import io.chengine.handler.Handler;
 import io.chengine.provider.HandlerProvider;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

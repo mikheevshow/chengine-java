@@ -1,7 +1,9 @@
 package io.chengine.pipeline;
 
-public class Event {
+import io.chengine.connector.BotRequest;
 
+public interface Event {
 
+    BotRequest botRequest();
 
 }

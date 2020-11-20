@@ -1,4 +1,4 @@
-package io.chengine.annotation;
+package io.chengine.handler;
 
 import java.lang.annotation.*;
 
@@ -9,5 +9,5 @@ public @interface Handler {
 
 	String value() default "";
 
-	HandlerType type() default HandlerType.DEFAULT;
+	String type() default "DEFAULT";
 }

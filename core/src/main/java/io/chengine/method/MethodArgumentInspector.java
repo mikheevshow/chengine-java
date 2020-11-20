@@ -1,6 +1,6 @@
 package io.chengine.method;
 
-import io.chengine.annotation.CommandParameter;
+import io.chengine.command.CommandParameter;
 import io.chengine.connector.BotRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

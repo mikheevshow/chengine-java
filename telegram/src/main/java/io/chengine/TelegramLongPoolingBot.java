@@ -29,18 +29,11 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	private final EditResponseConverterFactory editResponseConverterFactory = new EditResponseConverterFactory();
 
 	public TelegramLongPoolingBot(
-
-//		final MessageProcessor<Update, BotResponse> messageProcessor,
-//		final BotResponseConverter<SendMessage> botResponseConverter,
 		final String telegramToken,
 		final String telegramUsername,
 		final TelegramMessageProcessor telegramMessageProcessor,
-		final TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter
-
-	) {
+		final TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter) {
 		super();
-//		this.messageProcessor = messageProcessor;
-//		this.botResponseConverter = botResponseConverter;
 		this.token = telegramToken;
 		this.username = telegramUsername;
 		this.messageProcessor = telegramMessageProcessor;

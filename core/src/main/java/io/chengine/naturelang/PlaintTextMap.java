@@ -7,6 +7,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PlaintTextMap {
 
+  String prefix() default "";
+
   String map() default "";
 
   String[] alternateValues() default {};

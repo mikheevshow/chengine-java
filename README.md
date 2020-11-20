@@ -16,8 +16,8 @@ The central part of chengine is a ChengineHandlerContext class
 ### Manual handler registartion
 - Firsly create a handler class
 ```java
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.HandleCommand;
+import io.chengine.handler.Handler;
+import io.chengine.command.HandleCommand;
 
 @Handler("/hello")
 public class SomeHandler {

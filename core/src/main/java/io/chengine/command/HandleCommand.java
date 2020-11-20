@@ -1,5 +1,6 @@
-package io.chengine.annotation;
+package io.chengine.command;
 
+import io.chengine.handler.Handler;
 import io.chengine.connector.BotApiIdentifier;
 
 import java.lang.annotation.*;

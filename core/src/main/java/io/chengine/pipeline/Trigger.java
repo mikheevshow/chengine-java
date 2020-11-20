@@ -1,6 +1,4 @@
-package io.chengine.annotation;
-
-import io.chengine.pipeline.AbstractTrigger;
+package io.chengine.pipeline;
 
 import java.lang.annotation.*;
 
@@ -9,5 +7,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Trigger {
 
-    Class<? extends AbstractTrigger> value();
+    String command() default "";
+
+    Class<? extends EventTrigger> event() default EventTrigger.class;
+
 }

@@ -14,6 +14,18 @@ public class SessionKey {
         this.chatId = chatId;
     }
 
+    public String getApi() {
+        return api;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getChatId() {
+        return chatId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

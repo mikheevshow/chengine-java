@@ -1,6 +1,6 @@
 package io.chengine.annotation.processor;
 
-import io.chengine.annotation.CommandDescription;
+import io.chengine.command.CommandDescription;
 import io.chengine.command.i18n.CommandMetaInfo;
 
 import java.lang.annotation.Annotation;
