@@ -16,6 +16,8 @@ import io.chengine.session.pipeline.PipelineSessionManager;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import static io.chengine.ChengineProperties.*;
+
 // TODO
 public class Chengine {
 
@@ -33,9 +35,9 @@ public class Chengine {
     private Chengine() {
     }
 
-    public Chengine(ChengineConfiguration configuration) {
+    public Chengine(ChengineProperties configuration) {
         this.handlerRegistry = new ChengineHandlerContext(configuration);
-        this.botList = configuration.getBots();
+        this.botList = (List<RequestHandler>) configuration.get(REQUEST_HANDLERS_AWARE);
     }
 
     @PostConstruct

@@ -1,6 +1,6 @@
 package io.chengine.context;
 
-import io.chengine.ChengineConfiguration;
+import io.chengine.ChengineProperties;
 import io.chengine.HandlerCreationException;
 import io.chengine.HandlerRegistry;
 import io.chengine.annotation.Handler;
@@ -22,6 +22,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static io.chengine.ChengineProperties.*;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -62,9 +63,9 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	private ChengineHandlerContext() {
 	}
 
-    public ChengineHandlerContext(ChengineConfiguration chengineConfiguration) {
-        List<HandlerProvider> handlerProviders = chengineConfiguration.getHandlerProviders();
-        List<TriggerProvider> triggerProviders = chengineConfiguration.getTriggerProviders();
+    public ChengineHandlerContext(ChengineProperties chengineProperties) {
+        List<HandlerProvider> handlerProviders = (List<HandlerProvider>) chengineProperties.get(HANDLER_PROVIDERS);
+        List<TriggerProvider> triggerProviders = (List<TriggerProvider>) chengineProperties.get(TRIGGER_PROVIDERS);
         this.handlerProviders.addAll(handlerProviders);
         this.triggerProviders.addAll(triggerProviders);
 

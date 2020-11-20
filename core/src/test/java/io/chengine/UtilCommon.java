@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class UtilCommon {
 
     public static SessionKey createSessionKey(String api) {
-        return new SessionKey(api, 1L, 1L);
+        return new SessionKey(api, 1L, "1");
     }
 
     public static Session<UserPipelineSessionInfo> createPipelineSession() {
@@ -41,7 +41,7 @@ public class UtilCommon {
 
     public static Chat createChat() {
         return new Chat(
-                1L,
+                "",
                 "group",
                 "Halo Welt",
                 "title",
