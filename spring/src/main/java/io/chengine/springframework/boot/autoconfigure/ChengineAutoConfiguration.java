@@ -35,6 +35,7 @@ public class ChengineAutoConfiguration {
 				.builder()
 				.addHandlerProvider(handlerProvider)
 				.addTriggerProvider(triggerProvider)
+				.requestHandlers(requestHandlers)
 				.build();
 	}
 

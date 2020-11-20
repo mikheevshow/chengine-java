@@ -11,18 +11,22 @@ public class ChengineConfiguration {
 	private final boolean createAfterRegister;
 	private final List<HandlerProvider> handlerProviders;
 	private final List<TriggerProvider> triggerProviders;
-	private final List<RequestHandler> bots = Collections.emptyList();
+	private final List<RequestHandler> bots;
 
 	private ChengineConfiguration(
 		final String packageToScan,
 		final boolean createAfterRegister,
 		final List<HandlerProvider> handlerProviders,
-		final List<TriggerProvider> triggerProviders) {
+		final List<TriggerProvider> triggerProviders,
+		final List<RequestHandler> requestHandlers
+
+	) {
 
 		this.packageToScan = packageToScan;
 		this.createAfterRegister = createAfterRegister;
 		this.handlerProviders = handlerProviders;
 		this.triggerProviders = triggerProviders;
+		this.bots = requestHandlers;
 	}
 
 	public static Builder builder() {
@@ -33,8 +37,17 @@ public class ChengineConfiguration {
 
 		private String packageToScan;
 		private boolean createAfterRegister = true;
-		private List<HandlerProvider> handlerProviders;
-		private List<TriggerProvider> triggerProviders;
+		private List<HandlerProvider> handlerProviders = new ArrayList<>();
+		private List<TriggerProvider> triggerProviders = new ArrayList<>();
+		private List<RequestHandler> requestHandlers = new ArrayList<>();
+
+		public Builder requestHandlers(List<RequestHandler> requestHandlers) {
+			if (requestHandlers == null)
+				throw new NullPointerException("Request handler can't be null");
+
+			this.requestHandlers.addAll(requestHandlers);
+			return this;
+		}
 
 		public Builder packageToScan(String packageToScan) {
 			this.packageToScan = packageToScan;
@@ -72,10 +85,11 @@ public class ChengineConfiguration {
 
 		public ChengineConfiguration build() {
 			return new ChengineConfiguration(
-				packageToScan,
-				createAfterRegister,
-				handlerProviders,
-				triggerProviders
+					packageToScan,
+					createAfterRegister,
+					handlerProviders,
+					triggerProviders,
+					requestHandlers
 			);
 		}
 

@@ -30,7 +30,7 @@ public class MethodReturnedTypeProcessor implements ResponseResolver<Object> {
                 response.setResponseStrategy(SEND_MESSAGE);
                 response.setMessage(message);
             }
-            response.setChat(response.chat());
+            response.setChat(request.chat());
         }
     }
 }

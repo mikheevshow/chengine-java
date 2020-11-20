@@ -2,19 +2,19 @@ package io.chengine.connector;
 
 public class Location {
 
-    private final float longitude;
-    private final float latitude;
+    private final Double longitude;
+    private final Double latitude;
 
-    public Location(float longitude, float latitude) {
+    public Location(Double longitude, Double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public float longitude() {
+    public Double longitude() {
         return longitude;
     }
 
-    public float latitude() {
+    public Double latitude() {
         return latitude;
     }
 }

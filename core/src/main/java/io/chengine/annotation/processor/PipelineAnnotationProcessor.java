@@ -32,28 +32,28 @@ public class PipelineAnnotationProcessor implements AnnotationProcessor<Pipeline
 
     @Override
     public void process(Input input, Consumer<Object> processingCallback) throws Exception {
-        var pipelines = input.handlers.stream()
-            .filter(isPipeline)
-            .collect(Collectors.toList());
-
-        var pipelineSet = pipelines.stream()
-            .map(pipe -> {
-                var methods = pipe.getClass().getMethods();
-                var stages = Arrays.stream(methods)
-                    .filter(isStage)
-                    .map(method -> objectToStage(pipe, method))
-                    .collect(Collectors.toList());
-
-                return new Pipeline(
-                    pipe.getClass().getAnnotation(Handler.class).value(),
-                    pipe.getClass(),
-                    stages,
-                    pipe.getClass().getAnnotation(Trigger.class).value()
-                );
-            })
-            .collect(Collectors.toSet());
-
-        input.pipelineSet.addAll(pipelineSet);
+//        var pipelines = input.handlers.stream()
+//            .filter(isPipeline)
+//            .collect(Collectors.toList());
+//
+//        var pipelineSet = pipelines.stream()
+//            .map(pipe -> {
+//                var methods = pipe.getClass().getMethods();
+//                var stages = Arrays.stream(methods)
+//                    .filter(isStage)
+//                    .map(method -> objectToStage(pipe, method))
+//                    .collect(Collectors.toList());
+//
+//                return new Pipeline(
+//                    pipe.getClass().getAnnotation(Handler.class).value(),
+//                    pipe.getClass(),
+//                    stages,
+//                    pipe.getClass().getAnnotation(Trigger.class).value()
+//                );
+//            })
+//            .collect(Collectors.toSet());
+//
+//        input.pipelineSet.addAll(pipelineSet);
 
     }
 

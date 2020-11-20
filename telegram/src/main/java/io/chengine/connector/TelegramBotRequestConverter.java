@@ -50,7 +50,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         var user = update.hasMessage() ? update.getMessage().getFrom() : update.getCallbackQuery().getFrom();
         return new User(
                 user.getId(),
-                user.getBot(),
+                user.getIsBot(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getUserName(),
@@ -71,7 +71,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             throw new RuntimeException("Can't find chat info");
         }
         return new Chat(
-                chat.getId(),
+                chat.getId().toString(),
                 chat.getDescription(),
                 chat.getTitle(),
                 chat.getUserName(),

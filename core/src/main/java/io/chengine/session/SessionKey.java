@@ -6,9 +6,9 @@ public class SessionKey {
 
     private final String api;
     private final Long userId;
-    private final Long chatId;
+    private final String chatId;
 
-    public SessionKey(String api, Long userId, Long chatId) {
+    public SessionKey(String api, Long userId, String chatId) {
         this.api = api;
         this.userId = userId;
         this.chatId = chatId;

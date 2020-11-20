@@ -35,6 +35,7 @@ public class Chengine {
 
     public Chengine(ChengineConfiguration configuration) {
         this.handlerRegistry = new ChengineHandlerContext(configuration);
+        this.botList = configuration.getBots();
     }
 
     @PostConstruct
@@ -48,7 +49,7 @@ public class Chengine {
         this.methodReturnedTypeProcessor = new MethodReturnedTypeProcessor();
         this.methodArgumentInspector = new MethodArgumentInspector();
         this.messageProcessor = new ChengineMessageProcessor(
-                this.commandMethodResolver,
+                this.messageResolverFactory,
                 this.methodArgumentInspector,
                 this.methodReturnedTypeProcessor,
                 this.userPipelineSessionInfoSessionManager,

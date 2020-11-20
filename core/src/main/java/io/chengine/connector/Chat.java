@@ -2,7 +2,7 @@ package io.chengine.connector;
 
 public class Chat {
 
-    private final long id;
+    private final String id;
     private final String type;
     private final String title;
     private final String username;
@@ -13,7 +13,7 @@ public class Chat {
 
 
     public Chat(
-            long id,
+            String id,
             String type,
             String title,
             String username,
@@ -32,7 +32,7 @@ public class Chat {
         this.inviteLink = inviteLink;
     }
 
-    public long id() {
+    public String id() {
         return id;
     }
 

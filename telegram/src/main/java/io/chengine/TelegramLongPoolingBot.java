@@ -4,6 +4,7 @@ import io.chengine.connector.BotResponse;
 import io.chengine.connector.BotResponseConverter;
 import io.chengine.connector.edit.EditResponseConverterFactory;
 import io.chengine.connector.send.SendResponseConverterFactory;
+import io.chengine.connector.send.TelegramSendMessageBotResponseConverter;
 import io.chengine.processor.MessageProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,17 +30,21 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
 	public TelegramLongPoolingBot(
 
-		final MessageProcessor<Update, BotResponse> messageProcessor,
-		final BotResponseConverter<SendMessage> botResponseConverter,
+//		final MessageProcessor<Update, BotResponse> messageProcessor,
+//		final BotResponseConverter<SendMessage> botResponseConverter,
 		final String telegramToken,
-		final String telegramUsername
+		final String telegramUsername,
+		final TelegramMessageProcessor telegramMessageProcessor,
+		final TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter
 
 	) {
-
-		this.messageProcessor = messageProcessor;
-		this.botResponseConverter = botResponseConverter;
+		super();
+//		this.messageProcessor = messageProcessor;
+//		this.botResponseConverter = botResponseConverter;
 		this.token = telegramToken;
 		this.username = telegramUsername;
+		this.messageProcessor = telegramMessageProcessor;
+		this.botResponseConverter = telegramSendMessageBotResponseConverter;
 
 	}
 
@@ -50,7 +55,7 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 
 	@Override
 	public void onUpdateReceived(Update update) {
-		log.debug("Received message: {}", update);
+		log.info("Received message: {}", update);
 		try {
 			var botResponse = new BotResponse();
 			messageProcessor.process(update, botResponse);
