@@ -5,11 +5,11 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PlaintTextMap {
+public @interface PlainTextMap {
 
   String prefix() default "";
 
-  String map() default "";
+  String value() default "";
 
   String[] alternateValues() default {};
 

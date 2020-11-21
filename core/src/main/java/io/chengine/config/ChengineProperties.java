@@ -1,4 +1,4 @@
-package io.chengine;
+package io.chengine.config;
 
 import java.util.Properties;
 
@@ -8,10 +8,7 @@ import java.util.Properties;
  */
 public class ChengineProperties extends Properties {
 
-	public static final String ENABLE_PLAIN_TEXT_MAPPING = "enablePlainTextMapping";
-	public static final String HANDLER_PROVIDERS = "handlerProviders";
-	public static final String TRIGGER_PROVIDERS = "triggerProviders";
-	public static final String REQUEST_HANDLERS_AWARE = "requestHandlersAware";
+
 
 	public ChengineProperties() {
 		super();

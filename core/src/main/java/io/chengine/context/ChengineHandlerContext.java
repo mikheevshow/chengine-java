@@ -1,17 +1,16 @@
 package io.chengine.context;
 
-import io.chengine.ChengineProperties;
-import io.chengine.handler.HandlerCreationException;
-import io.chengine.handler.HandlerRegistry;
-import io.chengine.handler.Handler;
 import io.chengine.Mutates;
-import io.chengine.method.HandlerMethod;
-import io.chengine.pipeline.EventTrigger;
-import io.chengine.pipeline.Pipeline;
 import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
 import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
 import io.chengine.annotation.processor.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
+import io.chengine.handler.Handler;
+import io.chengine.handler.HandlerCreationException;
+import io.chengine.handler.HandlerRegistry;
+import io.chengine.method.HandlerMethod;
+import io.chengine.pipeline.EventTrigger;
+import io.chengine.pipeline.Pipeline;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.provider.TriggerProvider;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +21,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 
-import static io.chengine.ChengineProperties.*;
+import static io.chengine.config.Configs.HANDLER_PROVIDERS;
+import static io.chengine.config.Configs.TRIGGER_PROVIDERS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -63,7 +63,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	private ChengineHandlerContext() {
 	}
 
-    public ChengineHandlerContext(ChengineProperties chengineProperties) {
+    public ChengineHandlerContext(Properties chengineProperties) {
         List<HandlerProvider> handlerProviders = (List<HandlerProvider>) chengineProperties.get(HANDLER_PROVIDERS);
         List<TriggerProvider> triggerProviders = (List<TriggerProvider>) chengineProperties.get(TRIGGER_PROVIDERS);
         this.handlerProviders.addAll(handlerProviders);

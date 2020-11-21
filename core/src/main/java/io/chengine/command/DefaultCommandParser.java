@@ -1,6 +1,5 @@
 package io.chengine.command;
 
-import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.CommandValidator;
 import io.chengine.command.validation.DefaultCommandValidator;
 
@@ -24,12 +23,10 @@ public class DefaultCommandParser implements CommandParser {
 		commandValidator.validate(command);
 
 		var commandPartHashMap = new LinkedHashMap<String, String>();
-		var cmd = new StringBuilder();
 
 		var iterator = CommandIterator.getInstance(command);
 
 		while (iterator.hasNext()) {
-			cmd.append("/");
 			var part = iterator.next();
 			if (part.contains("#")) {
 				var param = part.substring(0, part.indexOf("#"));
@@ -38,12 +35,11 @@ public class DefaultCommandParser implements CommandParser {
 				}
 				var value = part.substring(part.indexOf("#") + 1);
 				commandPartHashMap.put(param, value);
-				cmd.append(param).append("#");
 			} else {
-				cmd.append(part);
+				commandPartHashMap.put(part, null);
 			}
 		}
 
-		return new Command(cmd.toString(), commandPartHashMap);
+		return Command.fromLinkedMap(commandPartHashMap);
 	}
 }

@@ -1,7 +1,6 @@
 package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.Chengine;
-import io.chengine.ChengineProperties;
 import io.chengine.RequestHandler;
 import io.chengine.provider.HandlerProvider;
 import io.chengine.provider.TriggerProvider;
@@ -12,8 +11,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
-import static io.chengine.ChengineProperties.*;
+import static io.chengine.config.Configs.*;
 
 @Configuration
 public class ChengineAutoConfiguration {
@@ -29,13 +29,13 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public ChengineProperties chengineConfiguration(
+	public Properties chengineConfiguration(
 			HandlerProvider handlerProvider,
 			TriggerProvider triggerProvider,
 			List<RequestHandler> requestHandlers
 	) {
 
-		final ChengineProperties properties = new ChengineProperties();
+		final Properties properties = new Properties();
 		properties.put(ENABLE_PLAIN_TEXT_MAPPING, false);
 		properties.put(HANDLER_PROVIDERS, Collections.singletonList(handlerProvider));
 		properties.put(TRIGGER_PROVIDERS, Collections.singletonList(triggerProvider));
@@ -45,7 +45,7 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public Chengine chengine(ChengineProperties configuration) {
+	public Chengine chengine(Properties configuration) {
 		return new Chengine(configuration);
 	}
 
