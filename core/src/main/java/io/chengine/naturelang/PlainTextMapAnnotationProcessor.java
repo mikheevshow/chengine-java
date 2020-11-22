@@ -52,6 +52,7 @@ public class PlainTextMapAnnotationProcessor implements HandlerVisitor {
 
     private void mapText(String text, boolean ignoreCase, Method method) {
         final Command command = handlerMethodRegistry.getByReflectMethod(method);
+        // TODO think about ignore case processing
         commandMapper.mapAll(command, text);
     }
 }
