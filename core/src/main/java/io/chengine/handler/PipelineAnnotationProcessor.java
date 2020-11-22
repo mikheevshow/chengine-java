@@ -1,6 +1,5 @@
-package io.chengine.annotation.processor;
+package io.chengine.handler;
 
-import io.chengine.handler.Handler;
 import io.chengine.method.HandlerMethod;
 import io.chengine.method.MethodDefinition;
 import io.chengine.pipeline.Pipeline;

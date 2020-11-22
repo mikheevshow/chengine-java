@@ -1,9 +1,9 @@
 package io.chengine.context;
 
 import io.chengine.Mutates;
-import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
-import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
-import io.chengine.annotation.processor.PipelineAnnotationProcessor;
+import io.chengine.handler.CommandDescriptionAnnotationProcessor;
+import io.chengine.handler.HandleCommandAnnotationProcessor;
+import io.chengine.handler.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
 import io.chengine.handler.Handler;
 import io.chengine.handler.HandlerCreationException;

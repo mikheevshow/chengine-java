@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -48,6 +49,8 @@ public class HandlerMethod {
         this.object = object;
         this.methodDefinition = methodDefinition;
         this.objectClass = object.getClass();
+
+        fillMethodParameters();
     }
 
     public <T> T invokeChecked(Class<T> clazz, Object ... args) throws InvocationTargetException, IllegalAccessException {
@@ -93,6 +96,18 @@ public class HandlerMethod {
 
     public MethodDefinition definition() {
         return this.methodDefinition;
+    }
+
+    public MethodParameter[] getParameters() {
+        return parameters;
+    }
+
+    private void fillMethodParameters() {
+        parameters = new MethodParameter[method.getParameterCount()];
+        for (int i = 0; i < method.getParameterCount(); i++) {
+            final Parameter parameter = method.getParameters()[i];
+            parameters[i] = new MethodParameter(i, parameter.getType(), parameter.getAnnotations(), parameter.getName(), parameter);
+        }
     }
 
     @Override

@@ -10,6 +10,9 @@ public class SimpleTextCommandMapper implements TextCommandMapper {
 
     private final Map<String, Command> textCommandMap = new HashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mapAll(Command command, String... text) {
         if (text == null) {
@@ -21,6 +24,9 @@ public class SimpleTextCommandMapper implements TextCommandMapper {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void map(Command command, String text) {
         if (text == null) {
@@ -39,6 +45,9 @@ public class SimpleTextCommandMapper implements TextCommandMapper {
         textCommandMap.put(text, command);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public Command get(String text) {

@@ -1,4 +1,4 @@
-package io.chengine.annotation.processor;
+package io.chengine.handler;
 
 import io.chengine.command.HandleCommand;
 import io.chengine.connector.BotApiIdentifier;

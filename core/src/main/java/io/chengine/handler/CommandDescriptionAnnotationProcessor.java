@@ -1,4 +1,4 @@
-package io.chengine.annotation.processor;
+package io.chengine.handler;
 
 import io.chengine.command.CommandDescription;
 import io.chengine.command.i18n.CommandMetaInfo;

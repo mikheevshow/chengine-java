@@ -1,7 +1,6 @@
-package io.chengine.annotation.processor;
+package io.chengine.handler;
 
 import io.chengine.command.HandleCommand;
-import io.chengine.handler.Handler;
 import io.chengine.connector.BotApiIdentifier;
 import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;

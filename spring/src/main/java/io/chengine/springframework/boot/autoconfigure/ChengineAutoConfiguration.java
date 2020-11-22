@@ -6,6 +6,7 @@ import io.chengine.provider.HandlerProvider;
 import io.chengine.provider.TriggerProvider;
 import io.chengine.springframework.provider.SpringHandlerProvider;
 import io.chengine.springframework.provider.SpringTriggerProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +29,7 @@ public class ChengineAutoConfiguration {
 		return new SpringTriggerProvider();
 	}
 
-	@Bean
+	@Bean("chengine-props")
 	public Properties chengineConfiguration(
 			HandlerProvider handlerProvider,
 			TriggerProvider triggerProvider,
@@ -45,7 +46,7 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public Chengine chengine(Properties configuration) {
+	public Chengine chengine(@Qualifier("chengine-props") Properties configuration) {
 		return new Chengine(configuration);
 	}
 
