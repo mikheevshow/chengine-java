@@ -1,9 +1,7 @@
 package io.chengine.connector;
 
 import io.chengine.command.Command;
-import io.chengine.command.CommandParsingException;
 import io.chengine.command.DefaultCommandParser;
-import io.chengine.command.validation.CommandValidationException;
 import io.chengine.command.validation.DefaultCommandValidator;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.message.keyboard.InlineKeyboardRow;
@@ -19,17 +17,18 @@ import static io.chengine.message.keyboard.InlineKeyboardButton.InlineKeyboardBu
 public class TelegramBotRequestConverter implements BotRequestConverter<Update> {
 
     @Override
-    public BotRequest convert(Update request) {
+    public BotRequest convert(Update update) {
         return new BotRequest(
+                update,
                 TelegramBotApiIdentifier.instance(),
-                isCallback(request),
+                isCallback(update),
                 false,
-                isCommand(request),
+                isCommand(update),
                 false,
-                convertChat(request),
-                convertUser(request),
-                convertMessage(request),
-                convertCallback(request)
+                convertChat(update),
+                convertUser(update),
+                convertMessage(update),
+                convertCallback(update)
         );
     }
 
@@ -51,7 +50,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         var user = update.hasMessage() ? update.getMessage().getFrom() : update.getCallbackQuery().getFrom();
         return new User(
                 user.getId(),
-                user.getBot(),
+                user.getIsBot(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getUserName(),
@@ -72,7 +71,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             throw new RuntimeException("Can't find chat info");
         }
         return new Chat(
-                chat.getId(),
+                chat.getId().toString(),
                 chat.getDescription(),
                 chat.getTitle(),
                 chat.getUserName(),
@@ -141,7 +140,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             for (org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton button : row) {
                 Consumer<InlineKeyboardButtonBuilder> inlineKeyboardButtonBuilderConsumer = btn -> btn
                         .withText(button::getText)
-                        .withData(button::getCallbackData)
+                        .withPayload(button::getCallbackData)
                         .withUrl(button::getUrl);
                 inlineKeyboardRow.addButton(inlineKeyboardButtonBuilderConsumer);
             }

@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 /**
  *
  */
-public class Edit {
+public class Edit implements ActionResponse {
 
     private final Message messageForEdit;
     private final String text;

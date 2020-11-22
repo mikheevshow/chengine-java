@@ -11,20 +11,27 @@ public class Attachment {
     /**
      * Attachment media type
      */
-    private final MediaType mediaType;
+    protected final String mediaType;
 
     @Nullable
-    private final File file;
+    protected final String resourceName;
 
     @Nullable
-    private final InputStream inputStream;
+    protected final File file;
 
-    private Attachment(
-            final MediaType mediaType,
+    @Nullable
+    protected final InputStream inputStream;
+
+    protected Attachment(
+            final String mediaType,
+            @Nullable final String resourceName,
             @Nullable final File file,
             @Nullable final InputStream inputStream) {
 
+        Objects.requireNonNull(mediaType);
+
         this.mediaType = mediaType;
+        this.resourceName = resourceName;
         this.file = file;
         this.inputStream = inputStream;
     }
@@ -35,11 +42,12 @@ public class Attachment {
 
     private static class AttachmentBuilder {
 
-        private MediaType mediaType;
+        private String mediaType;
+        private String resourceName;
         private File file;
         private InputStream inputStream;
 
-        public AttachmentBuilder setMediaType(Supplier<MediaType> mediaType) {
+        public AttachmentBuilder setMediaType(Supplier<String> mediaType) {
             this.mediaType = Objects.requireNonNull(mediaType.get(), "Attachment's media type can't be null");
             return this;
         }
@@ -50,11 +58,11 @@ public class Attachment {
         }
 
         public Attachment build() {
-            return new Attachment(mediaType, file, inputStream);
+            return new Attachment(mediaType, resourceName, file, inputStream);
         }
     }
 
-    public MediaType mediaType() {
+    public String mediaType() {
         return mediaType;
     }
 

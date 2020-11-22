@@ -1,7 +1,6 @@
 package io.chengine.command;
 
 import io.chengine.command.validation.CommandValidationException;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -52,7 +51,6 @@ public class DefaultCommandParserTest {
 
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest1() {
 		var command = defaultCommandParser.parse("/news#meduza/podcasts/id#1");
 		assertAll(
@@ -67,7 +65,6 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest2() {
 		var command = defaultCommandParser.parse("/news");
 		assertAll(
@@ -79,7 +76,6 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest3() {
 		var command = defaultCommandParser.parse("/news/pews");
 		assertAll(
@@ -91,7 +87,6 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest4() {
 		var command = defaultCommandParser.parse("/news/news#pews");
 		assertAll(
@@ -103,7 +98,6 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest5() {
 		var command = defaultCommandParser.parse("/hello#");
 		assertAll(
@@ -114,7 +108,6 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
-	@SneakyThrows
 	public void parseCorrectTest6() {
 		var command = defaultCommandParser.parse("/hello#/some");
 		assertAll(

@@ -5,90 +5,113 @@ import java.util.*;
 
 public class Command {
 
-	private final String command;
-	private final Map<String, String> params;
+    private final String command;
+    private final String path;
+    private final Map<String, String> params;
 
-	public Command(String command, Map<String, String> params) {
-		this.command = command;
-		if (!params.isEmpty()) {
-			this.params = params;
-		} else {
-			this.params = null;
-		}
-	}
+    private Command(String command, String path, Map<String, String> params) {
+        this.command = command;
+        this.path = path;
+        this.params = params;
+    }
 
-	public static class CommandBuilder {
+    public static Command fromLinkedMap(LinkedHashMap<String, String> map) {
+        if (map.isEmpty())
+            return Command.empty();
 
-		private final Map<String, String> parameterMap = new LinkedHashMap<>();
+        final CommandBuilder builder = Command.builder();
+        map.forEach(builder::put);
+        return builder.build();
+    }
 
-		public CommandBuilder put(String param) {
-			this.put(param, null);
-			return this;
-		}
+    public static class CommandBuilder {
 
-		public CommandBuilder put(String param, String value) {
-			parameterMap.put(param, value);
-			return this;
-		}
+        private final Map<String, String> parameterMap = new LinkedHashMap<>();
 
-		public Command build() {
-			var command = new StringBuilder();
-			var paramMap = new HashMap<String, String>();
-			parameterMap.forEach((key, value) -> {
-				command.append("/").append(key);
-				if (value != null) {
-					command.append("#").append(value);
-					paramMap.put(key, value);
-				}
-			});
-			return new Command(command.toString(), paramMap);
-		}
-	}
+        public CommandBuilder put(String param) {
+            this.put(param, null);
+            return this;
+        }
 
-	public static CommandBuilder builder() {
-		return new CommandBuilder();
-	}
+        public CommandBuilder put(String param, String value) {
+            parameterMap.put(param, value);
+            return this;
+        }
 
-	public String path() {
-		return command;
-	}
+        public Command build() {
+            var command = new StringBuilder();
+            var path = new StringBuilder();
+            var paramMap = new HashMap<String, String>();
+            if (parameterMap.isEmpty()) {
+                throw new RuntimeException("Can't be");
+            }
+            parameterMap.forEach((key, value) -> {
+                command.append("/").append(key);
+                path.append("/").append(key);
+                if (value != null) {
+                    command.append("#").append(value);
+                    path.append("#");
+                    paramMap.put(key, value);
+                }
+            });
 
-	public boolean hasParams() {
-		return params != null && !params.isEmpty();
-	}
+            return new Command(command.toString(), path.toString(), paramMap);
+        }
+    }
 
-	public Set<String> getParamSet() {
-		if (params == null) {
-			return Collections.emptySet();
-		} else {
-			return Set.copyOf(params.keySet());
-		}
-	}
+    public static CommandBuilder builder() {
+        return new CommandBuilder();
+    }
 
-	@Nullable
-	public String getParam(String key) {
-		return params == null ? null : params.get(key);
-	}
+    public String command() {
+        return command;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Command command1 = (Command) o;
-		return command.equals(command1.command) &&
-				Objects.equals(params, command1.params);
-	}
+    public String path() {
+        return path;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(command, params);
-	}
+    public static Command empty() {
+        return new Command("/", "/", Collections.emptyMap());
+    }
 
-	@Override
-	public String toString() {
-		return "Command{" +
-				"command='" + command + '\'' +
-				", params=" + params +
-				'}';
-	}
+    public boolean hasParams() {
+        return params != null && !params.isEmpty();
+    }
+
+    public Set<String> getParamSet() {
+        if (params == null) {
+            return Collections.emptySet();
+        } else {
+            return Set.copyOf(params.keySet());
+        }
+    }
+
+    @Nullable
+    public String getParam(String key) {
+        return params == null ? null : params.get(key);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Command command1 = (Command) o;
+        return command.equals(command1.command) &&
+                Objects.equals(params, command1.params);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(command, params);
+    }
+
+    @Override
+    public String toString() {
+        return "Command{" +
+                "command='" + command + '\'' +
+                ", params=" + params +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

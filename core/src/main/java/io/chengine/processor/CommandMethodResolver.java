@@ -1,9 +1,9 @@
 package io.chengine.processor;
 
-import io.chengine.HandlerRegistry;
+import io.chengine.handler.HandlerRegistry;
 import io.chengine.connector.BotRequest;
 import io.chengine.handler.HandlerNotFoundException;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 
 public class CommandMethodResolver implements MethodResolver {
 
@@ -17,7 +17,7 @@ public class CommandMethodResolver implements MethodResolver {
 
 
 	@Override
-	public Method resolve(BotRequest request) {
+	public HandlerMethod resolve(BotRequest request) {
 
 		var command = request.message().command();
 

@@ -1,6 +1,6 @@
 package io.chengine.provider;
 
-import io.chengine.annotation.Handler;
+import io.chengine.handler.Handler;
 
 import java.util.List;
 

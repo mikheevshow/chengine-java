@@ -8,11 +8,14 @@
 	<artifactId>chengine</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-alpha-1-SNAPSHOT</version>
+
 	<modules>
 		<module>core</module>
-		<module>spring-boot-starter</module>
         <module>telegram</module>
 		<module>vk</module>
+        <module>spring</module>
+		<module>spring-boot-starter-vk</module>
+		<module>spring-boot-starter-telegram</module>
 	</modules>
 
 	<properties>
@@ -45,14 +48,6 @@
 			<version>2.13.3</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
@@ -68,14 +63,28 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.5.2</version>
+			<version>5.7.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.5.2</version>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.6.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 

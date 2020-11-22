@@ -3,15 +3,16 @@ package io.chengine.processor.response;
 import io.chengine.connector.BotRequest;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.Message;
+import io.chengine.message.ActionResponse;
 import io.chengine.message.Edit;
 import io.chengine.message.keyboard.InlineKeyboard;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 import io.chengine.security.DefaultSecurityGuard;
 import io.chengine.security.SecurityGuard;
 
 import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
 
-public final class EditTypeResponseHandler extends AbstractResponseTypeHandler {
+public final class EditTypeResponseHandler extends AbstractActionResponseHandler {
 
     private final SecurityGuard securityGuard = new DefaultSecurityGuard();
 
@@ -19,7 +20,7 @@ public final class EditTypeResponseHandler extends AbstractResponseTypeHandler {
      * {@inheritDoc}
      */
     @Override
-    public Class<?> supports() {
+    public Class<? extends ActionResponse> supports() {
         return Edit.class;
     }
 
@@ -27,24 +28,28 @@ public final class EditTypeResponseHandler extends AbstractResponseTypeHandler {
      * {@inheritDoc}
      */
     @Override
-    protected void process(Method method, Object returnedObject, BotRequest request, BotResponse response) {
-        if (securityGuard.callMethodToEditMessage(method, request)) {
-            var edit = (Edit) returnedObject;
-            if (request.message() != null) {
+    protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequest request, BotResponse response) {
+        return securityGuard.callMethodToEditMessage(handlerMethod, request);
+    }
 
-                var messageId = request.message().id();
-                var text = edit.text() == null ? request.message().text() : edit.text();
-                var parseMode = edit.parseMode() == null ? request.message().parseMode() : edit.parseMode();
-                var inlineKeyboard = mergeKeyboards(edit, request.message().inlineKeyboard());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void process(HandlerMethod handlerMethod, ActionResponse returnedObject, BotRequest request, BotResponse response) {
+        var edit = (Edit) returnedObject;
+        if (request.message() != null) {
 
-                var message = new Message(messageId, null, text, parseMode, inlineKeyboard);
+            var messageId = request.message().id();
+            var text = edit.text() == null ? request.message().text() : edit.text();
+            var parseMode = edit.parseMode() == null ? request.message().parseMode() : edit.parseMode();
+            var inlineKeyboard = mergeKeyboards(edit, request.message().inlineKeyboard());
 
-                response.setMessage(message);
-                response.setResponseStrategy(EDIT_MESSAGE);
+            var message = new Message(messageId, null, text, parseMode, inlineKeyboard);
 
-            }
-        } else {
-            log.error("Fail to edit message, method not support editing.");
+            response.setMessage(message);
+            response.setResponseStrategy(EDIT_MESSAGE);
+
         }
     }
 

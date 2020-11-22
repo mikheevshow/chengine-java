@@ -1,7 +1,7 @@
 package io.chengine.processor;
 
 import io.chengine.connector.BotRequest;
-import io.chengine.method.Method;
+import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +21,7 @@ public class MessageResolverFactory implements MethodResolver {
 
 	@Override
 	@Nullable
-	public Method resolve(BotRequest request) {
+	public HandlerMethod resolve(BotRequest request) {
 		if(TRUE.equals(request.isCommand())) {
 			return commandMethodResolver.resolve(request);
 		} else if (TRUE.equals(request.isLocation())) {

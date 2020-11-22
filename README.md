@@ -16,8 +16,8 @@ The central part of chengine is a ChengineHandlerContext class
 ### Manual handler registartion
 - Firsly create a handler class
 ```java
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.HandleCommand;
+import io.chengine.handler.Handler;
+import io.chengine.command.HandleCommand;
 
 @Handler("/hello")
 public class SomeHandler {
@@ -122,6 +122,73 @@ public class SomeHandler {
                })
                .done();
   }
+
+}
+```
+
+#### Create Pipeline
+
+You can create pipelines to build automatic business process with user. Here is an example below:
+
+```java
+
+@Trigger(RegistrationTrigger.class)
+@ComponentPipeline("registration-pipeline")
+public class RegistrationPipeline {
+
+    @Autowired
+    private final UserService userService;
+
+    // Initial Pipeline Stage
+    @Stage(step = 0, name = "registrationGreeting")
+    public ActionStage registrationGreetingStage() {
+        return ActionStage
+                .create()
+                .doAction(() -> 
+                    Send.messageWithText(() -> "Nice to meet you. Please enter your email.")
+                )
+                .done();
+    }
+
+    @Stage(step = 1, name = "registrationStart")
+    public ActionStage registrationStartStage(Message message) {
+        return ActionStage
+                 .create()
+                 .checkStage(() -> { 
+                        var text = message.text();
+                        if (!userService.isEmail(text)) {
+                            return CheckResult.fail("Введите корректный email");
+                        }
+                            var user = userService.getByEmail(text);
+                            if (user != null) {
+                                return CheckResult.fail("User exist. User another email");
+                            }
+                                       
+                        return CheckResult.success();
+                 })
+                 .doOnSuccessCheck(() -> Send.messageWithText(() -> "We sent code to email. Put it here."))
+                 .doOnFailCheck((checkResult, canceler) -> Send.messageWithText(() -> checkResult.getData()))
+                 .doOnError(error -> { // Pipeline will terminates here if some exception will be trown
+                     error.printStackTrace();
+                     return Send.messageWithText(() -> "Ooops! Something went wrong, try again");
+                 })
+                 .done();
+    }
+
+    // Last Pipeline Stage
+    @Stage(step = 2, name = "registrationDone")
+    public ActionStage registrationDone(BotRequest request) {
+
+        return ActionStage
+                .create()
+                .checkStage(() -> {
+                    // Here do some code validations
+                    return "1234".equals(request.message().text());   
+                })
+                .doOnSuccessCheck(() -> Send.messageWithText(() -> "Registration successful!"))
+                .doOnFailCheck((checkResult, canceler) -> Send.messageWithText("Wrong code, try again!"))
+                .done();
+    }
 
 }
 ```

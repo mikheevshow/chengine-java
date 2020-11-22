@@ -9,10 +9,12 @@ public class TelegramEditMessageBotResponseConverter implements BotResponseConve
 
     @Override
     public EditMessageText convert(BotResponse response) {
-        return new EditMessageText()
-                .setChatId(response.chat().id())
-                .setMessageId((int) response.message().id())
-                .setText(response.message().text())
-                .setReplyMarkup(InlineKeyboardConverter.toTelegram(response.message().inlineKeyboard()));
+        var editMessageText = new EditMessageText();
+        editMessageText.setChatId(response.chat().id());
+        editMessageText.setMessageId((int) response.message().id());
+        editMessageText.setText(response.message().text());
+        editMessageText.setReplyMarkup(InlineKeyboardConverter.toTelegram(response.message().inlineKeyboard()));
+
+        return editMessageText;
     }
 }

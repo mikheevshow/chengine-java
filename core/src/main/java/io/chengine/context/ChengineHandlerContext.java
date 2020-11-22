@@ -1,14 +1,18 @@
 package io.chengine.context;
 
-import io.chengine.ChengineConfiguration;
-import io.chengine.HandlerCreationException;
-import io.chengine.HandlerRegistry;
-import io.chengine.annotation.Handler;
-import io.chengine.annotation.Mutates;
-import io.chengine.annotation.processor.CommandDescriptionAnnotationProcessor;
-import io.chengine.annotation.processor.HandleCommandAnnotationProcessor;
+import io.chengine.Mutates;
+import io.chengine.handler.CommandDescriptionAnnotationProcessor;
+import io.chengine.handler.HandleCommandAnnotationProcessor;
+import io.chengine.handler.PipelineAnnotationProcessor;
 import io.chengine.command.i18n.CommandMetaInfo;
+import io.chengine.handler.Handler;
+import io.chengine.handler.HandlerCreationException;
+import io.chengine.handler.HandlerRegistry;
+import io.chengine.method.HandlerMethod;
+import io.chengine.pipeline.EventTrigger;
+import io.chengine.pipeline.Pipeline;
 import io.chengine.provider.HandlerProvider;
+import io.chengine.provider.TriggerProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +21,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import static io.chengine.config.Configs.HANDLER_PROVIDERS;
+import static io.chengine.config.Configs.TRIGGER_PROVIDERS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -27,88 +33,118 @@ public class ChengineHandlerContext implements HandlerRegistry {
 	private static final String CLASS_NOT_ANNOTATED_MESSAGE = "Error handler registration. Annotation %s is not present on class %s.";
 	private static final String HANDLER_CLASS_REGISTERED_MESSAGE = "Handler class %s registered in context %s";
 
-	/**
-	 * The central part of Chengine. It stores map of string handler path and handler's method.
-	 * Key of every pair of Method and Handler object has following format: /{path1}/{param1}#/{path2}/...
-	 */
-	@Mutates(by = HandleCommandAnnotationProcessor.class)
-	private final Map<String, io.chengine.method.Method> commandMethodMap = new HashMap<>();
+    private final List<HandlerProvider> handlerProviders = new ArrayList<>();
+    private final List<TriggerProvider> triggerProviders = new ArrayList<>();
 
-	@Mutates(by = HandleCommandAnnotationProcessor.class)
-	private final Map<Method, String> methodPathMap = new HashMap<>();
+    /**
+     * The central part of Chengine. It stores map of string handler path and handler's method.
+     * Key of every pair of Method and Handler object has following format: /{path1}/{param1}#/{path2}/...
+     */
+    @Mutates(by = HandleCommandAnnotationProcessor.class)
+    private final Map<String, HandlerMethod> commandMethodMap = new HashMap<>();
 
-	/**
-	 * A map, where a key represented by command pattern and value is a command meta inforamtion object,
-	 * which contains command localizations for example.
-	 */
-	@Mutates(by = CommandDescriptionAnnotationProcessor.class)
-	private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
+    @Mutates(by = HandleCommandAnnotationProcessor.class)
+    private final Map<Method, String> methodPathMap = new HashMap<>();
+
+    @Mutates(by = PipelineAnnotationProcessor.class)
+    private final Set<Pipeline> pipelineSet = new HashSet<>();
+
+    private final Set<? super EventTrigger> triggerSet = new HashSet<>();
+
+    private final Map<Class<? extends EventTrigger>, Pipeline> triggerPipelineMap = new HashMap<>();
+
+    /**
+     * A map, where a key represented by command pattern and value is a command meta inforamtion object,
+     * which contains command localizations for example.
+     */
+    @Mutates(by = CommandDescriptionAnnotationProcessor.class)
+    private final Map<String, CommandMetaInfo> commandMetaInfoMap = new HashMap<>();
 
 	private ChengineHandlerContext() {
 	}
 
-	public ChengineHandlerContext(ChengineConfiguration chengineConfiguration) {
-		List<HandlerProvider> handlerProviders = chengineConfiguration.getHandlerProviders();
+    public ChengineHandlerContext(Properties chengineProperties) {
+        List<HandlerProvider> handlerProviders = (List<HandlerProvider>) chengineProperties.get(HANDLER_PROVIDERS);
+        List<TriggerProvider> triggerProviders = (List<TriggerProvider>) chengineProperties.get(TRIGGER_PROVIDERS);
+        this.handlerProviders.addAll(handlerProviders);
+        this.triggerProviders.addAll(triggerProviders);
 
-		if (handlerProviders != null) {
-			registerHandlers(
-					handlerProviders
-							.stream()
-							.flatMap(handlerProvider -> handlerProvider.provideAll().stream())
-							.collect(toList())
-			);
-		}
-	}
+        //todo register Triggers
+        registerTriggers(
+            this.triggerProviders.stream()
+                .flatMap(triggerProvider -> triggerProvider.provideAll().stream())
+                .collect(toList())
+        );
 
-	public void registerHandlers(final Collection<?> handlers) {
-		try {
+        //todo вынести
+        registerHandlers(
+            this.handlerProviders.stream()
+                .flatMap(handlerProvider -> handlerProvider.provideAll().stream())
+                .collect(toList())
+        );
+    }
 
-			Objects.requireNonNull(handlers, "Handler collection is empty");
-			handlers.forEach(handler -> {
-				final Class<?> handlerClass = handler.getClass();
-				final Annotation[] handlerClassAnnotations = handlerClass.getDeclaredAnnotations();
-				final Annotation annotationHandler = findHandlerAnnotationRecursively(handlerClassAnnotations);
-				if (annotationHandler == null) {
-					throw new HandlerCreationException(String.format(CLASS_NOT_ANNOTATED_MESSAGE, Handler.class.getCanonicalName(), handlerClass.getCanonicalName()));
-				}
-			});
+    public void registerTriggers(final Collection<? extends EventTrigger> triggers) {
+        try {
+            Objects.requireNonNull(triggers, "Trigger collection is empty");
+            triggerSet.addAll(triggers);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+    }
 
-			var handleCommandAnnotationProcessorInput = new HandleCommandAnnotationProcessor.Input(handlers, commandMethodMap, methodPathMap);
-			new HandleCommandAnnotationProcessor().process(handleCommandAnnotationProcessorInput);
+    public void registerHandlers(final Collection<?> handlers) {
+        try {
 
-			var commandDescriptionProcessorInput = new CommandDescriptionAnnotationProcessor.Input(handlers, commandMetaInfoMap, methodPathMap);
-			new CommandDescriptionAnnotationProcessor().process(commandDescriptionProcessorInput);
+            Objects.requireNonNull(handlers, "Handler collection is empty");
+            handlers.forEach(handler -> {
+                final Class<?> handlerClass = handler.getClass();
+                final Annotation[] handlerClassAnnotations = handlerClass.getDeclaredAnnotations();
+                final Annotation annotationHandler = findHandlerAnnotationRecursively(handlerClassAnnotations);
+                if (annotationHandler == null) {
+                    throw new HandlerCreationException(String.format(CLASS_NOT_ANNOTATED_MESSAGE, Handler.class.getCanonicalName(), handlerClass.getCanonicalName()));
+                }
+            });
 
-		} catch (Exception ex) {
-			log.error(ex.getMessage(), ex);
-		}
-	}
+            var handleCommandAnnotationProcessorInput = new HandleCommandAnnotationProcessor.Input(handlers, commandMethodMap, methodPathMap);
+            new HandleCommandAnnotationProcessor().process(handleCommandAnnotationProcessorInput);
 
-	public void registerHandlerClass(final Object handler) {
-		registerHandlers(Collections.singletonList(handler));
-	}
+            var pipelineAnnotationProcessorInput = new PipelineAnnotationProcessor.Input(handlers, pipelineSet);
+            new PipelineAnnotationProcessor().process(pipelineAnnotationProcessorInput);
+
+            var commandDescriptionProcessorInput = new CommandDescriptionAnnotationProcessor.Input(handlers, commandMetaInfoMap, methodPathMap);
+            new CommandDescriptionAnnotationProcessor().process(commandDescriptionProcessorInput);
+
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+        }
+    }
+
+    public void registerHandlerClass(final Object handler) {
+        registerHandlers(Collections.singletonList(handler));
+    }
 
 
-	//****************************************************************************************************************
-	//
-	//								HandlerRegistry interface implementation
-	//
-	//****************************************************************************************************************
+    //****************************************************************************************************************
+    //
+    //								HandlerRegistry interface implementation
+    //
+    //****************************************************************************************************************
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Set<String> getAllPaths() {
-		return commandMethodMap.keySet();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Set<String> getAllPaths() {
+        return commandMethodMap.keySet();
+    }
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	@Nullable
-	public io.chengine.method.Method get(String command) {
+	public HandlerMethod get(String command) {
 		return commandMethodMap.get(command);
 	}
 
@@ -120,7 +156,7 @@ public class ChengineHandlerContext implements HandlerRegistry {
 		return commandMethodMap
 			.values()
 			.stream()
-			.map(io.chengine.method.Method::onObject)
+			.map(HandlerMethod::onObject)
 			.collect(toSet());
 	}
 
