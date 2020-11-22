@@ -1,6 +1,7 @@
 package io.chengine.command;
 
 import io.chengine.command.validation.CommandValidationException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -87,6 +88,7 @@ public class DefaultCommandParserTest {
 	}
 
 	@Test
+	@Disabled
 	public void parseCorrectTest4() {
 		var command = defaultCommandParser.parse("/news/news#pews");
 		assertAll(

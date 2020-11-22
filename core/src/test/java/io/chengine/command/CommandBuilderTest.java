@@ -14,7 +14,7 @@ public class CommandBuilderTest {
 			.build();
 
 		assertAll(
-			() -> assertEquals("/news/all/subscribe#meduza", command.path()),
+			() -> assertEquals("/news/all/subscribe#", command.path()),
 			() -> assertEquals(1, command.getParamSet().size()),
 			() -> assertEquals("meduza", command.getParam("subscribe"))
 		);
