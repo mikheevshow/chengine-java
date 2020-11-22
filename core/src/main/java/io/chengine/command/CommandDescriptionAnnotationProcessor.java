@@ -1,7 +1,7 @@
-package io.chengine.handler;
+package io.chengine.command;
 
-import io.chengine.command.CommandDescription;
 import io.chengine.command.i18n.CommandMetaInfo;
+import io.chengine.handler.AnnotationProcessor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

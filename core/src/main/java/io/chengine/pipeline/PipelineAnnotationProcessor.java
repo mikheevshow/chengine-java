@@ -1,11 +1,9 @@
-package io.chengine.handler;
+package io.chengine.pipeline;
 
+import io.chengine.handler.AnnotationProcessor;
+import io.chengine.handler.Handler;
 import io.chengine.method.HandlerMethod;
 import io.chengine.method.MethodDefinition;
-import io.chengine.pipeline.Pipeline;
-import io.chengine.pipeline.PipelineHandlerType;
-import io.chengine.pipeline.Stage;
-import io.chengine.pipeline.StageDefinition;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
