@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img width="400" height="250" src="https://i.ibb.co/tCD7fP6/1-2x.png">
+  <img width="350" height="250" src="https://i.ibb.co/tCD7fP6/1-2x.png">
 </p>
 
 [![java][0]][1] ![experimental do not use in prod][2]
