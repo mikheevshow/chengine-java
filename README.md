@@ -3,13 +3,6 @@
   <img width="350" height="250" src="https://i.ibb.co/tCD7fP6/1-2x.png">
 </p>
 
-[![java][0]][1] ![experimental do not use in prod][2]
-
-[0]: https://img.shields.io/badge/java-11-blue.svg?style=flat-square
-[1]: https://openjdk.java.net/projects/jdk/11/
-
-[2]: https://img.shields.io/badge/development%20or%20experimental-do%20not%20use%20in%20prod-orange?style=flat-square
-
 # Chengine
 
 Chengine is a framework for creating chat bots.
