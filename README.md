@@ -5,6 +5,8 @@
 
 # Chengine
 
+> :warning: **UNSTABLE API**: Please don't use framework in production for now. Api is unstable yet and still changing.
+
 [![Build Status](https://travis-ci.org/mikheevshow/chengine.svg?branch=develop)](https://travis-ci.org/mikheevshow/chengine)
 
 Chengine is a framework for creating chat bots.
