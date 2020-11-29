@@ -5,6 +5,8 @@
 
 # Chengine
 
+[![Build Status](https://travis-ci.org/mikheevshow/chengine.svg?branch=develop)](https://travis-ci.org/mikheevshow/chengine)
+
 Chengine is a framework for creating chat bots.
 
 ## Quick Start With Spring Boot
