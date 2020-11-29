@@ -7,6 +7,7 @@
 
 > :warning: **UNSTABLE API**: Please don't use framework in production for now. Api is unstable yet and still changing.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0e8c3aafba254c5d84f151d5f85c6e1a)](https://app.codacy.com/gh/mikheevshow/chengine?utm_source=github.com&utm_medium=referral&utm_content=mikheevshow/chengine&utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/mikheevshow/chengine.svg?branch=develop)](https://travis-ci.org/mikheevshow/chengine)
 
 Chengine is a framework for creating chat bots.
