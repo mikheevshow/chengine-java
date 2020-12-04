@@ -1,11 +1,14 @@
-[![java][0]][1] ![experimental do not use in prod][2]
 
-[0]: https://img.shields.io/badge/java-11-blue.svg?style=flat-square
-[1]: https://openjdk.java.net/projects/jdk/11/
-
-[2]: https://img.shields.io/badge/development%20or%20experimental-do%20not%20use%20in%20prod-orange?style=flat-square
+<p align="center">
+  <img width="350" height="250" src="https://i.ibb.co/tCD7fP6/1-2x.png">
+</p>
 
 # Chengine
+
+> :warning: **UNSTABLE API**: Please don't use framework in production for now. API is still unstable.
+
+[![Build Status](https://travis-ci.org/mikheevshow/chengine.svg?branch=develop)](https://travis-ci.org/mikheevshow/chengine)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/59c9ef086a5a4a6a81354934b8215f6f)](https://www.codacy.com/gh/mikheevshow/chengine/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mikheevshow/chengine&amp;utm_campaign=Badge_Grade)
 
 Chengine is a framework for creating chat bots.
 
