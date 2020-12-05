@@ -33,11 +33,11 @@ public class PlainTextMapAnnotationProcessor implements HandlerVisitor {
             final boolean ignoreCase = annotation.ignoreCase();
             if (annotation.alternateValues().length != 0) {
                 for (final String text : annotation.alternateValues()) {
-                    mapText(text, ignoreCase, method);
+                    mapText(prefix + text, ignoreCase, method);
                 }
             } else {
                 final String text = annotation.value();
-                mapText(text, ignoreCase, method);
+                mapText(prefix + text, ignoreCase, method);
             }
         }
     }
@@ -52,7 +52,9 @@ public class PlainTextMapAnnotationProcessor implements HandlerVisitor {
 
     private void mapText(String text, boolean ignoreCase, Method method) {
         final Command command = handlerMethodRegistry.getByReflectMethod(method);
-        // TODO think about ignore case processing
+        if (ignoreCase) {
+            text = text.toLowerCase();
+        }
         commandMapper.mapAll(command, text);
     }
 }

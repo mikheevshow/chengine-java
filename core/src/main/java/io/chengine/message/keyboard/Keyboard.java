@@ -1,13 +1,15 @@
 package io.chengine.message.keyboard;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Keyboard {
 
-    private final List<KeyboardButton> buttons;
+    private final List<KeyboardRow> rows;
 
-    private Keyboard(final List<KeyboardButton> buttons) {
-        this.buttons = buttons;
+    private Keyboard(final List<KeyboardRow> rows) {
+        this.rows = rows;
     }
 
     public static KeyboardBuilder builder() {
@@ -16,15 +18,22 @@ public class Keyboard {
 
     public static class KeyboardBuilder {
 
-        private List<KeyboardButton> buttons;
+        private final List<KeyboardRow> rows = new ArrayList<>();
+
+        public KeyboardBuilder addRow(Consumer<KeyboardRow.KeyboardRowBuilder> row) {
+            var rowBuilder = new KeyboardRow.KeyboardRowBuilder();
+            row.accept(rowBuilder);
+            rows.add(rowBuilder.build());
+            return this;
+        }
 
         public Keyboard build() {
-            return new Keyboard(buttons);
+            return new Keyboard(rows);
         }
 
     }
 
-    public List<KeyboardButton> getButtons() {
-        return buttons;
+    public List<KeyboardRow> getRows() {
+        return rows;
     }
 }
