@@ -2,9 +2,11 @@ package io.chengine.starter;
 
 import io.chengine.TelegramLongPoolingBot;
 import io.chengine.TelegramMessageProcessor;
+import io.chengine.TelegramMessageSender;
 import io.chengine.connector.BotRequestConverter;
 import io.chengine.connector.TelegramBotRequestConverter;
 import io.chengine.connector.send.TelegramSendMessageBotResponseConverter;
+import io.chengine.sender.MessageSender;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -56,6 +58,11 @@ public class TelegramBotStarterConfiguration {
     @Bean
     public BotRequestConverter<Update> botRequestConverter() {
         return new TelegramBotRequestConverter();
+    }
+
+    @Bean
+    public MessageSender telegramMessageSender(LongPollingBot telegramLongPoolingBot) {
+        return new TelegramMessageSender(telegramLongPoolingBot);
     }
 
     @Bean

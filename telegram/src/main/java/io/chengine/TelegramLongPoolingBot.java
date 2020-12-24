@@ -1,15 +1,19 @@
 package io.chengine;
 
+import io.chengine.commons.Converter;
 import io.chengine.connector.BotResponse;
 import io.chengine.connector.BotResponseConverter;
 import io.chengine.connector.edit.EditResponseConverterFactory;
+import io.chengine.connector.edit.TelegramEditMessageMediaConverter;
 import io.chengine.connector.send.SendResponseConverterFactory;
 import io.chengine.connector.send.TelegramSendMessageBotResponseConverter;
+import io.chengine.message.Edit;
 import io.chengine.processor.MessageProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,6 +31,8 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	private final String username;
 	private final SendResponseConverterFactory sendResponseConverterFactory = new SendResponseConverterFactory();
 	private final EditResponseConverterFactory editResponseConverterFactory = new EditResponseConverterFactory();
+
+	private final Converter<BotResponse, EditMessageMedia> editMessageMediaConverter = new TelegramEditMessageMediaConverter();
 
 	public TelegramLongPoolingBot(
 		final String telegramToken,
@@ -76,7 +82,14 @@ public class TelegramLongPoolingBot extends TelegramLongPollingBot {
 	}
 
 	private void edit(BotResponse response) throws TelegramApiException {
-		var botResponseConverter = editResponseConverterFactory.get(EditMessageText.class);
-		this.execute(botResponseConverter.convert(response));
+
+		if (response.message().attachments() != null) {
+			final EditMessageMedia editMessageMedia = editMessageMediaConverter.convert(response);
+			this.execute(editMessageMedia);
+		} else {
+
+			var botResponseConverter = editResponseConverterFactory.get(EditMessageText.class);
+			this.execute(botResponseConverter.convert(response));
+		}
 	}
 }

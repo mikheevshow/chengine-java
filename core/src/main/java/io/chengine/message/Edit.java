@@ -53,7 +53,7 @@ public class Edit implements ActionResponse {
      * &#64;HandleCommand("/some-command")
      * public Edit handleSomeMessage() {
      *     return Edit
-     *              .message()
+     *              .currentMessage()
      *              .setText(() -> "New text")
      *              .done();
      * }
@@ -61,7 +61,7 @@ public class Edit implements ActionResponse {
      *
      * @return edit builder
      */
-    public static EditBuilder message() {
+    public static EditBuilder currentMessage() {
         return new EditBuilder();
     }
 
@@ -108,6 +108,13 @@ public class Edit implements ActionResponse {
 
         public EditBuilder setText(Supplier<String> text) {
             this.text = text.get();
+            return this;
+        }
+
+        public EditBuilder setAttachment(Consumer<Attachment.AttachmentBuilder> attachment) {
+            final Attachment.AttachmentBuilder attachmentBuilder = Attachment.builder();
+            attachment.accept(attachmentBuilder);
+            this.attachment = attachmentBuilder.build();
             return this;
         }
 

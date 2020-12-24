@@ -26,7 +26,7 @@ public class MethodReturnedTypeProcessor implements ResponseResolver<Object> {
                 actionResponseResponseResolver.resolve(request, response, handlerMethod, (ActionResponse) object);
             } else { // just cast to string unknown type
                 log.info("Return type handler not found, cast response to String.class");
-                var message = new Message(null, null, object.toString(), null, null);
+                var message = new Message(null, null, object.toString(), null, null, null);
                 response.setResponseStrategy(SEND_MESSAGE);
                 response.setMessage(message);
             }

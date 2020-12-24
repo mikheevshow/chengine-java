@@ -1,5 +1,6 @@
 package io.chengine.message.attachment;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.InputStream;
@@ -40,7 +41,7 @@ public class Attachment {
         return new AttachmentBuilder();
     }
 
-    private static class AttachmentBuilder {
+    public static class AttachmentBuilder {
 
         private String mediaType;
         private String resourceName;
@@ -54,6 +55,15 @@ public class Attachment {
 
         public AttachmentBuilder setFile(Supplier<File> file) {
             this.file = file.get();
+            return this;
+        }
+
+        public AttachmentBuilder setResourceName(@Nonnull Supplier<String> resourceName) {
+            if (resourceName == null) {
+                throw new NullPointerException("Resource name supplier marked as nonnull, but is null");
+            }
+
+            this.resourceName = resourceName.get();
             return this;
         }
 

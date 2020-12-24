@@ -20,6 +20,13 @@ public class Keyboard {
 
         private final List<KeyboardRow> rows = new ArrayList<>();
 
+        public KeyboardBuilder addColumn(Consumer<KeyboardColumn.KeyboardColumnBuilder> column) {
+            final KeyboardColumn.KeyboardColumnBuilder columnBuilder = new KeyboardColumn.KeyboardColumnBuilder();
+            column.accept(columnBuilder);
+            rows.addAll(columnBuilder.buildRows());
+            return this;
+        }
+
         public KeyboardBuilder addRow(Consumer<KeyboardRow.KeyboardRowBuilder> row) {
             var rowBuilder = new KeyboardRow.KeyboardRowBuilder();
             row.accept(rowBuilder);

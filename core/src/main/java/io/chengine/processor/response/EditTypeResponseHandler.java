@@ -5,10 +5,13 @@ import io.chengine.connector.BotResponse;
 import io.chengine.connector.Message;
 import io.chengine.message.ActionResponse;
 import io.chengine.message.Edit;
+import io.chengine.message.attachment.Attachment;
 import io.chengine.message.keyboard.InlineKeyboard;
 import io.chengine.method.HandlerMethod;
 import io.chengine.security.DefaultSecurityGuard;
 import io.chengine.security.SecurityGuard;
+
+import java.util.Collections;
 
 import static io.chengine.connector.BotResponseStrategy.EDIT_MESSAGE;
 
@@ -44,8 +47,9 @@ public final class EditTypeResponseHandler extends AbstractActionResponseHandler
             var text = edit.text() == null ? request.message().text() : edit.text();
             var parseMode = edit.parseMode() == null ? request.message().parseMode() : edit.parseMode();
             var inlineKeyboard = mergeKeyboards(edit, request.message().inlineKeyboard());
+            final Attachment attachment = edit.getAttachment();
 
-            var message = new Message(messageId, null, text, parseMode, inlineKeyboard);
+            var message = new Message(messageId, null, text, parseMode, inlineKeyboard, Collections.singletonList(attachment));
 
             response.setMessage(message);
             response.setResponseStrategy(EDIT_MESSAGE);

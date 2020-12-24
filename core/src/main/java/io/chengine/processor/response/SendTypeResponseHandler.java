@@ -36,9 +36,10 @@ public final class SendTypeResponseHandler extends AbstractActionResponseHandler
         var message = new Message(
                 null,
                 null,
-                send.text(),
-                send.parseMode(),
-                send.inlineKeyboard()
+                send.getText(),
+                send.getParseMode(),
+                send.getInlineKeyboard(),
+                send.getAttachments()
         );
         response.setResponseStrategy(SEND_MESSAGE);
         response.setMessage(message);
