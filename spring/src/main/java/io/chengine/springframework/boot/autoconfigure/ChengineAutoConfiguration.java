@@ -1,11 +1,9 @@
 package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.Chengine;
-import io.chengine.RequestHandler;
-import io.chengine.provider.HandlerProvider;
-import io.chengine.provider.TriggerProvider;
-import io.chengine.springframework.provider.SpringHandlerProvider;
-import io.chengine.springframework.provider.SpringTriggerProvider;
+import io.chengine.MessageProcessorAware;
+import io.chengine.provider.*;
+import io.chengine.springframework.provider.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,18 +27,39 @@ public class ChengineAutoConfiguration {
 		return new SpringTriggerProvider();
 	}
 
+	@Bean
+	public SpringRequestTypeConverterProvider springRequestTypeConverterProvider() {
+		return new SpringRequestTypeConverterProvider();
+	}
+
+	@Bean
+	public SpringResponseTypeHandlerProvider springResponseTypeHandlerProvider() {
+		return new SpringResponseTypeHandlerProvider();
+	}
+
+	@Bean
+	public SpringChengineAnnotationProcessor springChengineAnnotationProcessor() {
+		return new SpringChengineAnnotationProcessor();
+	}
+
 	@Bean("chengine-props")
 	public Properties chengineConfiguration(
 			HandlerProvider handlerProvider,
 			TriggerProvider triggerProvider,
-			List<RequestHandler> requestHandlers
+			RequestTypeConverterProvider requestTypeConverterProvider,
+			ResponseTypeHandlerProvider responseTypeHandlerProvider,
+			AnnotationProcessorProvider annotationProcessorProvider,
+			List<MessageProcessorAware> messageProcessorAwares
 	) {
 
 		final Properties properties = new Properties();
 		properties.put(ENABLE_PLAIN_TEXT_MAPPING, false);
 		properties.put(HANDLER_PROVIDERS, Collections.singletonList(handlerProvider));
 		properties.put(TRIGGER_PROVIDERS, Collections.singletonList(triggerProvider));
-		properties.put(REQUEST_HANDLERS_AWARE, requestHandlers);
+		properties.put(REQUEST_HANDLERS_AWARE, messageProcessorAwares);
+		properties.put(REQUEST_TYPE_CONVERTER_AWARE, requestTypeConverterProvider);
+		properties.put(RESPONSE_TYPE_HANDLER_AWARE, responseTypeHandlerProvider);
+		properties.put(ANNOTATION_PROCESSORS_AWARE, annotationProcessorProvider);
 
 		return properties;
 	}

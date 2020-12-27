@@ -10,4 +10,6 @@ public interface HandlerMethodRegistry {
 
     HandlerMethod getHandlerMethodByCommand(Command command);
 
+    HandlerMethod getSingleHandlerMethodByAnnotationClass(Class<?> clazz);
+
 }

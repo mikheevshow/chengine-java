@@ -1,10 +1,10 @@
 package io.chengine.pipeline.processor;
 
-import io.chengine.connector.BotRequest;
-import io.chengine.connector.BotResponse;
+import io.chengine.connector.BotRequestContext;
+import io.chengine.connector.BotResponseContext;
 
 public interface PipelineRequestHandler {
 
-    void handleRequest(BotRequest request, BotResponse response);
+    void handleRequest(BotRequestContext request, BotResponseContext response);
 
 }

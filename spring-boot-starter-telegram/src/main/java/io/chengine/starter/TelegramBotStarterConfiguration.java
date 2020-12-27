@@ -2,11 +2,11 @@ package io.chengine.starter;
 
 import io.chengine.TelegramLongPoolingBot;
 import io.chengine.TelegramMessageProcessor;
-import io.chengine.TelegramMessageSender;
 import io.chengine.connector.BotRequestConverter;
 import io.chengine.connector.TelegramBotRequestConverter;
-import io.chengine.connector.send.TelegramSendMessageBotResponseConverter;
-import io.chengine.sender.MessageSender;
+import io.chengine.processor.TelegramDeleteTypeResponseHandler;
+import io.chengine.processor.TelegramEditMessageCaptionTypeResponseHandler;
+import io.chengine.processor.TelegramSendMessageTypeResponseHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -36,12 +36,11 @@ public class TelegramBotStarterConfiguration {
     private String username;
 
     @Bean
-    public LongPollingBot longPollingBot(TelegramMessageProcessor telegramMessageProcessor, TelegramSendMessageBotResponseConverter telegramSendMessageBotResponseConverter) {
+    public LongPollingBot longPollingBot(TelegramMessageProcessor telegramMessageProcessor) {
         return new TelegramLongPoolingBot(
                 token,
                 username,
-                telegramMessageProcessor,
-                telegramSendMessageBotResponseConverter
+                telegramMessageProcessor
         );
     }
 
@@ -51,18 +50,22 @@ public class TelegramBotStarterConfiguration {
     }
 
     @Bean
-    public TelegramSendMessageBotResponseConverter telegramBotResponseConverter() {
-        return new TelegramSendMessageBotResponseConverter();
-    }
-
-    @Bean
     public BotRequestConverter<Update> botRequestConverter() {
         return new TelegramBotRequestConverter();
     }
 
     @Bean
-    public MessageSender telegramMessageSender(LongPollingBot telegramLongPoolingBot) {
-        return new TelegramMessageSender(telegramLongPoolingBot);
+    public TelegramSendMessageTypeResponseHandler telegramSendTypeResponseHandler() {
+        return new TelegramSendMessageTypeResponseHandler();
+    }
+
+    @Bean
+    public TelegramEditMessageCaptionTypeResponseHandler telegramEditTypeResponseHandler() {
+        return new TelegramEditMessageCaptionTypeResponseHandler();
+    }
+
+    public TelegramDeleteTypeResponseHandler telegramDeleteTypeResponseHandler() {
+        return new TelegramDeleteTypeResponseHandler();
     }
 
     @Bean

@@ -22,13 +22,10 @@ public class HandlerMethod {
     private  MethodParameter[] parameters;
     private final Object object;
     private final Class<?> objectClass;
-    private final MethodDefinition methodDefinition;
 
     public static HandlerMethod of(
             @Nonnull java.lang.reflect.Method method,
-            @Nonnull Object object,
-            @Nonnull MethodDefinition methodDefinition
-    ) {
+            @Nonnull Object object) {
 
         Objects.requireNonNull(method, "Method can't be null");
         Objects.requireNonNull(object, "Object can't be null");
@@ -41,13 +38,12 @@ public class HandlerMethod {
             throw new MethodInstantinationException("Error creating method wrap. Method " + method.getName() + " doesn't belong to object with class" + object.getClass().getName());
         }
 
-        return new HandlerMethod(method, object, methodDefinition);
+        return new HandlerMethod(method, object);
     }
 
-    private HandlerMethod(java.lang.reflect.Method method, Object object, MethodDefinition methodDefinition) {
+    private HandlerMethod(java.lang.reflect.Method method, Object object) {
         this.method = method;
         this.object = object;
-        this.methodDefinition = methodDefinition;
         this.objectClass = object.getClass();
 
         fillMethodParameters();
@@ -94,10 +90,6 @@ public class HandlerMethod {
         return clazz != null && objectClass.isAssignableFrom(clazz);
     }
 
-    public MethodDefinition definition() {
-        return this.methodDefinition;
-    }
-
     public MethodParameter[] getParameters() {
         return parameters;
     }
@@ -130,7 +122,6 @@ public class HandlerMethod {
                 "method=" + method +
                 ", object=" + object +
                 ", objectClass=" + objectClass +
-                ", methodDefinition=" + methodDefinition +
                 '}';
     }
 }

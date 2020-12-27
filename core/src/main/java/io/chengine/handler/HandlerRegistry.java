@@ -14,6 +14,8 @@ public interface HandlerRegistry {
 
 	HandlerMethod get(String command);
 
+	HandlerMethod getSingleByAnnotationClass(Class<?> clazz);
+
 	default HandlerMethod get(Command command) {
 		return get(command.path());
 	}

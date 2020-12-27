@@ -1,7 +1,7 @@
 package io.chengine.processor.response;
 
-import io.chengine.connector.BotRequest;
-import io.chengine.connector.BotResponse;
+import io.chengine.connector.BotRequestContext;
+import io.chengine.connector.BotResponseContext;
 import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +13,7 @@ public abstract class AbstractMethodReturnedValueHandler<T> implements MethodRet
     public abstract Class<? extends T> supports();
 
     @Override
-    public void handle(HandlerMethod handlerMethod, T returnedObject, BotRequest request, BotResponse response) {
+    public void handle(HandlerMethod handlerMethod, T returnedObject, BotRequestContext request, BotResponseContext response) {
         log.info("Process returned object of type: {}", this::supports);
         if (isAllowToProcess(handlerMethod, request, response)) {
             process(handlerMethod, returnedObject, request, response);
@@ -22,7 +22,7 @@ public abstract class AbstractMethodReturnedValueHandler<T> implements MethodRet
         }
     }
 
-    protected abstract boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequest request, BotResponse response);
+    protected abstract boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequestContext request, BotResponseContext response);
 
     /**
      * Implement this method to provide specified response type processing
@@ -32,6 +32,6 @@ public abstract class AbstractMethodReturnedValueHandler<T> implements MethodRet
      * @param request - bot request object
      * @param response - bot response object
      */
-    protected abstract void process(HandlerMethod handlerMethod, T returnedObject, BotRequest request, BotResponse response);
+    protected abstract void process(HandlerMethod handlerMethod, T returnedObject, BotRequestContext request, BotResponseContext response);
 
 }

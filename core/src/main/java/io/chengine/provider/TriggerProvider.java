@@ -5,12 +5,15 @@ import io.chengine.pipeline.Trigger;
 
 import java.util.List;
 
+/**
+ * Provides event triggers
+ */
 public interface TriggerProvider {
 
     /**
      * For handler registration it's should be annotated by {@link Trigger}
      *
-     * @return triggers :)
+     * @return triggers
      */
     List<? extends EventTrigger> provideAll();
 }

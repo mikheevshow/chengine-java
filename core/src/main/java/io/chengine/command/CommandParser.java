@@ -1,7 +1,5 @@
 package io.chengine.command;
 
-import io.chengine.command.validation.CommandValidationException;
-
 public interface CommandParser {
 
 	/**

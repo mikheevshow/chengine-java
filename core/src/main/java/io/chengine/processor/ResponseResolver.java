@@ -1,11 +1,11 @@
 package io.chengine.processor;
 
-import io.chengine.connector.BotRequest;
-import io.chengine.connector.BotResponse;
+import io.chengine.connector.BotRequestContext;
+import io.chengine.connector.BotResponseContext;
 import io.chengine.method.HandlerMethod;
 
 public interface ResponseResolver<T> {
 
-    void resolve(BotRequest botRequest, BotResponse botResponse, HandlerMethod handlerMethod, T object);
+    void resolve(BotRequestContext botRequest, BotResponseContext botResponseContext, HandlerMethod handlerMethod, T object);
 
 }

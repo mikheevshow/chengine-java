@@ -9,7 +9,7 @@ public interface HandlerProvider {
 	/**
 	 * For handler registration it's should be annotated by {@link Handler}
 	 *
-	 * @return handlers :)
+	 * @return handlers
 	 */
 	List<?> provideAll();
 

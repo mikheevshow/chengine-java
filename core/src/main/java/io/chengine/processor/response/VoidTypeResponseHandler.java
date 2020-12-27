@@ -1,7 +1,7 @@
 package io.chengine.processor.response;
 
-import io.chengine.connector.BotRequest;
-import io.chengine.connector.BotResponse;
+import io.chengine.connector.BotRequestContext;
+import io.chengine.connector.BotResponseContext;
 import io.chengine.method.HandlerMethod;
 
 public final class VoidTypeResponseHandler extends AbstractMethodReturnedValueHandler<Void> {
@@ -18,16 +18,20 @@ public final class VoidTypeResponseHandler extends AbstractMethodReturnedValueHa
      * {@inheritDoc}
      */
     @Override
-    protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequest request, BotResponse response) {
-        return true;
+    protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequestContext request, BotResponseContext response) {
+        return false;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void process(HandlerMethod handlerMethod, Void returnedObject, BotRequest request, BotResponse response) {
-        response.setSend(false);
-    }
+    protected void process(
+            final HandlerMethod handlerMethod,
+            final Void returnedObject,
+            final BotRequestContext request,
+            final BotResponseContext response) {
 
+        // Do nothing
+    }
 }
