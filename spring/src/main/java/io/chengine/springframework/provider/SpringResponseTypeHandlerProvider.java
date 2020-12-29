@@ -1,7 +1,7 @@
 package io.chengine.springframework.provider;
 
 import io.chengine.processor.response.AbstractActionResponseHandler;
-import io.chengine.provider.ResponseTypeHandlerProvider;
+import io.chengine.provider.ActionResponseHandlerProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpringResponseTypeHandlerProvider implements ApplicationContextAware, ResponseTypeHandlerProvider {
+public class SpringResponseTypeHandlerProvider implements ApplicationContextAware, ActionResponseHandlerProvider {
 
     private ApplicationContext applicationContext;
 

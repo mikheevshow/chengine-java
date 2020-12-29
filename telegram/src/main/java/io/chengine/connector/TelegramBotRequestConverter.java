@@ -43,20 +43,8 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         botRequestContext.add(Poll.class, update.getPoll());
         botRequestContext.add(ShippingQuery.class, update.getShippingQuery());
         botRequestContext.add(PreCheckoutQuery.class, update.getPreCheckoutQuery());
-        botRequestContext.add(User.class, update.getMessage().getFrom());
-
-        if (update.hasMessage()) {
-            botRequestContext.add(Message.class, update.getMessage());
-        }
-        if (update.hasEditedMessage()) {
-            botRequestContext.add(Message.class, update.getEditedMessage());
-        }
-        if (update.hasChannelPost()) {
-            botRequestContext.add(Message.class, update.getChannelPost());
-        }
-        if (update.hasEditedChannelPost()) {
-            botRequestContext.add(Message.class, update.getEditedMessage());
-        }
+        botRequestContext.add(User.class, getUser(update));
+        botRequestContext.add(Message.class, getMessage(update));
     }
 
     private void setAnnotationToHandle(Update update, DefaultBotRequestContext botRequestContext) {
@@ -167,6 +155,28 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
                 var parser = DefaultCommandParser.instance();
                 return parser.parse(text);
             }
+        }
+
+        return null;
+    }
+
+    private Message getMessage(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage();
+        } else if (update.hasEditedMessage()) {
+            return update.getEditedMessage();
+        }
+
+        return null;
+    }
+
+    private User getUser(Update update) {
+        if (update.getMessage() != null && update.getMessage().getFrom() != null) {
+            return update.getMessage().getFrom();
+        } else if (update.getCallbackQuery() != null && update.getCallbackQuery().getFrom() != null) {
+            return update.getCallbackQuery().getFrom();
         }
 
         return null;

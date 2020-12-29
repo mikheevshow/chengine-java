@@ -7,6 +7,7 @@ import io.chengine.connector.TelegramBotRequestConverter;
 import io.chengine.processor.TelegramDeleteTypeResponseHandler;
 import io.chengine.processor.TelegramEditMessageCaptionTypeResponseHandler;
 import io.chengine.processor.TelegramSendMessageTypeResponseHandler;
+import io.chengine.processor.TelegramSendPhotoTypeResponseHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -60,10 +61,16 @@ public class TelegramBotStarterConfiguration {
     }
 
     @Bean
+    public TelegramSendPhotoTypeResponseHandler telegramSendPhotoTypeResponseHandler() {
+        return new TelegramSendPhotoTypeResponseHandler();
+    }
+
+    @Bean
     public TelegramEditMessageCaptionTypeResponseHandler telegramEditTypeResponseHandler() {
         return new TelegramEditMessageCaptionTypeResponseHandler();
     }
 
+    @Bean
     public TelegramDeleteTypeResponseHandler telegramDeleteTypeResponseHandler() {
         return new TelegramDeleteTypeResponseHandler();
     }

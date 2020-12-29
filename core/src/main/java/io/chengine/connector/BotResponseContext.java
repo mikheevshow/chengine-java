@@ -6,4 +6,8 @@ public interface BotResponseContext {
 
     Object get(Class<?> clazz);
 
+    Class<?> responseClass();
+
+    Object getResponseObject();
+
 }

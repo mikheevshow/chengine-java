@@ -10,7 +10,7 @@ import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
 import io.chengine.processor.response.AbstractActionResponseHandler;
 import io.chengine.provider.RequestTypeConverterProvider;
-import io.chengine.provider.ResponseTypeHandlerProvider;
+import io.chengine.provider.ActionResponseHandlerProvider;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -53,7 +53,7 @@ public class Chengine {
 
         final DefaultResponseTypeHandlerFactory responseTypeHandlerFactory = new DefaultResponseTypeHandlerFactory();
 
-        this.abstractActionResponseHandlers = ((ResponseTypeHandlerProvider) configuration.get(RESPONSE_TYPE_HANDLER_AWARE)).provideAll();
+        this.abstractActionResponseHandlers = ((ActionResponseHandlerProvider) configuration.get(RESPONSE_TYPE_HANDLER_AWARE)).provideAll();
         abstractActionResponseHandlers.forEach(h -> responseTypeHandlerFactory.put(h.supports(), h));
         this.responseTypeHandlerFactory = responseTypeHandlerFactory;
 

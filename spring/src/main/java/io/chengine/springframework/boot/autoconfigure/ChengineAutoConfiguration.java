@@ -47,7 +47,7 @@ public class ChengineAutoConfiguration {
 			HandlerProvider handlerProvider,
 			TriggerProvider triggerProvider,
 			RequestTypeConverterProvider requestTypeConverterProvider,
-			ResponseTypeHandlerProvider responseTypeHandlerProvider,
+			ActionResponseHandlerProvider actionResponseHandlerProvider,
 			AnnotationProcessorProvider annotationProcessorProvider,
 			List<MessageProcessorAware> messageProcessorAwares
 	) {
@@ -58,7 +58,7 @@ public class ChengineAutoConfiguration {
 		properties.put(TRIGGER_PROVIDERS, Collections.singletonList(triggerProvider));
 		properties.put(REQUEST_HANDLERS_AWARE, messageProcessorAwares);
 		properties.put(REQUEST_TYPE_CONVERTER_AWARE, requestTypeConverterProvider);
-		properties.put(RESPONSE_TYPE_HANDLER_AWARE, responseTypeHandlerProvider);
+		properties.put(RESPONSE_TYPE_HANDLER_AWARE, actionResponseHandlerProvider);
 		properties.put(ANNOTATION_PROCESSORS_AWARE, annotationProcessorProvider);
 
 		return properties;
