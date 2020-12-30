@@ -87,6 +87,10 @@ public class Command {
         }
     }
 
+    public Iterator<String> iterator() {
+        return CommandIterator.getInstance(this.command);
+    }
+
     @Nullable
     public String getParam(String key) {
         return params == null ? null : params.get(key);

@@ -8,7 +8,7 @@ import io.chengine.handler.HandlerRegistry;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
-import io.chengine.processor.response.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseHandler;
 import io.chengine.provider.RequestTypeConverterProvider;
 import io.chengine.provider.ActionResponseHandlerProvider;
 

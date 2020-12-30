@@ -1,6 +1,6 @@
 package io.chengine.springframework.provider;
 
-import io.chengine.processor.response.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseHandler;
 import io.chengine.provider.ActionResponseHandlerProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

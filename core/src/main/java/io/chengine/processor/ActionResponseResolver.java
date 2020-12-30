@@ -4,7 +4,6 @@ import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
-import io.chengine.processor.response.AbstractActionResponseHandler;
 
 public class ActionResponseResolver implements ResponseResolver<ActionResponse> {
 

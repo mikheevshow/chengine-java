@@ -1,12 +1,21 @@
-package io.chengine.processor.response;
+package io.chengine.processor;
 
 import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.method.HandlerMethod;
+import io.chengine.processor.AbstractActionResponseHandler;
+import io.chengine.processor.MethodReturnedValueHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractMethodReturnedValueHandler<T> implements MethodReturnedValueHandler<T>{
+/**
+ * Inherit this class if you want to provide custom type processing
+ *
+ * {@link io.chengine.config.Configs#RESPONSE_TYPE_HANDLER_AWARE}
+ *
+ * @param <T> - custom returned type
+ */
+public abstract class AbstractMethodReturnedValueHandler<T> implements MethodReturnedValueHandler<T> {
 
     protected static final Logger log = LogManager.getLogger(AbstractActionResponseHandler.class);
 
@@ -28,7 +37,7 @@ public abstract class AbstractMethodReturnedValueHandler<T> implements MethodRet
      * Implement this method to provide specified response type processing
      *
      * @param handlerMethod - called method
-     * @param returnedObject - object returned by method
+     * @param returnedObject - object returned by the method
      * @param request - bot request object
      * @param response - bot response object
      */

@@ -8,6 +8,8 @@ import io.chengine.processor.MessageProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
+import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -44,6 +46,10 @@ public class TelegramMessageProcessor implements MessageProcessorAware {
 			telegramLongPoolingBot.execute((BotApiMethod<?>) botResponseContext.getResponseObject());
 		} else if (SendPhoto.class.equals(botResponseContext.responseClass())) {
 			telegramLongPoolingBot.execute((SendPhoto) botResponseContext.getResponseObject());
+		} else if (SendMediaGroup.class.equals(botResponseContext.responseClass())) {
+			telegramLongPoolingBot.execute((SendMediaGroup) botResponseContext.getResponseObject());
+		} else if (SendPoll.class.equals(botResponseContext.responseClass())) {
+			telegramLongPoolingBot.execute((SendPoll) botResponseContext.getResponseObject());
 		} else {
 			log.error("Response object is not assignable from BotApiMethod class. This is may a bug, " +
 					"please contact support mikheev.show@gmail.com also attach steps to reproduce the problem");

@@ -1,7 +1,6 @@
 package io.chengine.processor;
 
 import io.chengine.message.ActionResponse;
-import io.chengine.processor.response.AbstractActionResponseHandler;
 
 import java.util.HashMap;
 import java.util.Map;

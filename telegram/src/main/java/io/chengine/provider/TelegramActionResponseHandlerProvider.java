@@ -3,7 +3,7 @@ package io.chengine.provider;
 import io.chengine.processor.TelegramSendDiceTypeResponseHandler;
 import io.chengine.processor.TelegramSendMessageTypeResponseHandler;
 import io.chengine.processor.TelegramSendPhotoTypeResponseHandler;
-import io.chengine.processor.response.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;

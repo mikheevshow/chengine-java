@@ -1,6 +1,6 @@
 package io.chengine.provider;
 
-import io.chengine.processor.response.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseHandler;
 
 import java.util.List;
 

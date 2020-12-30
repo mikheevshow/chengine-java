@@ -6,7 +6,6 @@ import io.chengine.connector.DefaultBotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.message.TelegramSendMessage;
 import io.chengine.method.HandlerMethod;
-import io.chengine.processor.response.AbstractActionResponseHandler;
 import io.chengine.util.InlineKeyboardConverter;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -38,13 +37,12 @@ public class TelegramSendMessageTypeResponseHandler extends AbstractActionRespon
      */
     @Override
     protected void process(
-            HandlerMethod handlerMethod,
-            ActionResponse returnedObject,
-            BotRequestContext request,
-            BotResponseContext response) {
+            final HandlerMethod handlerMethod,
+            final ActionResponse returnedObject,
+            final BotRequestContext request,
+            final BotResponseContext response) {
 
         final TelegramSendMessage telegramSend  = (TelegramSendMessage) returnedObject;
-        final DefaultBotResponseContext defaultBotResponseContext = (DefaultBotResponseContext) response;
         final Chat chat = (Chat) request.get(Chat.class);
 
         final SendMessage sendMessage = new SendMessage();
@@ -56,6 +54,6 @@ public class TelegramSendMessageTypeResponseHandler extends AbstractActionRespon
         sendMessage.setAllowSendingWithoutReply(telegramSend.getAllowSendingWithoutReply());
         sendMessage.setReplyMarkup(InlineKeyboardConverter.toTelegram(telegramSend.getInlineKeyboard()));
 
-        defaultBotResponseContext.setResponseObject(sendMessage);
+        ((DefaultBotResponseContext) response).setResponseObject(sendMessage);
     }
 }

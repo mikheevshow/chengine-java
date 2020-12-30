@@ -4,12 +4,9 @@ import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.connector.DefaultBotResponseContext;
 import io.chengine.message.ActionResponse;
-import io.chengine.message.TelegramSendMessage;
 import io.chengine.message.TelegramSendPhoto;
 import io.chengine.method.HandlerMethod;
-import io.chengine.processor.response.AbstractActionResponseHandler;
 import io.chengine.util.InlineKeyboardConverter;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 

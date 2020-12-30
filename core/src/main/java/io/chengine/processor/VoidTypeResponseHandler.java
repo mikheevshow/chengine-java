@@ -1,4 +1,4 @@
-package io.chengine.processor.response;
+package io.chengine.processor;
 
 import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;

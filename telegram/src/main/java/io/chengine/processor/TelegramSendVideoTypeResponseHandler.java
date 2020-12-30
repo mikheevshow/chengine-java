@@ -3,20 +3,18 @@ package io.chengine.processor;
 import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
-import io.chengine.message.TelegramEdit;
-import io.chengine.message.TelegramEditMessageCaption;
 import io.chengine.method.HandlerMethod;
 
-public class TelegramEditMessageCaptionTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendVideoTypeResponseHandler extends AbstractActionResponseHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {
-        return TelegramEditMessageCaption.class;
+        return null;
     }
 
     @Override
     protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequestContext request, BotResponseContext response) {
-        return true;
+        return false;
     }
 
     @Override
@@ -26,6 +24,5 @@ public class TelegramEditMessageCaptionTypeResponseHandler extends AbstractActio
             BotRequestContext request,
             BotResponseContext response) {
 
-        final TelegramEdit telegramEdit = (TelegramEdit) returnedObject;
     }
 }
