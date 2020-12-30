@@ -1,8 +1,22 @@
 package io.chengine.config;
 
+import io.chengine.command.CommandDescription;
+
 public class Configs {
 
     public static final String ENABLE_PLAIN_TEXT_MAPPING = "enablePlainTextMapping";
+
+    /**
+     * Enables automatic command description generation. If option is enabled
+     * then '/help' command mapping will be created by the way. When user enters
+     * '/help' command, the description about ones will be returned based on either
+     * description in {@link CommandDescription#description()} or i18n property name
+     * {@link CommandDescription#property()}
+     *
+     * @see io.chengine.command.CommandDescription
+     */
+    public static final String ENABLE_COMMAND_DESCRIPTION = "enableCommandDescription";
+
     public static final String HANDLER_PROVIDERS = "handlerProviders";
     public static final String TRIGGER_PROVIDERS = "triggerProviders";
     public static final String REQUEST_HANDLERS_AWARE = "requestHandlersAware";
