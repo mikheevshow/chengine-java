@@ -39,6 +39,7 @@ public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseH
         sendPoll.setDisableNotification(telegramSendPoll.getDisableNotification());
         sendPoll.setIsAnonymous(telegramSendPoll.getAnonymous());
         sendPoll.setIsClosed(telegramSendPoll.getClosed());
+        sendPoll.setQuestion(telegramSendPoll.getQuestion());
         //sendPoll.setCloseDate(); TODO fill
         //sendPoll.setOpenPeriod();
         sendPoll.setExplanation(telegramSendPoll.getExplanation());
