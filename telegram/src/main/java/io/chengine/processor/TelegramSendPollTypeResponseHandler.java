@@ -46,6 +46,6 @@ public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseH
         sendPoll.setReplyMarkup(InlineKeyboardConverter.toTelegram(telegramSendPoll.getInlineKeyboard()));
 
 
-        ((DefaultBotResponseContext) response).setResponseObject(response);
+        ((DefaultBotResponseContext) response).setResponseObject(sendPoll);
     }
 }
