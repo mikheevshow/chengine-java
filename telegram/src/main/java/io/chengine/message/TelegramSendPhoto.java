@@ -6,13 +6,11 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TelegramSendPhoto implements Send {
+public class TelegramSendPhoto extends TelegramAbstractSend {
 
-    private String chatId;
     private String caption;
     private String parseMode;
     private InputFile inputFile;
-    private InlineKeyboard inlineKeyboard;
 
     public TelegramSendPhoto toChatWithId(Supplier<String> chatId) {
         this.chatId = chatId.get();
@@ -35,14 +33,8 @@ public class TelegramSendPhoto implements Send {
     }
 
     public TelegramSendPhoto withInlineKeyboard(Consumer<InlineKeyboard.InlineKeyboardBuilder> inlineKeyboard) {
-        final InlineKeyboard.InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboard.InlineKeyboardBuilder();
-        inlineKeyboard.accept(inlineKeyboardBuilder);
-        this.inlineKeyboard = inlineKeyboardBuilder.build();
+        setInlineKeyboardInternal(inlineKeyboard);
         return this;
-    }
-
-    public String getChatId() {
-        return chatId;
     }
 
     public String getCaption() {
@@ -55,9 +47,5 @@ public class TelegramSendPhoto implements Send {
 
     public InputFile getInputFile() {
         return inputFile;
-    }
-
-    public InlineKeyboard getInlineKeyboard() {
-        return inlineKeyboard;
     }
 }

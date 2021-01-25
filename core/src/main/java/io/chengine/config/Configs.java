@@ -4,6 +4,13 @@ import io.chengine.command.CommandDescription;
 
 public class Configs {
 
+    /**
+     * Enables plain text mapping. Use annotation {@link io.chengine.naturelang.PlainTextMap}
+     * to map command on text command. Command parameter {@link io.chengine.command.CommandParameter}
+     * should pass using space. To enter complex parameters use single comma over parameter
+     *
+     *
+     */
     public static final String ENABLE_PLAIN_TEXT_MAPPING = "enablePlainTextMapping";
 
     /**
@@ -16,6 +23,7 @@ public class Configs {
      * @see io.chengine.command.CommandDescription
      */
     public static final String ENABLE_COMMAND_DESCRIPTION = "enableCommandDescription";
+
 
     public static final String HANDLER_PROVIDERS = "handlerProviders";
     public static final String TRIGGER_PROVIDERS = "triggerProviders";

@@ -8,9 +8,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TelegramSendPoll implements Send {
+public class TelegramSendPoll extends TelegramAbstractSend {
 
-    private String chatId;
     private String question;
     private final List<String> options = new ArrayList<>();
     private String explanation;
@@ -21,8 +20,6 @@ public class TelegramSendPoll implements Send {
     private Boolean disableNotification;
     private Boolean anonymous;
     private Boolean closed;
-
-    private InlineKeyboard inlineKeyboard;
 
     public TelegramSendPoll toChatWithId(Supplier<String> chatId) {
         this.chatId = chatId.get();
@@ -80,15 +77,8 @@ public class TelegramSendPoll implements Send {
     }
 
     public TelegramSendPoll withInlineKeyboard(Consumer<InlineKeyboard.InlineKeyboardBuilder> inlineKeyboard) {
-        final InlineKeyboard.InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboard.InlineKeyboardBuilder();
-        inlineKeyboard.accept(inlineKeyboardBuilder);
-        this.inlineKeyboard = inlineKeyboardBuilder.build();
+        setInlineKeyboardInternal(inlineKeyboard);
         return this;
-    }
-
-
-    public String getChatId() {
-        return chatId;
     }
 
     public String getQuestion() {
@@ -127,7 +117,4 @@ public class TelegramSendPoll implements Send {
         return closed;
     }
 
-    public InlineKeyboard getInlineKeyboard() {
-        return inlineKeyboard;
-    }
 }
