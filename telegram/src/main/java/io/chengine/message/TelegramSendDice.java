@@ -8,6 +8,8 @@ public class TelegramSendDice implements Send {
     private Integer value;
     private String emoji;
 
+    protected TelegramSendDice() {}
+
     public TelegramSendDice toChatWithId(Supplier<String> chatId) {
         this.chatId = chatId.get();
         return this;

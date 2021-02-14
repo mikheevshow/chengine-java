@@ -15,6 +15,8 @@ public class TelegramSendMediaGroup implements Send {
     private Boolean disableNotification;
     private Boolean allowSendingWithoutReply;
 
+    protected TelegramSendMediaGroup() {}
+
     public TelegramSendMediaGroup toChatWithId(@Nonnull Supplier<String> chatId) {
         this.chatId = chatId.get();
         return this;

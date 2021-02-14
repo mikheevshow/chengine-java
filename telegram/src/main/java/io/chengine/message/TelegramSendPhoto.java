@@ -12,6 +12,8 @@ public class TelegramSendPhoto extends TelegramAbstractSend {
     private String parseMode;
     private InputFile inputFile;
 
+    protected TelegramSendPhoto() {}
+
     public TelegramSendPhoto toChatWithId(Supplier<String> chatId) {
         this.chatId = chatId.get();
         return this;

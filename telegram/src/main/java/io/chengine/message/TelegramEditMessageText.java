@@ -7,6 +7,7 @@ public class TelegramEditMessageText implements Edit {
     private String text;
     private String parseMode;
 
+    protected TelegramEditMessageText() {}
 
     public Integer getChatId() {
         return chatId;

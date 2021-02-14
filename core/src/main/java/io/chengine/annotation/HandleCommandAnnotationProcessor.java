@@ -70,7 +70,7 @@ public class HandleCommandAnnotationProcessor implements HandlerRegistryAware, A
                                 }
                                 final HandlerMethod handlerMethod = HandlerMethod.of(method, handler);
                                 handlerRegistry.putCommand(commandPath, handlerMethod);
-                                log.info("Command registered: " + commandPath);
+                                log.info("Command handler registered: \"" + commandPath + "\"");
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }

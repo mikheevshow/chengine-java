@@ -13,6 +13,8 @@ public class TelegramSendContact extends TelegramAbstractSend {
     private Boolean allowSendingWithoutReply;
     private Boolean disableNotification;
 
+    protected TelegramSendContact() {}
+
     public TelegramSendContact toChatWithId(@Nonnull Supplier<String> chatId) {
         toChatWithIdInternal(chatId);
         return this;

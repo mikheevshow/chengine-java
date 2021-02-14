@@ -12,6 +12,8 @@ public class TelegramSendLocation extends TelegramAbstractSend {
     private Double horizontalAccuracy;
     private Integer livePeriod;
 
+    protected TelegramSendLocation() {}
+
     public TelegramSendLocation withLatitude(@Nonnull Supplier<Double> latitude) {
         this.latitude = validateSupplier(latitude);
         return this;

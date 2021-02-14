@@ -13,6 +13,7 @@ public class TelegramEditMessageCaption extends TelegramAbstractEdit {
     private String caption;
     private String parseMode;
 
+    protected TelegramEditMessageCaption() {}
 
     public TelegramEditMessageCaption setInlineKeyboard(Consumer<InlineKeyboardBuilder> inlineKeyboard) {
         setInlineKeyboardInternal(inlineKeyboard);

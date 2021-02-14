@@ -7,8 +7,7 @@ public class TelegramDelete implements Delete {
     private Integer chatId;
     private Integer messageId;
 
-    public TelegramDelete() {
-    }
+    protected TelegramDelete() {}
 
     public static TelegramDelete message() {
         return new TelegramDelete();

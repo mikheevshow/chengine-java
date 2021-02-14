@@ -27,24 +27,11 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
     public BotRequestContext convert(Update update) {
         final DefaultBotRequestContext botRequestContext = new DefaultBotRequestContext();
         botRequestContext.setBotApiIdentifier(TelegramBotApiIdentifier.instance());
-        addObjectsToContext(update, botRequestContext);
+        botRequestContext.add(Update.class, update);
         setAnnotationToHandle(update, botRequestContext);
         setCommand(update, botRequestContext);
 
         return botRequestContext;
-    }
-
-    private void addObjectsToContext(Update update, DefaultBotRequestContext botRequestContext) {
-        botRequestContext.add(Update.class, update);
-        botRequestContext.add(Chat.class, getChat(update));
-        botRequestContext.add(CallbackQuery.class, update.getCallbackQuery());
-        botRequestContext.add(ChosenInlineQuery.class, update.getChosenInlineQuery());
-        botRequestContext.add(InlineQuery.class, update.getInlineQuery());
-        botRequestContext.add(Poll.class, update.getPoll());
-        botRequestContext.add(ShippingQuery.class, update.getShippingQuery());
-        botRequestContext.add(PreCheckoutQuery.class, update.getPreCheckoutQuery());
-        botRequestContext.add(User.class, getUser(update));
-        botRequestContext.add(Message.class, getMessage(update));
     }
 
     private void setAnnotationToHandle(Update update, DefaultBotRequestContext botRequestContext) {
@@ -68,7 +55,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
         }
 
         // Poll
-        if (update.hasPoll()) {
+        if (update.hasMessage() && update.getMessage().hasPoll()) {
             botRequestContext.setHandleAnnotation(TelegramHandlePoll.class);
             return;
         }
@@ -90,7 +77,7 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             return;
         }
 
-        if (update.hasMessage()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             botRequestContext.setHandleAnnotation(TelegramHandleText.class);
             return;
         }

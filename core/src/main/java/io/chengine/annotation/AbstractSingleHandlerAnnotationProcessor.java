@@ -37,7 +37,7 @@ public abstract class AbstractSingleHandlerAnnotationProcessor implements Handle
                     if (method.isAnnotationPresent(annotation)) {
                         HandlerMethod handlerMethod = HandlerMethod.of(method, handler);
                         handlerRegistry.putSingleHandler(annotation, handlerMethod);
-                        log.info("Single handler registered: \"" + annotation.getName() + "\"");
+                        log.info("Handler registered: \"" + annotation.getName() + "\"");
                     }
                 })
         );

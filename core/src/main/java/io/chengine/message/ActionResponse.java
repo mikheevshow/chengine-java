@@ -5,10 +5,6 @@ import java.util.function.Supplier;
 
 public interface ActionResponse extends Serializable {
 
-    static ActionResponseContainer of(Object o) {
-        return new ActionResponseContainer(o);
-    }
-
     default <T> T validateSupplier(Supplier<T> supplier) {
         if (supplier == null) {
             throw new NullPointerException("Supplier function is null, but required non null");

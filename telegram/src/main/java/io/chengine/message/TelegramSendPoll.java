@@ -21,6 +21,8 @@ public class TelegramSendPoll extends TelegramAbstractSend {
     private Boolean anonymous;
     private Boolean closed;
 
+    protected TelegramSendPoll() {}
+
     public TelegramSendPoll toChatWithId(Supplier<String> chatId) {
         this.chatId = chatId.get();
         return this;

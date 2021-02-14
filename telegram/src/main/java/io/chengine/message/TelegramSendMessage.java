@@ -13,6 +13,8 @@ public class TelegramSendMessage extends TelegramAbstractSend {
     private Boolean disableWebPagePreview;
     private Boolean allowSendingWithoutReply;
 
+    protected TelegramSendMessage() {}
+
     public TelegramSendMessage toChatWithId(Supplier<String> chatId) {
         toChatWithIdInternal(chatId);
         return this;

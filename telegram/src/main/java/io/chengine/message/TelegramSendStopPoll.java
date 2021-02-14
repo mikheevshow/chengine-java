@@ -9,6 +9,8 @@ public class TelegramSendStopPoll implements Send {
     private String messageId;
     private String deserializedResponse;
 
+    protected TelegramSendStopPoll() {}
+
     public TelegramSendStopPoll toChatWithId(@Nonnull Supplier<String> chatId) {
         this.chatId = validateSupplier(chatId);
         return this;
