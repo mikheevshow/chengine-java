@@ -10,27 +10,11 @@ public interface SessionManager {
     /**
      * Gets session based on user, chat and bot api identifier
      *
-     * @param request - bot request
-     * @return {@link Session} object
-     */
-    Session getSession(BotRequestContext request);
-
-    /**
-     * Gets session based on user, chat and bot api identifier
-     *
      * @param sessionKey - specific {@link SessionKey}
      * @return {@link Session} object
      */
-    Session getSession(SessionKey sessionKey);
-
-    /**
-     * Gets session of current user
-     *
-     * @return {@link Session} object or null
-     * @see UserSessionContextHolder
-     */
     @Nullable
-    Session getCurrentSession();
+    Session getSession(SessionKey sessionKey);
 
     /**
      * Creates a new session
