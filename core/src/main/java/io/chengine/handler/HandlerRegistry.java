@@ -4,20 +4,19 @@ package io.chengine.handler;
 import io.chengine.command.Command;
 import io.chengine.method.HandlerMethod;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
 public interface HandlerRegistry {
 
 	Set<String> getAllPaths();
 
-	Set<?> getAllHandlers();
+	Set<? extends HandlerMethod> getAllHandlers();
 
-	HandlerMethod get(String command);
+	HandlerMethod getHandlerByCommand(String command);
 
-	HandlerMethod getSingleByAnnotationClass(Class<?> clazz);
+	HandlerMethod getSingleHandler(Class<? extends Annotation> annotation);
 
-	default HandlerMethod get(Command command) {
-		return get(command.path());
-	}
+	HandlerMethod getHandlerByCommand(Command command);
 
 }

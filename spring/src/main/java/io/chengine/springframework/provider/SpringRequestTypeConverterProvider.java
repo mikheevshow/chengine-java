@@ -1,21 +1,25 @@
 package io.chengine.springframework.provider;
 
+import io.chengine.commons.Converter;
 import io.chengine.commons.RequestTypeConverter;
-import io.chengine.provider.RequestTypeConverterProvider;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class SpringRequestTypeConverterProvider implements ApplicationContextAware, RequestTypeConverterProvider {
+public class SpringRequestTypeConverterProvider implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    @Override
-    public List<RequestTypeConverter> provideAll() {
-        return new ArrayList<>(applicationContext.getBeansOfType(RequestTypeConverter.class).values());
+    public List<Converter<?, ?>> provideAll() {
+        return applicationContext
+                .getBeansOfType(RequestTypeConverter.class)
+                .values()
+                .stream()
+                .map(c -> (Converter<?, ?>) c)
+                .collect(Collectors.toList());
     }
 
     @Override

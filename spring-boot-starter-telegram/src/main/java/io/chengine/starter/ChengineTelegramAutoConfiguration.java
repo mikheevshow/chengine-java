@@ -20,12 +20,9 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * #TelegramBotsApi added to spring context as well
- */
 @Configuration
-@ConditionalOnProperty(prefix = "telegrambots", name = "enabled", havingValue = "true", matchIfMissing = true)
-public class TelegramBotStarterConfiguration {
+@ConditionalOnProperty(prefix = "telegramchengine", name = "enabled", havingValue = "true", matchIfMissing = true)
+public class ChengineTelegramAutoConfiguration {
 
     @Value("${chengine.telegram.token}")
     private String token;

@@ -8,7 +8,7 @@ import io.chengine.processor.AbstractActionResponseHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TelegramActionResponseHandlerProvider implements ActionResponseHandlerProvider{
+public class TelegramActionResponseHandlerProvider {
 
     private final List<AbstractActionResponseHandler> actionResponseHandlers = new ArrayList<>();
 
@@ -21,7 +21,6 @@ public class TelegramActionResponseHandlerProvider implements ActionResponseHand
     /**
      * {@inheritDoc}
      */
-    @Override
     public List<AbstractActionResponseHandler> provideAll() {
         return actionResponseHandlers;
     }

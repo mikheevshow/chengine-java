@@ -90,6 +90,11 @@ public class TelegramBotRequestConverter implements BotRequestConverter<Update> 
             return;
         }
 
+        if (update.hasMessage()) {
+            botRequestContext.setHandleAnnotation(TelegramHandleText.class);
+            return;
+        }
+
         throw new RuntimeException("Unsupported request type. Request: " + update);
     }
 

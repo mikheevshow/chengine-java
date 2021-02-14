@@ -2,19 +2,18 @@ package io.chengine.springframework.boot.autoconfigure;
 
 import io.chengine.Chengine;
 import io.chengine.MessageProcessorAware;
-import io.chengine.provider.*;
+import io.chengine.config.ChengineConfig;
 import io.chengine.springframework.provider.*;
+import io.chengine.springframework.stereotype.HandlerComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
-
-import static io.chengine.config.Configs.*;
 
 @Configuration
+@ConditionalOnProperty(prefix = "chengine", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ChengineAutoConfiguration {
 
 	@Bean
@@ -38,34 +37,31 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public SpringChengineAnnotationProcessor springChengineAnnotationProcessor() {
-		return new SpringChengineAnnotationProcessor();
+	public SpringAnnotationProcessorProvider springChengineAnnotationProcessor() {
+		return new SpringAnnotationProcessorProvider();
 	}
 
 	@Bean("chengine-props")
-	public Properties chengineConfiguration(
-			HandlerProvider handlerProvider,
-			TriggerProvider triggerProvider,
-			RequestTypeConverterProvider requestTypeConverterProvider,
-			ActionResponseHandlerProvider actionResponseHandlerProvider,
-			AnnotationProcessorProvider annotationProcessorProvider,
+	public ChengineConfig chengineConfiguration(
+			SpringHandlerProvider handlerProvider,
+			SpringTriggerProvider triggerProvider,
+			SpringRequestTypeConverterProvider requestTypeConverterProvider,
+			SpringResponseTypeHandlerProvider actionResponseHandlerProvider,
+			SpringAnnotationProcessorProvider annotationProcessorProvider,
 			List<MessageProcessorAware> messageProcessorAwares
 	) {
 
-		final Properties properties = new Properties();
-		properties.put(ENABLE_PLAIN_TEXT_MAPPING, false);
-		properties.put(HANDLER_PROVIDERS, Collections.singletonList(handlerProvider));
-		properties.put(TRIGGER_PROVIDERS, Collections.singletonList(triggerProvider));
-		properties.put(REQUEST_HANDLERS_AWARE, messageProcessorAwares);
-		properties.put(REQUEST_TYPE_CONVERTER_AWARE, requestTypeConverterProvider);
-		properties.put(RESPONSE_TYPE_HANDLER_AWARE, actionResponseHandlerProvider);
-		properties.put(ANNOTATION_PROCESSORS_AWARE, annotationProcessorProvider);
-
-		return properties;
+		return new ChengineConfig()
+				.addCustomHandlerAnnotation(HandlerComponent.class)
+				.addHandlers(handlerProvider.provideAll())
+				.addMessageProcessorAwares(messageProcessorAwares)
+				.addResponseHandlerProviders(actionResponseHandlerProvider.provideAll())
+				.addAnnotationProcessors(annotationProcessorProvider.provideAll())
+				.addConverters(requestTypeConverterProvider.provideAll());
 	}
 
 	@Bean
-	public Chengine chengine(@Qualifier("chengine-props") Properties configuration) {
+	public Chengine chengine(@Qualifier("chengine-props") ChengineConfig configuration) {
 		return new Chengine(configuration);
 	}
 

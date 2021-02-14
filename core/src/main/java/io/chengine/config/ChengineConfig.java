@@ -1,73 +1,76 @@
 package io.chengine.config;
 
-import io.chengine.provider.HandlerProvider;
-import io.chengine.provider.TriggerProvider;
+import io.chengine.MessageProcessorAware;
+import io.chengine.annotation.AnnotationProcessor;
+import io.chengine.commons.Converter;
+import io.chengine.processor.AbstractActionResponseHandler;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 public class ChengineConfig {
 
-    /**
-     * Enables plain text mapping. Use annotation {@link io.chengine.naturelang.PlainTextMap}
-     * to map command on text command. Command parameter {@link io.chengine.command.CommandParameter}
-     * should pass using space. To enter complex parameters use single comma over parameter
-     *
-     */
-    private boolean enablePlainTextMapping = false;
+    private final List<Object> handlers = new ArrayList<>();
+    private final Set<Class<? extends Annotation>> customHandlerAnnotations = new HashSet<>();
+    private final List<AnnotationProcessor> annotationProcessors = new ArrayList<>();
+    private final List<Converter<?, ?>> converters = new ArrayList<>();
+    private final List<MessageProcessorAware> messageProcessorAwares = new ArrayList<>();
+    private final List<AbstractActionResponseHandler> actionResponseHandlers = new ArrayList<>();
 
-    /**
-     * Enables automatic command description generation. If option is enabled
-     * then '/help' command mapping will be created by the way. When user enters
-     * '/help' command, the description about ones will be returned based on either
-     * description in {@link io.chengine.command.CommandDescription#description()} or i18n property name
-     * {@link io.chengine.command.CommandDescription#property()}
-     *
-     * @see io.chengine.command.CommandDescription
-     */
-    private boolean enableCommandDescriptionAutoconfiguration = false;
-
-    private List<HandlerProvider> handlerProviders = new ArrayList<>();
-    private List<TriggerProvider> triggerProviders = new ArrayList<>();
-
-    public ChengineConfig() {}
-
-    public ChengineConfig enablePlainTextMapping(boolean enable) {
-        this.enablePlainTextMapping = enable;
+    public ChengineConfig addHandlers(List<Object> handlers) {
+        this.handlers.addAll(handlers);
         return this;
     }
 
-    public ChengineConfig enableCommandDescriptionAutoconfiguration(boolean enable) {
-        this.enableCommandDescriptionAutoconfiguration = enable;
+    public ChengineConfig addAnnotationProcessors(List<AnnotationProcessor> annotationProcessors) {
+        this.annotationProcessors.addAll(annotationProcessors);
         return this;
     }
 
-    public ChengineConfig addHandlerProviders(List<HandlerProvider> handlerProviders) {
-        Objects.requireNonNull(handlerProviders);
-        this.handlerProviders.addAll(handlerProviders);
+    public ChengineConfig addConverters(List<Converter<?, ?>> converters) {
+        this.converters.addAll(converters);
         return this;
     }
 
-    public ChengineConfig addTriggerProviders(List<TriggerProvider> triggerProviders) {
-        Objects.requireNonNull(triggerProviders);
-        this.triggerProviders.addAll(triggerProviders);
+    public ChengineConfig addCustomHandlerAnnotation(Class<? extends Annotation> annotation) {
+        customHandlerAnnotations.add(annotation);
         return this;
     }
 
-    public boolean isEnablePlainTextMapping() {
-        return enablePlainTextMapping;
+    public ChengineConfig addMessageProcessorAwares(List<MessageProcessorAware> messageProcessorAwares) {
+        this.messageProcessorAwares.addAll(messageProcessorAwares);
+        return this;
     }
 
-    public boolean isEnableCommandDescriptionAutoconfiguration() {
-        return enableCommandDescriptionAutoconfiguration;
+    public ChengineConfig addResponseHandlerProviders(List<AbstractActionResponseHandler> actionResponseHandlers) {
+        this.actionResponseHandlers.addAll(actionResponseHandlers);
+        return this;
     }
 
-    public List<HandlerProvider> getHandlerProviders() {
-        return handlerProviders;
+    public List<Object> getHandlers() {
+        return new ArrayList<>(handlers);
     }
 
-    public List<TriggerProvider> getTriggerProviders() {
-        return triggerProviders;
+    public List<AnnotationProcessor> getAnnotationProcessors() {
+        return new ArrayList<>(annotationProcessors);
+    }
+
+    public List<Converter<?, ?>> getConverters() {
+        return new ArrayList<>(this.converters);
+    }
+
+    public Set<Class<? extends Annotation>> getCustomHandlerAnnotations() {
+        return new HashSet<>(customHandlerAnnotations);
+    }
+
+    public List<MessageProcessorAware> getMessageProcessorAwares() {
+        return new ArrayList<>(messageProcessorAwares);
+    }
+
+    public List<AbstractActionResponseHandler> getActionResponseHandlers() {
+        return new ArrayList<>(actionResponseHandlers);
     }
 }

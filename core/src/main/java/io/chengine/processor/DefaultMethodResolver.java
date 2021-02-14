@@ -22,7 +22,7 @@ public class DefaultMethodResolver implements MethodResolver {
     public HandlerMethod resolve(BotRequestContext request) {
         if (HandleCommand.class.equals(request.shouldBeHandledByAnnotation())) {
             final Command command = Objects.requireNonNull(request.getCommand());
-            final HandlerMethod handlerMethod = handlerRegistry.get(command);
+            final HandlerMethod handlerMethod = handlerRegistry.getHandlerByCommand(command);
             if (handlerMethod == null) {
                 throw new HandlerNotFoundException("No method found matching command '" + command.path() + "'");
             }
@@ -30,7 +30,7 @@ public class DefaultMethodResolver implements MethodResolver {
             return handlerMethod;
         }
 
-        final HandlerMethod handlerMethod = handlerRegistry.getSingleByAnnotationClass(request.shouldBeHandledByAnnotation());
+        final HandlerMethod handlerMethod = handlerRegistry.getSingleHandler(request.shouldBeHandledByAnnotation());
 
         if (handlerMethod == null) {
             throw new NoSuchMethodException("Can't find processing method for handle request");
