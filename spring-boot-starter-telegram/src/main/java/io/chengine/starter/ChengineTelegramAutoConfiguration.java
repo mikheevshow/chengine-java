@@ -2,6 +2,7 @@ package io.chengine.starter;
 
 import io.chengine.TelegramLongPoolingBot;
 import io.chengine.TelegramMessageProcessor;
+import io.chengine.annotation.processor.TelegramSingleHandlerAnnotationProcessor;
 import io.chengine.connector.BotRequestConverter;
 import io.chengine.connector.TelegramBotRequestConverter;
 import io.chengine.processor.*;
@@ -82,6 +83,11 @@ public class ChengineTelegramAutoConfiguration {
     @Bean
     public TelegramEditMessageTextTypeResponseHandler telegramEditMessageTextTypeResponseHandler() {
         return new TelegramEditMessageTextTypeResponseHandler();
+    }
+
+    @Bean
+    public TelegramSingleHandlerAnnotationProcessor telegramSingleHandlerAnnotationProcessor() {
+        return new TelegramSingleHandlerAnnotationProcessor();
     }
 
     @Bean

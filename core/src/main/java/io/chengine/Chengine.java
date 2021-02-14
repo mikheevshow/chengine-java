@@ -1,8 +1,8 @@
 package io.chengine;
 
-import io.chengine.annotation.AbstractAnnotationProcessorHandlerRegistryAware;
-import io.chengine.annotation.HandleCommandAnnotationProcessor;
 import io.chengine.annotation.AnnotationProcessor;
+import io.chengine.annotation.HandleCommandAnnotationProcessor;
+import io.chengine.handler.HandlerRegistryAware;
 import io.chengine.commons.RequestTypeConverter;
 import io.chengine.config.ChengineConfig;
 import io.chengine.connector.BotRequestContext;
@@ -11,7 +11,6 @@ import io.chengine.handler.DefaultHandlerRegistry;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.processor.*;
-import io.chengine.processor.AbstractActionResponseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +71,9 @@ public class Chengine {
 
         // Prepare other processors
         List<AnnotationProcessor> annotationProcessors = configuration.getAnnotationProcessors();
-        annotationProcessors.forEach(p -> {
-            if (p instanceof AbstractAnnotationProcessorHandlerRegistryAware) {
-                AbstractAnnotationProcessorHandlerRegistryAware a = (AbstractAnnotationProcessorHandlerRegistryAware) p;
+        annotationProcessors.forEach(processor -> {
+            if (processor instanceof HandlerRegistryAware) {
+                HandlerRegistryAware a = (HandlerRegistryAware) processor;
                 a.setHandlerRegistry(handlerRegistry);
             }
         });

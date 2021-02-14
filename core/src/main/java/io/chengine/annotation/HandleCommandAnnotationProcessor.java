@@ -1,7 +1,9 @@
 package io.chengine.annotation;
 
 import io.chengine.command.HandleCommand;
+import io.chengine.handler.DefaultHandlerRegistry;
 import io.chengine.handler.Handler;
+import io.chengine.handler.HandlerRegistryAware;
 import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +13,19 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-public class HandleCommandAnnotationProcessor extends AbstractAnnotationProcessorHandlerRegistryAware {
+public class HandleCommandAnnotationProcessor implements HandlerRegistryAware, AnnotationProcessor {
 
     private static final Logger log = LogManager.getLogger(HandleCommandAnnotationProcessor.class);
     private static final Set<Class<? extends Annotation>> supportedHandlerAnnotations = new HashSet<>();
+    private DefaultHandlerRegistry handlerRegistry;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHandlerRegistry(DefaultHandlerRegistry handlerRegistry) {
+        this.handlerRegistry = handlerRegistry;
+    }
 
     /**
      * {@inheritDoc}

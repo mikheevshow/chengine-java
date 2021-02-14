@@ -1,14 +1,25 @@
 package io.chengine.annotation;
 
+import io.chengine.handler.DefaultHandlerRegistry;
+import io.chengine.handler.HandlerRegistryAware;
 import io.chengine.method.HandlerMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-public abstract class AbstractSingleHandlerAnnotationProcessor extends AbstractAnnotationProcessorHandlerRegistryAware {
+public abstract class AbstractSingleHandlerAnnotationProcessor implements HandlerRegistryAware, AnnotationProcessor {
 
     private static final Logger log = LogManager.getLogger(AbstractSingleHandlerAnnotationProcessor.class);
+    private DefaultHandlerRegistry handlerRegistry;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHandlerRegistry(DefaultHandlerRegistry handlerRegistry) {
+        this.handlerRegistry = handlerRegistry;
+    }
 
     /**
      * {@inheritDoc}
@@ -26,7 +37,7 @@ public abstract class AbstractSingleHandlerAnnotationProcessor extends AbstractA
                     if (method.isAnnotationPresent(annotation)) {
                         HandlerMethod handlerMethod = HandlerMethod.of(method, handler);
                         handlerRegistry.putSingleHandler(annotation, handlerMethod);
-                        log.info("Handler \"" + annotation.getName() + "\" registered");
+                        log.info("Single handler registered: \"" + annotation.getName() + "\"");
                     }
                 })
         );

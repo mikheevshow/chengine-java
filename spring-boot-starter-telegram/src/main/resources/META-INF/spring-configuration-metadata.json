@@ -7,14 +7,6 @@
   ],
   "properties": [
     {
-      "name": "chengine.rabbitmq.enable",
-      "type": "java.lang.Boolean"
-    },
-    {
-      "name": "chengine.kafka.enable",
-      "type": "java.lang.Boolean"
-    },
-    {
       "name": "chengine.telegram.token",
       "type": "java.lang.String",
       "description": "Put telegram bot token here"
@@ -23,26 +15,6 @@
       "name": "chengine.telegram.username",
       "type": "java.lang.String",
       "description": "Put telegram bot username here"
-    },
-    {
-      "name": "chengine.vk.group-id",
-      "type": "java.lang.Integer",
-      "description": "Vk bot group id"
-    },
-    {
-      "name": "chengine.vk.token",
-      "type": "java.lang.String",
-      "description": "Vk bot token"
-    },
-    {
-      "name": "chengine.vk.server-id",
-      "type": "java.lang.Integer",
-      "description": "Vk bot server id"
-    },
-    {
-      "name": "chengine.vk.confirmation-code",
-      "type": "java.lang.String",
-      "description": "Vk bot confirmation code"
     }
   ],
   "hints": [

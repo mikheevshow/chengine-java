@@ -1,7 +1,6 @@
 package io.chengine.annotation.processor;
 
 import io.chengine.annotation.*;
-import io.chengine.annotation.AbstractSingleHandlerAnnotationProcessor;
 
 import java.lang.annotation.Annotation;
 import java.util.HashSet;

@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 /**
  * Inherit this class if you want to provide custom type processing
  *
- * {@link io.chengine.config.Configs#RESPONSE_TYPE_HANDLER_AWARE}
- *
  * @param <T> - custom returned type
  */
 public abstract class AbstractMethodReturnedValueHandler<T> implements MethodReturnedValueHandler<T> {
