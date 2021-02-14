@@ -38,4 +38,13 @@ public class SessionKey {
     public int hashCode() {
         return Objects.hash(userId, chatId, botApiIdentifier);
     }
+
+    @Override
+    public String toString() {
+        return "SessionKey{" +
+                "userId='" + userId + '\'' +
+                ", chatId='" + chatId + '\'' +
+                ", botApiIdentifier='" + botApiIdentifier + '\'' +
+                '}';
+    }
 }

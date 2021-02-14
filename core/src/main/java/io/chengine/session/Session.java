@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 public interface Session {
 
-    SessionKey key();
+    SessionKey getSessionKey();
 
     boolean inPipeline();
 

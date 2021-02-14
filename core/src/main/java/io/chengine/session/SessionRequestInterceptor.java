@@ -4,11 +4,15 @@ import io.chengine.connector.BotApiIdentifier;
 import io.chengine.connector.BotRequestContext;
 import io.chengine.interceptor.RequestInterceptor;
 import io.chengine.interceptor.RequestInterceptorChain;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SessionRequestInterceptor implements RequestInterceptor {
+
+    private static final Logger log = LogManager.getLogger(SessionRequestInterceptor.class);
 
     private SessionCache sessionCache;
     private final Map<String, SessionKeyExtractor> apiIdentifierSessionKeyExtractorMap = new HashMap<>();
@@ -25,6 +29,9 @@ public class SessionRequestInterceptor implements RequestInterceptor {
         }
         final SessionKey sessionKey = keyExtractor.extractFrom(requestContext);
         final Session session = sessionCache.getSessionBySessionKey(sessionKey);
+        if (session != null) {
+            log.info("Session found: {}", session);
+        }
         UserSessionContextHolder.setSession(session);
 
         requestInterceptorChain.doIntercept(requestContext);
