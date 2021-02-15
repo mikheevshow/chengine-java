@@ -18,11 +18,17 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
 
     public DefaultHandlerRegistry() {}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<String> getAllPaths() {
         return commandHandlerMap.keySet();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Set<? extends HandlerMethod> getAllHandlers() {
         Set<HandlerMethod> handlers = new HashSet<>();
@@ -31,6 +37,9 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         return handlers;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HandlerMethod getHandlerByCommand(String command) {
         if (command == null) {
@@ -71,6 +80,9 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         pipelineDefinitionMap.put(name, pipelineDefinition);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HandlerMethod getHandlerByCommand(Command command) {
         if (command == null) {
@@ -87,6 +99,9 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         singleHandlerMap.put(annotation, handlerMethod);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HandlerMethod getSingleHandler(Class<? extends Annotation> annotation) {
         final HandlerMethod handlerMethod = singleHandlerMap.get(annotation);
@@ -97,6 +112,9 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         return handlerMethod;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PipelineDefinition getPipelineDefinitionByName(String name) {
         if (name == null) {
@@ -110,6 +128,9 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         return pipelineDefinitionMap.get(name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public PipelineDefinition getPipelineDefinitionByClass(Class<?> clazz) {
         if (clazz == null) {
