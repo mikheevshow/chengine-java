@@ -8,6 +8,7 @@ import io.chengine.message.TelegramSendMediaGroup;
 import io.chengine.method.HandlerMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramSendMediaGroupTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -43,7 +44,8 @@ public class TelegramSendMediaGroupTypeResponseHandler extends AbstractActionRes
 
 
         final TelegramSendMediaGroup mediaGroup = (TelegramSendMediaGroup) returnedObject;
-        final Chat chat = (Chat) request.get(Chat.class);
+        final Update update = (Update) request.get(Update.class);
+        final Chat chat = update.getMessage().getChat();
 
         final SendMediaGroup sendMediaGroup = new SendMediaGroup();
         sendMediaGroup.setChatId(mediaGroup.getChatId() != null ? mediaGroup.getChatId() : chat.getId().toString());

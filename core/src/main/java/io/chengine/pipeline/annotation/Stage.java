@@ -1,4 +1,6 @@
-package io.chengine.pipeline;
+package io.chengine.pipeline.annotation;
+
+import io.chengine.pipeline.StageMode;
 
 import java.lang.annotation.*;
 

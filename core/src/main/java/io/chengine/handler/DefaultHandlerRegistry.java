@@ -2,6 +2,7 @@ package io.chengine.handler;
 
 import io.chengine.command.Command;
 import io.chengine.method.HandlerMethod;
+import io.chengine.pipeline.PipelineDefinition;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
 
     private final Map<String, HandlerMethod> commandHandlerMap = new HashMap<>();
     private final Map<Class<? extends Annotation>, HandlerMethod> singleHandlerMap = new HashMap<>();
+    private final Map<String, PipelineDefinition> pipelineDefinitionMap = new HashMap<>();
 
     public DefaultHandlerRegistry() {}
 
@@ -55,6 +57,20 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         putCommand(path, handlerMethod);
     }
 
+    public void putPipeline(String name, PipelineDefinition pipelineDefinition) {
+        if (name == null) {
+            throw new IllegalArgumentException("Pipeline name can't be null");
+        }
+        if (pipelineDefinition == null) {
+            throw new IllegalArgumentException("Pipeline definition can't be null");
+        }
+        if (pipelineDefinitionMap.containsKey(name)) {
+            throw new RuntimeException("Pipeline with name: \"" + name + "\" already registered");
+        }
+
+        pipelineDefinitionMap.put(name, pipelineDefinition);
+    }
+
     @Override
     public HandlerMethod getHandlerByCommand(Command command) {
         if (command == null) {
@@ -79,5 +95,27 @@ public class DefaultHandlerRegistry implements HandlerRegistry {
         }
 
         return handlerMethod;
+    }
+
+    @Override
+    public PipelineDefinition getPipelineDefinitionByName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Pipeline name can't be null");
+        }
+        final PipelineDefinition pipelineDefinition = pipelineDefinitionMap.get(name);
+        if (pipelineDefinition == null) {
+            throw new NullPointerException("Can't find pipeline with name: " + name);
+        }
+
+        return pipelineDefinitionMap.get(name);
+    }
+
+    @Override
+    public PipelineDefinition getPipelineDefinitionByClass(Class<?> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("Class can't be null");
+        }
+
+        return getPipelineDefinitionByName(clazz.getName());
     }
 }

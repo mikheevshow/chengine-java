@@ -19,20 +19,22 @@ public class SessionRequestInterceptor implements RequestInterceptor {
 
     @Override
     public void intercept(BotRequestContext requestContext, RequestInterceptorChain requestInterceptorChain) {
+        UserSessionContextHolder.setSession(null); // Reset session
         if (sessionCache == null) {
-            throw new NullPointerException("Session cache is null");
+            log.warn("Session cache is null, skip session searching");
+        } else {
+            final String apiIdentifier = requestContext.getApiBotIdentifier().identifier();
+            final SessionKeyExtractor keyExtractor = apiIdentifierSessionKeyExtractorMap.get(apiIdentifier);
+            if (keyExtractor == null) {
+                throw new NullPointerException("Not found session key extractor for api: \"" + apiIdentifier + "\"");
+            }
+            final SessionKey sessionKey = keyExtractor.extractFrom(requestContext);
+            final Session session = sessionCache.getSessionBySessionKey(sessionKey);
+            if (session != null) {
+                log.info("Session found: {}", session);
+            }
+            UserSessionContextHolder.setSession(session);
         }
-        final String apiIdentifier = requestContext.getApiBotIdentifier().identifier();
-        final SessionKeyExtractor keyExtractor = apiIdentifierSessionKeyExtractorMap.get(apiIdentifier);
-        if (keyExtractor == null) {
-            throw new NullPointerException("Not found session key extractor for api: \"" + apiIdentifier + "\"");
-        }
-        final SessionKey sessionKey = keyExtractor.extractFrom(requestContext);
-        final Session session = sessionCache.getSessionBySessionKey(sessionKey);
-        if (session != null) {
-            log.info("Session found: {}", session);
-        }
-        UserSessionContextHolder.setSession(session);
 
         requestInterceptorChain.doIntercept(requestContext);
     }

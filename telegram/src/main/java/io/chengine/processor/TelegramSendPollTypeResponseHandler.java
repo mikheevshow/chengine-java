@@ -9,6 +9,7 @@ import io.chengine.method.HandlerMethod;
 import io.chengine.util.InlineKeyboardConverter;
 import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -30,7 +31,8 @@ public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseH
             BotResponseContext response) {
 
         final TelegramSendPoll telegramSendPoll = (TelegramSendPoll) returnedObject;
-        final Chat chat = (Chat) request.get(Chat.class);
+        final Update update = (Update) request.get(Update.class);
+        final Chat chat = update.getMessage().getChat();
 
         final SendPoll sendPoll = new SendPoll();
         sendPoll.setChatId(telegramSendPoll.getChatId() != null ? telegramSendPoll.getChatId() : chat.getId().toString());

@@ -5,6 +5,7 @@ import io.chengine.MessageProcessorAware;
 import io.chengine.config.ChengineConfig;
 import io.chengine.springframework.provider.*;
 import io.chengine.springframework.stereotype.HandlerComponent;
+import io.chengine.springframework.stereotype.PipelineComponent;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +54,7 @@ public class ChengineAutoConfiguration {
 
 		return new ChengineConfig()
 				.addCustomHandlerAnnotation(HandlerComponent.class)
+				.addCustomPipelineAnnotation(PipelineComponent.class)
 				.addHandlers(handlerProvider.provideAll())
 				.addMessageProcessorAwares(messageProcessorAwares)
 				.addResponseHandlerProviders(actionResponseHandlerProvider.provideAll())

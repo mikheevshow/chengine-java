@@ -3,7 +3,7 @@ package io.chengine.pipeline;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class Pipeline {
+public class PipelineDefinition {
 
     private final String name;
     private final Class<?> clazz;
@@ -12,20 +12,9 @@ public class Pipeline {
     private final List<StageDefinition> stageDefinitions;
     private final Class<? extends EventTrigger> trigger;
 
-    public Pipeline(
+    public PipelineDefinition(
             String name,
             Class<?> clazz,
-            List<StageDefinition> stageDefinitions,
-            Class<? extends EventTrigger> abstractTrigger) {
-
-        this(name, clazz, 0, TimeUnit.SECONDS, stageDefinitions, abstractTrigger);
-    }
-
-    // Приватный конструктор должен содеражать все поля
-    // Все остальные конструкторы должны выставлять начальные
-    // значения, вызывая его
-    private Pipeline(
-            String name, Class<?> clazz,
             int inactionTimeout,
             TimeUnit inactionTimeUnit,
             List<StageDefinition> stageDefinitions,

@@ -1,7 +1,6 @@
-package io.chengine.springframework.stereotype;
+package io.chengine.pipeline.annotation;
 
-import io.chengine.pipeline.annotation.Pipeline;
-import org.springframework.stereotype.Component;
+import io.chengine.handler.Handler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,11 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
-@Component
-@Pipeline
+@Handler
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PipelineComponent {
+public @interface Pipeline {
 
     String value() default "";
 

@@ -1,6 +1,6 @@
 package io.chengine.session;
 
-import io.chengine.pipeline.Pipeline;
+import io.chengine.pipeline.PipelineDefinition;
 import io.chengine.pipeline.StageDefinition;
 
 import java.util.List;
@@ -8,18 +8,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PipelineSessionInfo {
 
-    private final Pipeline pipeline;
+    private final PipelineDefinition pipelineDefinition;
     private final List<StageDefinition> stageDefinitions;
     private final AtomicInteger currentStep;
 
-    public PipelineSessionInfo(Pipeline pipeline, List<StageDefinition> stageDefinitions, int currentStep) {
-        this.pipeline = pipeline;
+    public PipelineSessionInfo(PipelineDefinition pipelineDefinition, List<StageDefinition> stageDefinitions, int currentStep) {
+        this.pipelineDefinition = pipelineDefinition;
         this.stageDefinitions = stageDefinitions;
         this.currentStep = new AtomicInteger(currentStep);
     }
 
-    public Pipeline getPipeline() {
-        return pipeline;
+    public PipelineDefinition getPipeline() {
+        return pipelineDefinition;
     }
 
     public List<StageDefinition> getStageDefinitions() {

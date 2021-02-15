@@ -2,15 +2,15 @@ package io.chengine.interceptor;
 
 import io.chengine.connector.BotRequestContext;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class DefaultRequestInterceptorChain implements RequestInterceptorChain {
 
     private final Iterator<RequestInterceptor> requestInterceptors;
 
-    public DefaultRequestInterceptorChain(RequestInterceptor... requestInterceptors) {
-        this.requestInterceptors = Arrays.asList(requestInterceptors).iterator();
+    public DefaultRequestInterceptorChain(List<RequestInterceptor> requestInterceptors) {
+        this.requestInterceptors = requestInterceptors.iterator();
     }
 
     @Override

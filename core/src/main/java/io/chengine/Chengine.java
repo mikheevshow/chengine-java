@@ -2,17 +2,19 @@ package io.chengine;
 
 import io.chengine.annotation.AnnotationProcessor;
 import io.chengine.annotation.HandleCommandAnnotationProcessor;
-import io.chengine.handler.HandlerRegistryAware;
 import io.chengine.commons.RequestTypeConverter;
 import io.chengine.config.ChengineConfig;
-import io.chengine.connector.BotRequestContext;
-import io.chengine.connector.BotResponseContext;
 import io.chengine.handler.DefaultHandlerRegistry;
+import io.chengine.handler.HandlerRegistryAware;
+import io.chengine.interceptor.InterceptorChainFactory;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.MethodArgumentInspector;
+import io.chengine.annotation.PipelineAnnotationProcessor;
 import io.chengine.processor.*;
+import io.chengine.session.SessionRequestInterceptor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Chengine {
@@ -30,7 +32,7 @@ public class Chengine {
 
     private MethodResponseResolver methodResponseResolver;
     private MethodArgumentInspector methodArgumentInspector;
-    private MessageProcessor<BotRequestContext, BotResponseContext> messageProcessor;
+    private DefaultMessageProcessor messageProcessor;
 
     private List<MessageProcessorAware> botList;
 
@@ -53,22 +55,36 @@ public class Chengine {
         this.methodArgumentInspector = new MethodArgumentInspector();
         ActionResponseResolver actionResponseResolver = new ActionResponseResolver(this.responseTypeHandlerFactory);
         this.methodResponseResolver = new MethodResponseResolver(actionResponseResolver);
-        this.messageProcessor = new ChengineMessageProcessor(
+
+        // Prepare message processor
+        this.messageProcessor = new DefaultMessageProcessor(
                 this.methodResolver,
                 this.methodArgumentInspector,
                 this.methodResponseResolver
         );
+
+        final SessionRequestInterceptor sessionRequestInterceptor = new SessionRequestInterceptor();
+        final InterceptorChainFactory requestInterceptorChainFactory = new InterceptorChainFactory(
+                Collections.singletonList(sessionRequestInterceptor)
+        );
+        this.messageProcessor.setRequestInterceptorChain(requestInterceptorChainFactory);
+        // ****************************
+
+
         this.botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
     }
 
     private void processHandlers(List<Object> handlers) {
         // Prepare handleCommandAnnotationProcessor
         HandleCommandAnnotationProcessor handleCommandAnnotationProcessor = new HandleCommandAnnotationProcessor();
+        PipelineAnnotationProcessor pipelineAnnotationProcessor = new PipelineAnnotationProcessor();
+
         configuration
                 .getCustomHandlerAnnotations()
                 .forEach(handleCommandAnnotationProcessor::addHandlerAnnotation);
-        handleCommandAnnotationProcessor.setHandlerRegistry(handlerRegistry);
 
+        handleCommandAnnotationProcessor.setHandlerRegistry(handlerRegistry);
+        pipelineAnnotationProcessor.setHandlerRegistry(handlerRegistry);
         // Prepare other processors
         List<AnnotationProcessor> annotationProcessors = configuration.getAnnotationProcessors();
         annotationProcessors.forEach(processor -> {
@@ -81,6 +97,7 @@ public class Chengine {
         // Process handlers
         List<AnnotationProcessor> preparedAnnotationProcessors = new ArrayList<>();
         preparedAnnotationProcessors.add(handleCommandAnnotationProcessor);
+        preparedAnnotationProcessors.add(pipelineAnnotationProcessor);
         preparedAnnotationProcessors.addAll(annotationProcessors);
         handlers.forEach(handler ->
                 preparedAnnotationProcessors.forEach(processor -> processor.process(handler))

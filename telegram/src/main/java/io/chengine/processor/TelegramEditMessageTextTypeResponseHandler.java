@@ -9,6 +9,7 @@ import io.chengine.method.HandlerMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramEditMessageTextTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -43,8 +44,9 @@ public class TelegramEditMessageTextTypeResponseHandler extends AbstractActionRe
             BotResponseContext response) {
 
         final TelegramEditMessageText messageText = (TelegramEditMessageText) returnedObject;
-        final Chat chat = (Chat) request.get(Chat.class);
-        final Message message = (Message) request.get(Message.class);
+        final Update update = (Update) request.get(Update.class);
+        final Chat chat = update.getMessage().getChat();
+        final Message message = update.getMessage();
 
         final String chatId = messageText.getChatId() != null ? messageText.getChatId().toString() : chat.getId().toString();
         final Integer messageId = messageText.getMessageId() != null ? messageText.getMessageId() : message.getMessageId();

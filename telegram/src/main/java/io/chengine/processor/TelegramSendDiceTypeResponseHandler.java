@@ -8,6 +8,7 @@ import io.chengine.message.TelegramSendDice;
 import io.chengine.method.HandlerMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramSendDiceTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -30,7 +31,8 @@ public class TelegramSendDiceTypeResponseHandler extends AbstractActionResponseH
 
         final TelegramSendDice telegramSendDice  = (TelegramSendDice) returnedObject;
         final DefaultBotResponseContext defaultBotResponseContext = (DefaultBotResponseContext) response;
-        final Chat chat = (Chat) request.get(Chat.class);
+        final Update update = (Update) request.get(Update.class);
+        final Chat chat = update.getMessage().getChat();
 
         final SendDice sendDice = new SendDice();
         sendDice.setChatId(telegramSendDice.getChatId() != null ? telegramSendDice.getChatId() : chat.getId().toString());

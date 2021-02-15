@@ -48,7 +48,6 @@ public class HandleCommandAnnotationProcessor implements HandlerRegistryAware, A
         if (handler == null) {
             throw new NullPointerException("Handler not defined");
         }
-        log.info("Start registering command handlers...");
         for (final Class<? extends Annotation> handlerAnnotation : handlerAnnotations()) {
             if (handler.getClass().isAnnotationPresent(handlerAnnotation)) {
                 for (Class<? extends Annotation> handleCommandAnnotation : supports()) {
@@ -70,7 +69,7 @@ public class HandleCommandAnnotationProcessor implements HandlerRegistryAware, A
                                 }
                                 final HandlerMethod handlerMethod = HandlerMethod.of(method, handler);
                                 handlerRegistry.putCommand(commandPath, handlerMethod);
-                                log.info("Command handler registered: \"" + commandPath + "\"");
+                                log.info("Command handler registered: \"{}\"", commandPath);
                             } catch (Exception ex) {
                                 throw new RuntimeException(ex);
                             }
@@ -79,7 +78,6 @@ public class HandleCommandAnnotationProcessor implements HandlerRegistryAware, A
                 }
             }
         }
-        log.info("Finish registering command handlers...");
     }
 
     protected Set<Class<? extends Annotation>> handlerAnnotations() {

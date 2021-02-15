@@ -15,6 +15,7 @@ public class ChengineConfig {
 
     private final List<Object> handlers = new ArrayList<>();
     private final Set<Class<? extends Annotation>> customHandlerAnnotations = new HashSet<>();
+    private final Set<Class<? extends Annotation>> customPipelineAnnotations = new HashSet<>();
     private final List<AnnotationProcessor> annotationProcessors = new ArrayList<>();
     private final List<Converter<?, ?>> converters = new ArrayList<>();
     private final List<MessageProcessorAware> messageProcessorAwares = new ArrayList<>();
@@ -37,6 +38,11 @@ public class ChengineConfig {
 
     public ChengineConfig addCustomHandlerAnnotation(Class<? extends Annotation> annotation) {
         customHandlerAnnotations.add(annotation);
+        return this;
+    }
+
+    public ChengineConfig addCustomPipelineAnnotation(Class<? extends Annotation> annotation) {
+        customPipelineAnnotations.add(annotation);
         return this;
     }
 
@@ -64,6 +70,10 @@ public class ChengineConfig {
 
     public Set<Class<? extends Annotation>> getCustomHandlerAnnotations() {
         return new HashSet<>(customHandlerAnnotations);
+    }
+
+    public Set<Class<? extends Annotation>> getCustomPipelineAnnotations() {
+        return new HashSet<>(customPipelineAnnotations);
     }
 
     public List<MessageProcessorAware> getMessageProcessorAwares() {

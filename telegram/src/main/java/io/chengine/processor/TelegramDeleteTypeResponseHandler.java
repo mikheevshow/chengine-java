@@ -9,6 +9,7 @@ import io.chengine.method.HandlerMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class TelegramDeleteTypeResponseHandler extends AbstractActionResponseHandler {
 
@@ -33,8 +34,9 @@ public class TelegramDeleteTypeResponseHandler extends AbstractActionResponseHan
 
         final DeleteMessage deleteMessage = new DeleteMessage();
         if (telegramDelete.getChatId() == null && telegramDelete.getMessageId() == null) {
-            final Chat chat = (Chat) request.get(Chat.class);
-            final Message message = (Message) request.get(Message.class);
+            final Update update = (Update) request.get(Update.class);
+            final Chat chat = update.getMessage().getChat();
+            final Message message = update.getMessage();
             deleteMessage.setChatId(chat.getId().toString());
             deleteMessage.setMessageId(message.getMessageId());
         }

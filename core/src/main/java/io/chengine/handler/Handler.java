@@ -9,5 +9,4 @@ public @interface Handler {
 
 	String value() default "";
 
-	String type() default "DEFAULT";
 }
