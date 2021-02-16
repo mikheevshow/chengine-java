@@ -6,6 +6,7 @@ import io.chengine.connector.DefaultBotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.message.TelegramSendDice;
 import io.chengine.method.HandlerMethod;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;

@@ -7,7 +7,10 @@ import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 import io.chengine.pipeline.action.exception.StageActionExecutionException;
 import io.chengine.pipeline.action.exception.StageActionNotSupportedException;
-import io.chengine.processor.AbstractMethodReturnedValueHandler;
+import io.chengine.processor.response.AbstractMethodReturnedValueHandler;
+import io.chengine.processor.response.MethodReturnedValueHandler;
+import io.chengine.processor.response.ResponseTypeHandlerFactory;
+import io.chengine.processor.response.ResponseTypeHandlerFactoryAware;
 import io.chengine.session.SessionCache;
 import io.chengine.session.SessionCacheAware;
 import org.apache.logging.log4j.LogManager;
@@ -17,10 +20,11 @@ import java.util.function.Consumer;
 
 public abstract class AbstractStageActionMethodReturnedValueHandler
         extends AbstractMethodReturnedValueHandler<StageAction>
-        implements SessionCacheAware {
+        implements SessionCacheAware, ResponseTypeHandlerFactoryAware {
 
     protected static final Logger log = LogManager.getLogger(AbstractStageActionMethodReturnedValueHandler.class);
     protected SessionCache sessionCache;
+    protected ResponseTypeHandlerFactory responseTypeHandlerFactory;
 
     /**
      * {@inheritDoc}
@@ -64,7 +68,11 @@ public abstract class AbstractStageActionMethodReturnedValueHandler
             throw new NullPointerException("No one error handling method use. Terminate pipeline.");
         }
 
+        // TODO: ВЫПИЛИТЬ SET RESPONSE OBJECT!!!!
         ((DefaultBotResponseContext) response).put(ActionResponse.class, actionResponse);
+        ((DefaultBotResponseContext) response).setResponseObject(actionResponse);
+        final MethodReturnedValueHandler<?> nextHandler = responseTypeHandlerFactory.get(actionResponse.getClass());
+        setNext(nextHandler);
     }
 
     protected abstract ActionResponse processStage(StageAction<?> stageAction) throws RuntimeException;
@@ -87,5 +95,17 @@ public abstract class AbstractStageActionMethodReturnedValueHandler
         }
 
         this.sessionCache = sessionCache;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setResponseTypeHandlerFactoryAware(ResponseTypeHandlerFactory factory) {
+        if (factory == null) {
+            throw new IllegalArgumentException("Session cache can't be null");
+        }
+
+        this.responseTypeHandlerFactory = factory;
     }
 }

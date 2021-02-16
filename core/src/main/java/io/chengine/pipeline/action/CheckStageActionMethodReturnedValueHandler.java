@@ -22,7 +22,7 @@ public class CheckStageActionMethodReturnedValueHandler extends AbstractStageAct
             BotRequestContext request,
             BotResponseContext response) {
 
-        return false;
+        return true;
     }
 
     @Override

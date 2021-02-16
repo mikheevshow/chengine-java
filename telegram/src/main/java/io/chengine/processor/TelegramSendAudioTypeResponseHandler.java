@@ -4,6 +4,7 @@ import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 
 public class TelegramSendAudioTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 

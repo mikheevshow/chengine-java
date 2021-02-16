@@ -18,7 +18,7 @@ public class FireStageActionMethodReturnedValueHandler extends AbstractStageActi
 
     @Override
     protected boolean isAllowToProcess(HandlerMethod handlerMethod, BotRequestContext request, BotResponseContext response) {
-        return false;
+        return true;
     }
 
     @Override

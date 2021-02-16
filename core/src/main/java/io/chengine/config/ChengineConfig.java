@@ -4,7 +4,7 @@ import io.chengine.MessageProcessorAware;
 import io.chengine.annotation.AnnotationProcessor;
 import io.chengine.commons.Converter;
 import io.chengine.connector.BotApiIdentifier;
-import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 import io.chengine.session.SessionKeyExtractor;
 
 import java.lang.annotation.Annotation;

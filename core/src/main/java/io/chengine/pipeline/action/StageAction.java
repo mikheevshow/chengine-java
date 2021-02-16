@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  *
  * @param <T> - a context object for passing data between chain methods
  */
-public interface StageAction<T> {
+public interface StageAction<T> extends ActionResponse {
 
     // ==============================================================================================================
     //	 Static Generators

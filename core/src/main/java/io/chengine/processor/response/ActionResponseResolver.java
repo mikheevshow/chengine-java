@@ -1,9 +1,10 @@
-package io.chengine.processor;
+package io.chengine.processor.response;
 
 import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
+import io.chengine.processor.ResponseResolver;
 
 public class ActionResponseResolver implements ResponseResolver<ActionResponse> {
 
@@ -21,7 +22,7 @@ public class ActionResponseResolver implements ResponseResolver<ActionResponse> 
             final ActionResponse actionResponse) {
 
         final Class<? extends ActionResponse> objClass = actionResponse.getClass();
-        final AbstractActionResponseMethodReturnedValueHandler handler = responseTypeHandlerFactory.get(objClass);
+        final MethodReturnedValueHandler<ActionResponse> handler = (MethodReturnedValueHandler<ActionResponse>) responseTypeHandlerFactory.get(objClass);
         if (handler != null) {
             handler.handle(handlerMethod, actionResponse, request, response);
         }

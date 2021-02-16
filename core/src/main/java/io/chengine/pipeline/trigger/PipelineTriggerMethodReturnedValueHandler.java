@@ -9,7 +9,7 @@ import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 import io.chengine.pipeline.PipelineDefinition;
 import io.chengine.pipeline.StageDefinition;
-import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 import io.chengine.session.*;
 
 public class PipelineTriggerMethodReturnedValueHandler

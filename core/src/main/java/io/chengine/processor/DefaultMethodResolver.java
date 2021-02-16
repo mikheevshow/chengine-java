@@ -8,6 +8,7 @@ import io.chengine.handler.HandlerRegistry;
 import io.chengine.method.HandlerMethod;
 import io.chengine.method.NoSuchMethodException;
 import io.chengine.pipeline.PipelineDefinition;
+import io.chengine.pipeline.StageDefinition;
 import io.chengine.session.PipelineSessionInfo;
 import io.chengine.session.Session;
 import io.chengine.session.UserSessionContextHolder;
@@ -29,6 +30,13 @@ public class DefaultMethodResolver implements MethodResolver {
             if (session.inPipeline()) {
                 final PipelineSessionInfo pipelineSessionInfo = session.pipelineSessionInfo();
                 final PipelineDefinition pipelineDefinition = pipelineSessionInfo.getPipeline();
+                return pipelineDefinition
+                        .getStageDefinitions()
+                        .stream()
+                        .filter(stageDefinition -> stageDefinition.getStep() == pipelineSessionInfo.getCurrentStep())
+                        .findFirst()
+                        .map(StageDefinition::getMethod)
+                        .orElseThrow();
             }
         }
         if (HandleCommand.class.equals(request.shouldBeHandledByAnnotation())) {

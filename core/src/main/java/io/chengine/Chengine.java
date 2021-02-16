@@ -10,8 +10,14 @@ import io.chengine.interceptor.InterceptorChainFactory;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.annotation.PipelineAnnotationProcessor;
+import io.chengine.pipeline.action.CheckStageActionMethodReturnedValueHandler;
+import io.chengine.pipeline.action.FireStageActionMethodReturnedValueHandler;
 import io.chengine.pipeline.trigger.PipelineTriggerMethodReturnedValueHandler;
 import io.chengine.processor.*;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
+import io.chengine.processor.response.ActionResponseResolver;
+import io.chengine.processor.response.DefaultResponseTypeHandlerFactory;
+import io.chengine.processor.response.ResponseTypeHandlerFactory;
 import io.chengine.session.DefaultSessionCache;
 import io.chengine.session.SessionCache;
 import io.chengine.session.SessionRequestInterceptor;
@@ -24,6 +30,7 @@ public class Chengine {
 
     private ChengineConfig configuration;
     private final DefaultHandlerRegistry handlerRegistry = new DefaultHandlerRegistry();
+    private final SessionCache sessionCache = new DefaultSessionCache();
 
     private MethodResolver methodResolver;
     private ResponseResolver<ActionResponse> actionResponseResolver;
@@ -41,32 +48,14 @@ public class Chengine {
 
     public Chengine(ChengineConfig configuration) {
         this.configuration = configuration;
-        processHandlers(configuration.getHandlers());
+
+        processHandlers();
         this.botList = configuration.getMessageProcessorAwares();
         this.methodResolver = new DefaultMethodResolver(handlerRegistry);
 
+        configureMethodReturnedValueHandlerFactory(configuration);
+        configureRequestTypesConverters(configuration);
 
-        DefaultResponseTypeHandlerFactory responseTypeHandlerFactory = new DefaultResponseTypeHandlerFactory();
-        this.abstractActionResponseHandlers = configuration.getActionResponseHandlers();
-        final SessionCache sessionCache = new DefaultSessionCache();
-        final PipelineTriggerMethodReturnedValueHandler pipelineTriggerMethodReturnedValueHandler =
-                new PipelineTriggerMethodReturnedValueHandler();
-        pipelineTriggerMethodReturnedValueHandler.setHandlerRegistry(handlerRegistry);
-        pipelineTriggerMethodReturnedValueHandler.setSessionCache(sessionCache);
-        this.abstractActionResponseHandlers.add(pipelineTriggerMethodReturnedValueHandler);
-
-        abstractActionResponseHandlers.forEach(h -> responseTypeHandlerFactory.put(h.supports(), h));
-
-
-
-        this.responseTypeHandlerFactory = responseTypeHandlerFactory;
-        configuration.getConverters().forEach(converter -> {
-            List<RequestTypeConverter> requestTypeConverters = new ArrayList<>();
-            if (converter instanceof RequestTypeConverter) {
-                requestTypeConverters.add((RequestTypeConverter) converter);
-            }
-            this.requestTypeConverters = requestTypeConverters;
-        });
         this.methodArgumentInspector = new MethodArgumentInspector();
         ActionResponseResolver actionResponseResolver = new ActionResponseResolver(this.responseTypeHandlerFactory);
         this.methodResponseResolver = new MethodResponseResolver(actionResponseResolver);
@@ -78,6 +67,50 @@ public class Chengine {
                 this.methodResponseResolver
         );
 
+        configureRequestInterceptors(configuration);
+        // ****************************
+
+
+        this.botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
+    }
+
+    private void configureMethodReturnedValueHandlerFactory(ChengineConfig configuration) {
+        DefaultResponseTypeHandlerFactory responseTypeHandlerFactory = new DefaultResponseTypeHandlerFactory();
+        this.abstractActionResponseHandlers = configuration.getActionResponseHandlers();
+
+        final PipelineTriggerMethodReturnedValueHandler pipelineTriggerMethodReturnedValueHandler =
+                new PipelineTriggerMethodReturnedValueHandler();
+        pipelineTriggerMethodReturnedValueHandler.setHandlerRegistry(handlerRegistry);
+        pipelineTriggerMethodReturnedValueHandler.setSessionCache(sessionCache);
+        this.abstractActionResponseHandlers.add(pipelineTriggerMethodReturnedValueHandler);
+
+        final CheckStageActionMethodReturnedValueHandler checkStageActionMethodReturnedValueHandler =
+                new CheckStageActionMethodReturnedValueHandler();
+        checkStageActionMethodReturnedValueHandler.setSessionCache(sessionCache);
+        responseTypeHandlerFactory.put(checkStageActionMethodReturnedValueHandler.supports(), checkStageActionMethodReturnedValueHandler);
+        checkStageActionMethodReturnedValueHandler.setResponseTypeHandlerFactoryAware(responseTypeHandlerFactory);
+
+        final FireStageActionMethodReturnedValueHandler fireStageActionMethodReturnedValueHandler =
+                new FireStageActionMethodReturnedValueHandler();
+        fireStageActionMethodReturnedValueHandler.setSessionCache(sessionCache);
+        responseTypeHandlerFactory.put(fireStageActionMethodReturnedValueHandler.supports(), fireStageActionMethodReturnedValueHandler);
+        fireStageActionMethodReturnedValueHandler.setResponseTypeHandlerFactoryAware(responseTypeHandlerFactory);
+
+        abstractActionResponseHandlers.forEach(h -> responseTypeHandlerFactory.put(h.supports(), h));
+        this.responseTypeHandlerFactory = responseTypeHandlerFactory;
+    }
+
+    private void configureRequestTypesConverters(ChengineConfig configuration) {
+        configuration.getConverters().forEach(converter -> {
+            List<RequestTypeConverter> requestTypeConverters = new ArrayList<>();
+            if (converter instanceof RequestTypeConverter) {
+                requestTypeConverters.add((RequestTypeConverter) converter);
+            }
+            this.requestTypeConverters = requestTypeConverters;
+        });
+    }
+
+    private void configureRequestInterceptors(ChengineConfig configuration) {
         final SessionRequestInterceptor sessionRequestInterceptor = new SessionRequestInterceptor();
         sessionRequestInterceptor.setSessionCache(sessionCache);
         configuration.getSessionKeyExtractors()
@@ -89,13 +122,10 @@ public class Chengine {
                 Collections.singletonList(sessionRequestInterceptor)
         );
         this.messageProcessor.setRequestInterceptorChain(requestInterceptorChainFactory);
-        // ****************************
-
-
-        this.botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
     }
 
-    private void processHandlers(List<Object> handlers) {
+    private void processHandlers() {
+        List<Object> handlers = this.configuration.getHandlers();
         // Prepare handleCommandAnnotationProcessor
         HandleCommandAnnotationProcessor handleCommandAnnotationProcessor = new HandleCommandAnnotationProcessor();
         PipelineAnnotationProcessor pipelineAnnotationProcessor = new PipelineAnnotationProcessor();

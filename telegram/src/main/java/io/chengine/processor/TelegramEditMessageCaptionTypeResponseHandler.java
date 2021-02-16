@@ -6,6 +6,7 @@ import io.chengine.message.ActionResponse;
 import io.chengine.message.TelegramEdit;
 import io.chengine.message.TelegramEditMessageCaption;
 import io.chengine.method.HandlerMethod;
+import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 
 public class TelegramEditMessageCaptionTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
