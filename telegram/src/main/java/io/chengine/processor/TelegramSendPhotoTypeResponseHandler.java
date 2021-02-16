@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramSendPhotoTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendPhotoTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

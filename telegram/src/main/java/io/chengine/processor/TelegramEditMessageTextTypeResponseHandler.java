@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramEditMessageTextTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramEditMessageTextTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     /**
      * {@inheritDoc}

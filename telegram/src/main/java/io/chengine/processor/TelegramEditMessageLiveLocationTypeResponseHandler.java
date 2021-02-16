@@ -5,7 +5,7 @@ import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 
-public class TelegramEditMessageLiveLocationTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramEditMessageLiveLocationTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

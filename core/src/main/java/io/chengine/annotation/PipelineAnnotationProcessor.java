@@ -5,7 +5,7 @@ import io.chengine.handler.HandlerRegistryAware;
 import io.chengine.method.HandlerMethod;
 import io.chengine.pipeline.PipelineDefinition;
 import io.chengine.pipeline.StageDefinition;
-import io.chengine.pipeline.StageMode;
+import io.chengine.pipeline.annotation.StageMode;
 import io.chengine.pipeline.annotation.Pipeline;
 import io.chengine.pipeline.annotation.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -60,8 +60,7 @@ public class PipelineAnnotationProcessor implements AnnotationProcessor, Handler
                     handlerClass,
                     inactiveTimeout,
                     timeoutUnits,
-                    stageDefinitions,
-                    null
+                    stageDefinitions
             );
 
             handlerRegistry.putPipeline(pipelineName, pipelineDefinition);

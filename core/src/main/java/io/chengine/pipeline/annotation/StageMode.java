@@ -1,4 +1,4 @@
-package io.chengine.pipeline;
+package io.chengine.pipeline.annotation;
 
 public enum StageMode {
     SYNC, // Sync pipeline stages (blocks user actions)

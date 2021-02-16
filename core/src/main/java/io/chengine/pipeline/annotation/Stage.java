@@ -1,7 +1,5 @@
 package io.chengine.pipeline.annotation;
 
-import io.chengine.pipeline.StageMode;
-
 import java.lang.annotation.*;
 
 @Documented
@@ -14,4 +12,5 @@ public @interface Stage {
     String name();
 
     StageMode mode() default StageMode.SYNC;
+
 }

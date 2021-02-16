@@ -3,8 +3,6 @@ package io.chengine.processor;
 import io.chengine.connector.BotRequestContext;
 import io.chengine.connector.BotResponseContext;
 import io.chengine.method.HandlerMethod;
-import io.chengine.processor.AbstractActionResponseHandler;
-import io.chengine.processor.MethodReturnedValueHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AbstractMethodReturnedValueHandler<T> implements MethodReturnedValueHandler<T> {
 
-    protected static final Logger log = LogManager.getLogger(AbstractActionResponseHandler.class);
+    protected static final Logger log = LogManager.getLogger(AbstractActionResponseMethodReturnedValueHandler.class);
 
     public abstract Class<? extends T> supports();
 

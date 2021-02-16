@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramSendDiceTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendDiceTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

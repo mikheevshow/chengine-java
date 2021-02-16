@@ -21,7 +21,7 @@ public class ActionResponseResolver implements ResponseResolver<ActionResponse> 
             final ActionResponse actionResponse) {
 
         final Class<? extends ActionResponse> objClass = actionResponse.getClass();
-        final AbstractActionResponseHandler handler = responseTypeHandlerFactory.get(objClass);
+        final AbstractActionResponseMethodReturnedValueHandler handler = responseTypeHandlerFactory.get(objClass);
         if (handler != null) {
             handler.handle(handlerMethod, actionResponse, request, response);
         }

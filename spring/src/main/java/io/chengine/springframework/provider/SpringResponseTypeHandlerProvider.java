@@ -1,6 +1,6 @@
 package io.chengine.springframework.provider;
 
-import io.chengine.processor.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -12,8 +12,8 @@ public class SpringResponseTypeHandlerProvider implements ApplicationContextAwar
 
     private ApplicationContext applicationContext;
 
-    public List<AbstractActionResponseHandler> provideAll() {
-        return new ArrayList<>(applicationContext.getBeansOfType(AbstractActionResponseHandler.class).values());
+    public List<AbstractActionResponseMethodReturnedValueHandler> provideAll() {
+        return new ArrayList<>(applicationContext.getBeansOfType(AbstractActionResponseMethodReturnedValueHandler.class).values());
     }
 
     @Override

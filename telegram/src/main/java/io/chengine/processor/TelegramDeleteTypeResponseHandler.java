@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramDeleteTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramDeleteTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

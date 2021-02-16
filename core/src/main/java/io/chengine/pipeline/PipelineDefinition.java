@@ -10,22 +10,19 @@ public class PipelineDefinition {
     private final int inactionTimeout;
     private final TimeUnit inactionTimeUnit;
     private final List<StageDefinition> stageDefinitions;
-    private final Class<? extends EventTrigger> trigger;
 
     public PipelineDefinition(
             String name,
             Class<?> clazz,
             int inactionTimeout,
             TimeUnit inactionTimeUnit,
-            List<StageDefinition> stageDefinitions,
-            Class<? extends EventTrigger> trigger) {
+            List<StageDefinition> stageDefinitions) {
 
         this.name = name;
         this.clazz = clazz;
         this.inactionTimeout = inactionTimeout;
         this.inactionTimeUnit = inactionTimeUnit;
         this.stageDefinitions = stageDefinitions;
-        this.trigger = trigger;
     }
 
     public String getName() {
@@ -52,7 +49,4 @@ public class PipelineDefinition {
         return stageDefinitions.size();
     }
 
-    public Class<? extends EventTrigger> getTrigger() {
-        return trigger;
-    }
 }

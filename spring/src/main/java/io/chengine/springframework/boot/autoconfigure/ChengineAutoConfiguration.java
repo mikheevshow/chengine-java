@@ -23,11 +23,6 @@ public class ChengineAutoConfiguration {
 	}
 
 	@Bean
-	public SpringTriggerProvider springTriggerProvider() {
-		return new SpringTriggerProvider();
-	}
-
-	@Bean
 	public SpringRequestTypeConverterProvider springRequestTypeConverterProvider() {
 		return new SpringRequestTypeConverterProvider();
 	}
@@ -45,7 +40,6 @@ public class ChengineAutoConfiguration {
 	@Bean("chengine-props")
 	public ChengineConfig chengineConfiguration(
 			SpringHandlerProvider handlerProvider,
-			SpringTriggerProvider triggerProvider,
 			SpringRequestTypeConverterProvider requestTypeConverterProvider,
 			SpringResponseTypeHandlerProvider actionResponseHandlerProvider,
 			SpringAnnotationProcessorProvider annotationProcessorProvider,

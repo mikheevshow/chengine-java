@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.polls.SendPoll;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendPollTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

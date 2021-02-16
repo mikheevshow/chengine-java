@@ -1,6 +1,7 @@
 package io.chengine.pipeline;
 
 import io.chengine.method.HandlerMethod;
+import io.chengine.pipeline.annotation.StageMode;
 
 public class StageDefinition {
 

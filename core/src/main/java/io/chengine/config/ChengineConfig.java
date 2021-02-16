@@ -3,7 +3,7 @@ package io.chengine.config;
 import io.chengine.MessageProcessorAware;
 import io.chengine.annotation.AnnotationProcessor;
 import io.chengine.commons.Converter;
-import io.chengine.processor.AbstractActionResponseHandler;
+import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ChengineConfig {
     private final List<AnnotationProcessor> annotationProcessors = new ArrayList<>();
     private final List<Converter<?, ?>> converters = new ArrayList<>();
     private final List<MessageProcessorAware> messageProcessorAwares = new ArrayList<>();
-    private final List<AbstractActionResponseHandler> actionResponseHandlers = new ArrayList<>();
+    private final List<AbstractActionResponseMethodReturnedValueHandler> actionResponseHandlers = new ArrayList<>();
 
     public ChengineConfig addHandlers(List<Object> handlers) {
         this.handlers.addAll(handlers);
@@ -51,7 +51,7 @@ public class ChengineConfig {
         return this;
     }
 
-    public ChengineConfig addResponseHandlerProviders(List<AbstractActionResponseHandler> actionResponseHandlers) {
+    public ChengineConfig addResponseHandlerProviders(List<AbstractActionResponseMethodReturnedValueHandler> actionResponseHandlers) {
         this.actionResponseHandlers.addAll(actionResponseHandlers);
         return this;
     }
@@ -80,7 +80,7 @@ public class ChengineConfig {
         return new ArrayList<>(messageProcessorAwares);
     }
 
-    public List<AbstractActionResponseHandler> getActionResponseHandlers() {
+    public List<AbstractActionResponseMethodReturnedValueHandler> getActionResponseHandlers() {
         return new ArrayList<>(actionResponseHandlers);
     }
 }

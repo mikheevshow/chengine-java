@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class TelegramSendMediaGroupTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendMediaGroupTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     /**
      * {@inheritDoc}

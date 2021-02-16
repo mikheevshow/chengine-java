@@ -5,7 +5,7 @@ import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 
-public class TelegramSendVideoTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendVideoTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

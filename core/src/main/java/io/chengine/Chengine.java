@@ -26,7 +26,7 @@ public class Chengine {
     private ResponseResolver<ActionResponse> actionResponseResolver;
 
     private ResponseTypeHandlerFactory responseTypeHandlerFactory;
-    private List<AbstractActionResponseHandler> abstractActionResponseHandlers;
+    private List<AbstractActionResponseMethodReturnedValueHandler> abstractActionResponseHandlers;
 
     private List<RequestTypeConverter> requestTypeConverters;
 

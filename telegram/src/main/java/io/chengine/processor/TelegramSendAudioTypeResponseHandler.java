@@ -5,7 +5,7 @@ import io.chengine.connector.BotResponseContext;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 
-public class TelegramSendAudioTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramSendAudioTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

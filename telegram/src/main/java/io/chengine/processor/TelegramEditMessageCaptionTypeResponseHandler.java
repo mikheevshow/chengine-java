@@ -7,7 +7,7 @@ import io.chengine.message.TelegramEdit;
 import io.chengine.message.TelegramEditMessageCaption;
 import io.chengine.method.HandlerMethod;
 
-public class TelegramEditMessageCaptionTypeResponseHandler extends AbstractActionResponseHandler {
+public class TelegramEditMessageCaptionTypeResponseHandler extends AbstractActionResponseMethodReturnedValueHandler {
 
     @Override
     public Class<? extends ActionResponse> supports() {

@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 import java.time.Duration;
 
-public class SessionContext implements SessionCache {
+public class DefaultSessionCache implements SessionCache {
 
-    private final static Logger log = LogManager.getLogger(SessionContext.class);
+    private final static Logger log = LogManager.getLogger(DefaultSessionCache.class);
 
     private final Cache<SessionKey, Session> cache = Caffeine.newBuilder()
             .expireAfterWrite(Duration.ofMinutes(5))
