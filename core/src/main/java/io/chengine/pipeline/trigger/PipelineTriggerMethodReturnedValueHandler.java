@@ -24,7 +24,7 @@ public class PipelineTriggerMethodReturnedValueHandler
      */
     @Override
     public Class<? extends ActionResponse> supports() {
-        return PipelineTrigger.class;
+        return TriggerPipeline.class;
     }
 
     /**
@@ -62,7 +62,7 @@ public class PipelineTriggerMethodReturnedValueHandler
             throw new NullPointerException("Handler registry is null");
         }
 
-        final PipelineTrigger trigger = (PipelineTrigger) returnedObject;
+        final TriggerPipeline trigger = (TriggerPipeline) returnedObject;
         final PipelineDefinition pipelineDefinition = handlerRegistry.getPipelineDefinitionByName(trigger.getPipelineName());
         final SessionKey sessionKey = request.getSessionKey();
         final Session newSession = createNewPipelineSession(pipelineDefinition, sessionKey);
