@@ -26,8 +26,6 @@ public abstract class AbstractStageAction<T> implements StageAction<T> {
     protected Supplier<ActionResponse> errorActionResponseResume;
     protected Supplier<ActionResponse> errorActionResponseReturn;
 
-    protected Executor<T> executor;
-
     // ==============================================================================================================
     //	 On Error Methods Usage Flags
     // ==============================================================================================================
@@ -68,17 +66,6 @@ public abstract class AbstractStageAction<T> implements StageAction<T> {
         return this;
     }
 
-    @Override
-    public void executeOn(Executor<T> executor) {
-        this.executor = executor;
-    }
-
-    @Override
-    public ActionResponse execute() {
-        onAssembly();
-        return this.executor.execute(this);
-    }
-
     Consumer<Throwable> errorConsumer() {
         return errorConsumer;
     }
@@ -101,7 +88,7 @@ public abstract class AbstractStageAction<T> implements StageAction<T> {
 
     protected abstract void onPartialAssembly();
 
-    private void onAssembly() {
+    void onAssembly() {
         onPartialAssembly();
         onErrorBlockAssembly();
     }

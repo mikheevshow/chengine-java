@@ -44,7 +44,7 @@ public class TelegramSendMessageTypeResponseHandler extends AbstractActionRespon
             final BotResponseContext response) {
 
         final TelegramSendMessage telegramSend  = (TelegramSendMessage) returnedObject;
-        final Update update = (Update) request.get(Update.class);
+        final Update update = request.get(Update.class);
         final Chat chat = update.getMessage().getChat();
 
         final SendMessage sendMessage = new SendMessage();

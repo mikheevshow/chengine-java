@@ -34,7 +34,7 @@ public class TelegramDeleteTypeResponseHandler extends AbstractActionResponseMet
 
         final DeleteMessage deleteMessage = new DeleteMessage();
         if (telegramDelete.getChatId() == null && telegramDelete.getMessageId() == null) {
-            final Update update = (Update) request.get(Update.class);
+            final Update update = request.get(Update.class);
             final Chat chat = update.getMessage().getChat();
             final Message message = update.getMessage();
             deleteMessage.setChatId(chat.getId().toString());

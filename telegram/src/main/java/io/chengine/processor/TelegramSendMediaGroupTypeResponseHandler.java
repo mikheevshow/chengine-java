@@ -44,7 +44,7 @@ public class TelegramSendMediaGroupTypeResponseHandler extends AbstractActionRes
 
 
         final TelegramSendMediaGroup mediaGroup = (TelegramSendMediaGroup) returnedObject;
-        final Update update = (Update) request.get(Update.class);
+        final Update update = request.get(Update.class);
         final Chat chat = update.getMessage().getChat();
 
         final SendMediaGroup sendMediaGroup = new SendMediaGroup();
