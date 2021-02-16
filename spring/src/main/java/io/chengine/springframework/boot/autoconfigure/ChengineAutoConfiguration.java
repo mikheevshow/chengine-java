@@ -3,6 +3,8 @@ package io.chengine.springframework.boot.autoconfigure;
 import io.chengine.Chengine;
 import io.chengine.MessageProcessorAware;
 import io.chengine.config.ChengineConfig;
+import io.chengine.session.SessionKey;
+import io.chengine.session.SessionKeyExtractor;
 import io.chengine.springframework.provider.*;
 import io.chengine.springframework.stereotype.HandlerComponent;
 import io.chengine.springframework.stereotype.PipelineComponent;
@@ -43,7 +45,8 @@ public class ChengineAutoConfiguration {
 			SpringRequestTypeConverterProvider requestTypeConverterProvider,
 			SpringResponseTypeHandlerProvider actionResponseHandlerProvider,
 			SpringAnnotationProcessorProvider annotationProcessorProvider,
-			List<MessageProcessorAware> messageProcessorAwares
+			List<MessageProcessorAware> messageProcessorAwares,
+			List<SessionKeyExtractor> sessionKeyExtractors
 	) {
 
 		return new ChengineConfig()
@@ -53,7 +56,8 @@ public class ChengineAutoConfiguration {
 				.addMessageProcessorAwares(messageProcessorAwares)
 				.addResponseHandlerProviders(actionResponseHandlerProvider.provideAll())
 				.addAnnotationProcessors(annotationProcessorProvider.provideAll())
-				.addConverters(requestTypeConverterProvider.provideAll());
+				.addConverters(requestTypeConverterProvider.provideAll())
+				.addSessionKeyExtractors(sessionKeyExtractors);
 	}
 
 	@Bean

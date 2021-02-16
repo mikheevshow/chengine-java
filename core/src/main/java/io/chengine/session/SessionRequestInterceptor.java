@@ -2,6 +2,7 @@ package io.chengine.session;
 
 import io.chengine.connector.BotApiIdentifier;
 import io.chengine.connector.BotRequestContext;
+import io.chengine.connector.DefaultBotRequestContext;
 import io.chengine.interceptor.RequestInterceptor;
 import io.chengine.interceptor.RequestInterceptorChain;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SessionRequestInterceptor implements RequestInterceptor {
+public class SessionRequestInterceptor implements RequestInterceptor, SessionCacheAware {
 
     private static final Logger log = LogManager.getLogger(SessionRequestInterceptor.class);
 
@@ -20,15 +21,17 @@ public class SessionRequestInterceptor implements RequestInterceptor {
     @Override
     public void intercept(BotRequestContext requestContext, RequestInterceptorChain requestInterceptorChain) {
         UserSessionContextHolder.setSession(null); // Reset session
+        final String apiIdentifier = requestContext.getApiBotIdentifier().identifier();
+        final SessionKeyExtractor keyExtractor = apiIdentifierSessionKeyExtractorMap.get(apiIdentifier);
+        if (keyExtractor == null) {
+            throw new NullPointerException("Not found session key extractor for api: \"" + apiIdentifier + "\"");
+        }
+        final SessionKey sessionKey = keyExtractor.extractFrom(requestContext);
+        ((DefaultBotRequestContext) requestContext).setSessionKey(sessionKey);
+
         if (sessionCache == null) {
             log.warn("Session cache is null, skip session searching");
         } else {
-            final String apiIdentifier = requestContext.getApiBotIdentifier().identifier();
-            final SessionKeyExtractor keyExtractor = apiIdentifierSessionKeyExtractorMap.get(apiIdentifier);
-            if (keyExtractor == null) {
-                throw new NullPointerException("Not found session key extractor for api: \"" + apiIdentifier + "\"");
-            }
-            final SessionKey sessionKey = keyExtractor.extractFrom(requestContext);
             final Session session = sessionCache.getSessionBySessionKey(sessionKey);
             if (session != null) {
                 log.info("Session found: {}", session);
@@ -39,10 +42,8 @@ public class SessionRequestInterceptor implements RequestInterceptor {
         requestInterceptorChain.doIntercept(requestContext);
     }
 
-    public void setSessionManager(SessionCache sessionCache) {
-        if (sessionCache == null) {
-            throw new NullPointerException("Session cache can't be null");
-        }
+    @Override
+    public void setSessionCache(SessionCache sessionCache) {
         this.sessionCache = sessionCache;
     }
 

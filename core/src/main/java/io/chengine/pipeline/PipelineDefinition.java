@@ -49,4 +49,14 @@ public class PipelineDefinition {
         return stageDefinitions.size();
     }
 
+    @Override
+    public String toString() {
+        return "PipelineDefinition{" +
+                "name='" + name + '\'' +
+                ", clazz=" + clazz +
+                ", inactionTimeout=" + inactionTimeout +
+                ", inactionTimeUnit=" + inactionTimeUnit +
+                ", stageDefinitions=" + stageDefinitions +
+                '}';
+    }
 }

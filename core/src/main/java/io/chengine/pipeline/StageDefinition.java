@@ -48,4 +48,14 @@ public class StageDefinition {
     public void setStageMode(StageMode stageMode) {
         this.stageMode = stageMode;
     }
+
+    @Override
+    public String toString() {
+        return "StageDefinition{" +
+                "name='" + name + '\'' +
+                ", handlerMethod=" + handlerMethod +
+                ", step=" + step +
+                ", stageMode=" + stageMode +
+                '}';
+    }
 }

@@ -16,7 +16,7 @@ public class TelegramSessionKeyExtractor implements SessionKeyExtractor {
 
     @Override
     public SessionKey extractFrom(BotRequestContext requestContext) {
-        final Update update = (Update) requestContext.get(Update.class);
+        final Update update = requestContext.get(Update.class);
         final User user = update.getMessage().getFrom();
         final Chat chat = update.getMessage().getChat();
         return new SessionKey(

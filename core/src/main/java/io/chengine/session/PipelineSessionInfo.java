@@ -33,4 +33,13 @@ public class PipelineSessionInfo {
     public void incrementStep() {
         currentStep.incrementAndGet();
     }
+
+    @Override
+    public String toString() {
+        return "PipelineSessionInfo{" +
+                "pipelineDefinition=" + pipelineDefinition +
+                ", stageDefinitions=" + stageDefinitions +
+                ", currentStep=" + currentStep +
+                '}';
+    }
 }

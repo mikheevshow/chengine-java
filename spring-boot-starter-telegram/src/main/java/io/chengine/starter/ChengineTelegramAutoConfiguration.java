@@ -6,6 +6,8 @@ import io.chengine.annotation.processor.TelegramSingleHandlerAnnotationProcessor
 import io.chengine.connector.BotRequestConverter;
 import io.chengine.connector.TelegramBotRequestConverter;
 import io.chengine.processor.*;
+import io.chengine.session.SessionKeyExtractor;
+import io.chengine.session.TelegramSessionKeyExtractor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -30,6 +32,11 @@ public class ChengineTelegramAutoConfiguration {
 
     @Value("${chengine.telegram.username}")
     private String username;
+
+    @Bean
+    public SessionKeyExtractor sessionKeyExtractor() {
+        return new TelegramSessionKeyExtractor();
+    }
 
     @Bean
     public LongPollingBot longPollingBot(TelegramMessageProcessor telegramMessageProcessor) {

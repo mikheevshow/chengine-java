@@ -12,8 +12,6 @@ import io.chengine.pipeline.StageDefinition;
 import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
 import io.chengine.session.*;
 
-import java.util.function.Function;
-
 public class PipelineTriggerMethodReturnedValueHandler
         extends AbstractActionResponseMethodReturnedValueHandler
         implements HandlerRegistryAware, SessionCacheAware {
@@ -39,7 +37,7 @@ public class PipelineTriggerMethodReturnedValueHandler
             BotResponseContext response) {
 
         final Session session = UserSessionContextHolder.getSession();
-        if (session.inPipeline()) {
+        if (session != null && session.inPipeline()) {
             log.error("Error triggering new pipeline. User with session key: {}, already in pipeline with name: {}",
                     session.getSessionKey(),
                     session.pipelineSessionInfo().getPipeline()

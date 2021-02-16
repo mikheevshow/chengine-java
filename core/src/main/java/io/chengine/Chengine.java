@@ -10,7 +10,10 @@ import io.chengine.interceptor.InterceptorChainFactory;
 import io.chengine.message.ActionResponse;
 import io.chengine.method.MethodArgumentInspector;
 import io.chengine.annotation.PipelineAnnotationProcessor;
+import io.chengine.pipeline.trigger.PipelineTriggerMethodReturnedValueHandler;
 import io.chengine.processor.*;
+import io.chengine.session.DefaultSessionCache;
+import io.chengine.session.SessionCache;
 import io.chengine.session.SessionRequestInterceptor;
 
 import java.util.ArrayList;
@@ -41,9 +44,21 @@ public class Chengine {
         processHandlers(configuration.getHandlers());
         this.botList = configuration.getMessageProcessorAwares();
         this.methodResolver = new DefaultMethodResolver(handlerRegistry);
+
+
         DefaultResponseTypeHandlerFactory responseTypeHandlerFactory = new DefaultResponseTypeHandlerFactory();
         this.abstractActionResponseHandlers = configuration.getActionResponseHandlers();
+        final SessionCache sessionCache = new DefaultSessionCache();
+        final PipelineTriggerMethodReturnedValueHandler pipelineTriggerMethodReturnedValueHandler =
+                new PipelineTriggerMethodReturnedValueHandler();
+        pipelineTriggerMethodReturnedValueHandler.setHandlerRegistry(handlerRegistry);
+        pipelineTriggerMethodReturnedValueHandler.setSessionCache(sessionCache);
+        this.abstractActionResponseHandlers.add(pipelineTriggerMethodReturnedValueHandler);
+
         abstractActionResponseHandlers.forEach(h -> responseTypeHandlerFactory.put(h.supports(), h));
+
+
+
         this.responseTypeHandlerFactory = responseTypeHandlerFactory;
         configuration.getConverters().forEach(converter -> {
             List<RequestTypeConverter> requestTypeConverters = new ArrayList<>();
@@ -64,6 +79,12 @@ public class Chengine {
         );
 
         final SessionRequestInterceptor sessionRequestInterceptor = new SessionRequestInterceptor();
+        sessionRequestInterceptor.setSessionCache(sessionCache);
+        configuration.getSessionKeyExtractors()
+                .forEach(sessionKeyExtractor ->
+                        sessionRequestInterceptor.putSessionKeyExtractor(sessionKeyExtractor.support(), sessionKeyExtractor)
+                );
+
         final InterceptorChainFactory requestInterceptorChainFactory = new InterceptorChainFactory(
                 Collections.singletonList(sessionRequestInterceptor)
         );

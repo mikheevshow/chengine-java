@@ -3,7 +3,9 @@ package io.chengine.config;
 import io.chengine.MessageProcessorAware;
 import io.chengine.annotation.AnnotationProcessor;
 import io.chengine.commons.Converter;
+import io.chengine.connector.BotApiIdentifier;
 import io.chengine.processor.AbstractActionResponseMethodReturnedValueHandler;
+import io.chengine.session.SessionKeyExtractor;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class ChengineConfig {
     private final List<Converter<?, ?>> converters = new ArrayList<>();
     private final List<MessageProcessorAware> messageProcessorAwares = new ArrayList<>();
     private final List<AbstractActionResponseMethodReturnedValueHandler> actionResponseHandlers = new ArrayList<>();
+    private final List<BotApiIdentifier> botApiIdentifiers = new ArrayList<>();
+    private final List<SessionKeyExtractor> sessionKeyExtractors = new ArrayList<>();
 
     public ChengineConfig addHandlers(List<Object> handlers) {
         this.handlers.addAll(handlers);
@@ -56,6 +60,16 @@ public class ChengineConfig {
         return this;
     }
 
+    public ChengineConfig addBotApiIdentifiers(List<BotApiIdentifier> botApiIdentifiers) {
+        this.botApiIdentifiers.addAll(botApiIdentifiers);
+        return this;
+    }
+
+    public ChengineConfig addSessionKeyExtractors(List<SessionKeyExtractor> sessionKeyExtractors) {
+        this.sessionKeyExtractors.addAll(sessionKeyExtractors);
+        return this;
+    }
+
     public List<Object> getHandlers() {
         return new ArrayList<>(handlers);
     }
@@ -82,5 +96,13 @@ public class ChengineConfig {
 
     public List<AbstractActionResponseMethodReturnedValueHandler> getActionResponseHandlers() {
         return new ArrayList<>(actionResponseHandlers);
+    }
+
+    public List<BotApiIdentifier> getBotApiIdentifiers() {
+        return new ArrayList<>(botApiIdentifiers);
+    }
+
+    public List<SessionKeyExtractor> getSessionKeyExtractors() {
+        return new ArrayList<>(sessionKeyExtractors);
     }
 }
