@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.function.Consumer;
 
 public abstract class AbstractStageActionMethodReturnedValueHandler
-        extends AbstractMethodReturnedValueHandler<StageAction<?>>
+        extends AbstractMethodReturnedValueHandler<StageAction>
         implements SessionCacheAware {
 
     protected static final Logger log = LogManager.getLogger(AbstractStageActionMethodReturnedValueHandler.class);
@@ -28,7 +28,7 @@ public abstract class AbstractStageActionMethodReturnedValueHandler
     @Override
     protected void process(
             HandlerMethod handlerMethod,
-            StageAction<?> returnedObject,
+            StageAction returnedObject,
             BotRequestContext request,
             BotResponseContext response) {
 

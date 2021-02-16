@@ -12,8 +12,8 @@ public class FireStageActionMethodReturnedValueHandler extends AbstractStageActi
 
     @Override
     @SuppressWarnings("unchecked")
-    public Class<? extends StageAction<?>> supports() {
-        return (Class<? extends StageAction<?>>) FireStageAction.class;
+    public Class<? extends StageAction> supports() {
+        return FireStageAction.class;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class FireStageActionMethodReturnedValueHandler extends AbstractStageActi
 
     @Override
     @SuppressWarnings("unchecked")
-    protected ActionResponse processStage(StageAction<?> stageAction) throws RuntimeException {
+    protected ActionResponse processStage(StageAction stageAction) throws RuntimeException {
         if (!(stageAction.getClass().isAssignableFrom(FireStageAction.class))) {
             throw new StageActionExecutionException("Can't execute actions of class: " + stageAction.getClass());
         }

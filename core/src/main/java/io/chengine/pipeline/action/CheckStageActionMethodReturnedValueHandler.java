@@ -12,9 +12,8 @@ import java.util.Objects;
 public class CheckStageActionMethodReturnedValueHandler extends AbstractStageActionMethodReturnedValueHandler {
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Class<? extends StageAction<?>> supports() {
-        return (Class<? extends StageAction<?>>) CheckStageAction.class;
+    public Class<? extends StageAction> supports() {
+        return CheckStageAction.class;
     }
 
     @Override
