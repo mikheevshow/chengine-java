@@ -9,15 +9,18 @@ import io.chengine.message.ActionResponse;
 import io.chengine.method.HandlerMethod;
 import io.chengine.pipeline.PipelineDefinition;
 import io.chengine.pipeline.StageDefinition;
+import io.chengine.processor.BotRequestResponseMessageProcessorAware;
+import io.chengine.processor.MessageProcessor;
 import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 import io.chengine.session.*;
 
 public class PipelineTriggerMethodReturnedValueHandler
         extends AbstractActionResponseMethodReturnedValueHandler
-        implements HandlerRegistryAware, SessionCacheAware {
+        implements HandlerRegistryAware, SessionCacheAware, BotRequestResponseMessageProcessorAware {
 
     private HandlerRegistry handlerRegistry;
     private SessionCache sessionCache;
+    private MessageProcessor<BotRequestContext, BotResponseContext> messageProcessor;
 
     /**
      * {@inheritDoc}
@@ -40,7 +43,7 @@ public class PipelineTriggerMethodReturnedValueHandler
         if (session != null && session.inPipeline()) {
             log.error("Error triggering new pipeline. User with session key: {}, already in pipeline with name: {}",
                     session.getSessionKey(),
-                    session.pipelineSessionInfo().getPipeline()
+                    session.getPipelineSessionInfo().getPipeline()
             );
             return false;
         }
@@ -68,6 +71,16 @@ public class PipelineTriggerMethodReturnedValueHandler
         final Session newSession = createNewPipelineSession(pipelineDefinition, sessionKey);
         // TODO: Потенциальная бага, можно перезатереть сессию с ранее сохраненными данными
         UserSessionContextHolder.setSession(newSession);
+
+        // Resend the request to the message processor
+        if (messageProcessor == null) {
+            throw new NullPointerException("Message processor is null");
+        }
+        try {
+            messageProcessor.process(request, response);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
@@ -92,6 +105,15 @@ public class PipelineTriggerMethodReturnedValueHandler
         }
 
         this.sessionCache = sessionCache;
+    }
+
+    @Override
+    public void setMessageProcessor(MessageProcessor<BotRequestContext, BotResponseContext> messageProcessor) {
+        if (messageProcessor == null) {
+            throw new IllegalArgumentException("Message processor can't be null");
+        }
+
+        this.messageProcessor = messageProcessor;
     }
 
     private Session createNewPipelineSession(PipelineDefinition pipelineDefinition, SessionKey sessionKey) {

@@ -11,8 +11,7 @@ import io.chengine.processor.response.AbstractMethodReturnedValueHandler;
 import io.chengine.processor.response.MethodReturnedValueHandler;
 import io.chengine.processor.response.ResponseTypeHandlerFactory;
 import io.chengine.processor.response.ResponseTypeHandlerFactoryAware;
-import io.chengine.session.SessionCache;
-import io.chengine.session.SessionCacheAware;
+import io.chengine.session.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -79,10 +78,20 @@ public abstract class AbstractStageActionMethodReturnedValueHandler
 
     protected void completeStage() {
         log.info("comleted stage");
+        if (isTheLastStage()) {
+            terminateSession();
+        } else {
+            Session session = UserSessionContextHolder.getSession();
+            session.getPipelineSessionInfo().incrementStep();
+            sessionCache.putSessionBySessionKey(session.getSessionKey(), session);
+        }
     }
 
     protected void terminateSession() {
         log.info("terminate session");
+        Session session = UserSessionContextHolder.getSession();
+        sessionCache.invalidateCacheBySessionKey(session.getSessionKey());
+        UserSessionContextHolder.setSession(null);
     }
 
     /**
@@ -107,5 +116,16 @@ public abstract class AbstractStageActionMethodReturnedValueHandler
         }
 
         this.responseTypeHandlerFactory = factory;
+    }
+
+    private boolean isTheLastStage() {
+        Session session = UserSessionContextHolder.getSession();
+        PipelineSessionInfo sessionInfo = session.getPipelineSessionInfo();
+        int currentStep = sessionInfo.getCurrentStep();
+        return sessionInfo
+                .getPipeline()
+                .getStageDefinitions()
+                .stream()
+                .noneMatch(stageDefinition -> stageDefinition.getStep() > currentStep);
     }
 }

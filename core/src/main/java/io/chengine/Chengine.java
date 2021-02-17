@@ -13,6 +13,7 @@ import io.chengine.annotation.PipelineAnnotationProcessor;
 import io.chengine.pipeline.action.CheckStageActionMethodReturnedValueHandler;
 import io.chengine.pipeline.action.FireStageActionMethodReturnedValueHandler;
 import io.chengine.pipeline.trigger.PipelineTriggerMethodReturnedValueHandler;
+import io.chengine.pipeline.trigger.TriggerPipeline;
 import io.chengine.processor.*;
 import io.chengine.processor.response.AbstractActionResponseMethodReturnedValueHandler;
 import io.chengine.processor.response.ActionResponseResolver;
@@ -70,6 +71,7 @@ public class Chengine {
         configureRequestInterceptors(configuration);
         // ****************************
 
+        ((BotRequestResponseMessageProcessorAware )this.responseTypeHandlerFactory.get(TriggerPipeline.class)).setMessageProcessor(this.messageProcessor);
 
         this.botList.forEach(bot -> bot.setMessageProcessor(messageProcessor));
     }

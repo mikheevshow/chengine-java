@@ -28,7 +28,7 @@ public class DefaultMethodResolver implements MethodResolver {
         final Session session = UserSessionContextHolder.getSession();
         if (session != null) {
             if (session.inPipeline()) {
-                final PipelineSessionInfo pipelineSessionInfo = session.pipelineSessionInfo();
+                final PipelineSessionInfo pipelineSessionInfo = session.getPipelineSessionInfo();
                 final PipelineDefinition pipelineDefinition = pipelineSessionInfo.getPipeline();
                 return pipelineDefinition
                         .getStageDefinitions()

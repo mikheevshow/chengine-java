@@ -24,7 +24,7 @@ public class DefaultSession implements Session {
 
     @Nullable
     @Override
-    public PipelineSessionInfo pipelineSessionInfo() {
+    public PipelineSessionInfo getPipelineSessionInfo() {
         return pipelineSessionInfo;
     }
 

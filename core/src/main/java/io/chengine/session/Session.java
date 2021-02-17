@@ -9,6 +9,6 @@ public interface Session {
     boolean inPipeline();
 
     @Nullable
-    PipelineSessionInfo pipelineSessionInfo();
+    PipelineSessionInfo getPipelineSessionInfo();
 
 }

@@ -15,6 +15,14 @@ public interface MethodReturnedValueHandler<T> {
      */
     void setNext(@Nullable MethodReturnedValueHandler<?> nextHandler);
 
+    /**
+     * Handles returned object after handler method execution
+     *
+     * @param handlerMethod - handle method which was invoked firstly
+     * @param returnedObject - returned object from previous {@link MethodReturnedValueHandler}
+     * @param request - bot request context
+     * @param response - bot response context
+     */
     void handle(HandlerMethod handlerMethod, T returnedObject, BotRequestContext request, BotResponseContext response);
 
 }
